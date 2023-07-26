@@ -7,11 +7,25 @@
                 <div class="sidenav-menu-heading d-sm-none">Account</div>                
                 <!-- Sidenav Link (Messages)-->
                 <!-- * * Note: * * Visible only on and above the sm breakpoint-->
+                <a class="nav-link d-sm-none collapsed" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapseFidelity" aria-expanded="false" aria-controls="collapseFidelity">
+                    <div class="nav-link-icon"><i data-feather="shopping-cart"></i></div>
+                        {{session('user_name')}}
+                    <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                </a>
+                    <div class="collapse" id="collapseFidelity" data-bs-parent="#accordionSidenav">
+                        <nav class="sidenav-menu-nested nav accordion" id="accordionSidenavFidelityMenu">  
+                        @foreach ($cards as $card)                          
+                            <a class="nav-link" href="{{url('/fidelity/'.$card->user_id)}}"> {{$card->user_name}}</a> 
+                            @endforeach                               
+                        </nav>
+                    </div>                         
+
                 <a class="nav-link d-sm-none" href="#!">
                     <div class="nav-link-icon"><i data-feather="mail"></i></div>
                     Messages
                     <span class="badge bg-success-soft text-success ms-auto">2 New!</span>
                 </a>
+
                 <!-- Sidenav Menu Heading (Core)-->
                 <div class="sidenav-menu-heading">Principale</div>
                 <!-- Sidenav Accordion (Dashboard)-->                

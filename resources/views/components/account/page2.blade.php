@@ -32,9 +32,9 @@
                     <div class="card-header">Cambio Password</div>
                     @if ($notification != '')
                         @if ($notification['status'])
-                            <div class="alert alert-success" role="alert">
+                            <div class="alert alert-success" id="alert" role="alert">
                         @else
-                            <div class="alert alert-danger" role="alert">   
+                            <div class="alert alert-danger" id="alert" role="alert">   
                         @endif        
                             {{$notification['message']}}
                         </div>

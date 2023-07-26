@@ -36,4 +36,19 @@ class Settings extends Model
     static function GetMySetting($userid){        
         return Settings::where('user_id',$userid)->first();
     }
+
+    static function SaveSettingsUsers($request,$id){
+        try {
+            $setting = Settings::find($id);
+            $setting->testata = $request->testata;
+            $setting->corpo = $request->corpo;
+            $setting->save();
+            $notification['message'] = 'Impostazioni Aggiornate';
+            $notification['status'] = true;
+        } catch (\Throwable $th) {
+            $notification['message'] = $th->getMessage();
+            $notification['status'] = false;
+        }
+        return $notification;
+    }
 }

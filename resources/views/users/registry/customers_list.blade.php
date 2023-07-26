@@ -8,6 +8,6 @@
             <x-main.footer_mainpage></x-main.footer_mainpage>
         </div>    
     </div>        
+    <x-footer></x-footer>
 </body>
-<x-footer></x-footer>
 </html>

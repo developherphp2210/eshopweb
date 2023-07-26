@@ -32,8 +32,21 @@
         </div>
       </div>
     </div>
+    <div class="row">
+      <div id="book">
+        
+      </div>     
+    </div>     
   </div>
   <script>
+    $("#book").wowBook({
+        
+		  container: true,
+      pdf: "{{asset('storage/83840BONUS_GAS_PROCURA.pdf')}}",
+      pdfFind: true,
+      toolbar: "back, zoomin,zoomout, find, right"
+    });
+      
     JsBarcode("#barcode", "{{session('codice_fidelity')}}", {
       format: "EAN13",
       width: 4,

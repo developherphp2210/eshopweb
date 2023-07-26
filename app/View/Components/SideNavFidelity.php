@@ -13,12 +13,14 @@ class SideNavFidelity extends Component
     * @var array
      */
 
-     public $user = '';
+    public $user = '';
+    public $cards = '';
 
-     public function __construct($us)
-     {
-         $this->user = $us;
-     }
+    public function __construct($user,$cards)
+    {
+        $this->user = $user;
+        $this->cards = $cards;
+    }
 
     /**
      * Get the view / contents that represent the component.

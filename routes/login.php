@@ -30,8 +30,8 @@ Route::post('/doregister_user',[LoginController::class,'insert']);
 
 
 Route::get('/',function(){
-    return view('login.login_fidelity')->with(['title' => 'Login Fidelity Page']);
-})->name('login_fidelity');
+    return view('login.login')->with(['title' => 'Login Page']);
+})->name('login');
 Route::get('/register_fidelity',function(){
     return view('fidelity.register')->with(['title' => 'Pagina registrazione']);
 });

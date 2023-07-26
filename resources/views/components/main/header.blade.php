@@ -16,5 +16,13 @@
         <!-- <link rel="icon" type="image/x-icon" href="assets/img/favicon.png" /> -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js" crossorigin="anonymous"></script>        
         <script src="http://127.0.0.1:5173/resources/js/JsBarcode.all.min.js"></script> 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.0/chart.min.js"></script>       
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.0/chart.min.js"></script>
+        @if ($title != 'Login Page')
+            @if (session('user')->type === '1')
+            <script type="text/javascript" src="http://127.0.0.1:5173/resources/wow_book/wow_book.min.js"></script>
+            <link rel="stylesheet" href="http://127.0.0.1:5173/resources/wow_book/wow_book.css" type="text/css" />
+            <script type="text/javascript" src="http://127.0.0.1:5173/resources/wow_book/pdf.combined.min.js"></script>
+            <script type="text/javascript" src="http://127.0.0.1:5173/resources/wow_book/wow_book.min.js"></script>
+            @endif
+        @endif    
     </head>

@@ -10,7 +10,7 @@
             <!-- Navbar Items-->
             <ul class="navbar-nav align-items-center ms-auto">                
                 
-                <li class="nav-item dropdown no-caret dropdown-user me-3 me-lg-4">
+                <li class="nav-item dropdown no-caret d-none d-sm-block me-3 dropdown-notifications">
                 <button class="btn btn-link dropdown-toggle" style="color: grey;" type="button" data-bs-toggle="dropdown" aria-expanded="false">{{session('user_name')}}</button>
                     <!-- <a class="btn btn-icon btn-transparent-dark " id="navbarDropdownFidelity" href="javascript:void(0);" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Massimo</a> -->
                     <div class="dropdown-menu dropdown-menu-end border-0 shadow animated--fade-in-up" aria-labelledby="navbarDropdownFidelity">

@@ -11,7 +11,7 @@
                                     <div class="card-header justify-content-center"><h3 class="fw-light my-4">Login</h3></div>
                                     @if($errors->any())
                                         @foreach($errors->all() as $error)
-                                            <div class="alert alert-danger" role="alert">
+                                            <div class="alert alert-danger" id="alert" role="alert">
                                                 {{$error}}
                                             </div>
                                         @endforeach
@@ -33,8 +33,8 @@
                                             <!-- Form Group (remember password checkbox)-->
                                             <div class="mb-3">
                                                 <div class="form-check">
-                                                    <input class="form-check-input" id="rememberPasswordCheck" type="checkbox" value="" />
-                                                    <label class="form-check-label" for="rememberPasswordCheck">Ricorda Password</label>
+                                                    <input class="form-check-input" id="VisiblePassword" type="checkbox" value="" />
+                                                    <label class="form-check-label" for="VisiblePassword">Visualizza Password</label>
                                                 </div>
                                             </div>
                                             <!-- Form Group (login box)-->
