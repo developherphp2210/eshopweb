@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Settings as ModelsSettings;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Sabberworm\CSS\Settings as CSSSettings;
 
 class Settings extends Model
 {
@@ -22,7 +23,8 @@ class Settings extends Model
          'riga5',
          'riga6',
          'testata',
-         'corpo'
+         'corpo',
+         'filepdf'
     ];
 
     public $timestamps = false;
@@ -37,9 +39,9 @@ class Settings extends Model
         return Settings::where('user_id',$userid)->first();
     }
 
-    static function SaveSettingsUsers($request,$id){
+    static function SaveSettingsUsers($request,$userid){
         try {
-            $setting = Settings::find($id);
+            $setting = Settings::where('user_id',$userid)->first();
             $setting->testata = $request->testata;
             $setting->corpo = $request->corpo;
             $setting->save();
@@ -50,5 +52,21 @@ class Settings extends Model
             $notification['status'] = false;
         }
         return $notification;
+    }
+
+    static function GetMyFilePdf($userid){
+        return Settings::where('user_id',$userid)->select('filepdf')->first();
+    }
+
+    static function SaveMyFilePdf($userid,$path){
+        $setting = Settings::where('user_id',$userid)->first();
+        $setting->filepdf = $path;
+        $setting->save();
+    }
+
+    static function DeleteMyFilePdf($userid){
+        $setting = Settings::where('user_id',$userid)->first();
+        $setting->filepdf = '';
+        $setting->save();
     }
 }

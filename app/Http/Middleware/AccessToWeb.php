@@ -31,6 +31,6 @@ class AccessToWeb
             return $next($request);            
         }
 
-        return redirect()->back()->withErrors(['errors' => 'Utente non Registrato']);        
+        return redirect()->back()->withErrors(['errors' => 'Errore Inserimento Utente o Password']);        
     }
 }

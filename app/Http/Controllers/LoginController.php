@@ -41,6 +41,7 @@ class LoginController extends Controller
                     session()->put('testata',$cards[0]->testata);
                     session()->put('corpo',$cards[0]->corpo);
                     session()->put('user_id',$cards[0]->user_id);
+                    session()->put('filepdf',$cards[0]->filepdf);
                 }else{
                     session()->put('fidelity','0');
                 }

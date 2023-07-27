@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('riga6',40)->nullable();
             $table->string('testata',40)->nullable();
             $table->text('corpo')->nullable();
+            $table->string('filepdf',15)->nullable();
         });
     }
 

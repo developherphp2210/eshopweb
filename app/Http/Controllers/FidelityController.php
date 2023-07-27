@@ -9,9 +9,6 @@ use App\Models\TransactionDiscount;
 use App\Models\TransactionHeader;
 use App\Models\TransactionPayment;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
-
-use function Psy\debug;
 
 class FidelityController extends Controller
 {
@@ -49,7 +46,7 @@ class FidelityController extends Controller
      * Display the specified resource.
      */
     public function show(string $id)
-    {
+    {          
         $user = session('user');
         $cards = FidelityCard::GetFidelityList($user->id);
         $receipt['setting'] = Settings::GetMySetting(session('user_id'));        
@@ -106,7 +103,8 @@ class FidelityController extends Controller
                 session()->put('punti_fidelity',$card->punti);
                 session()->put('testata',$card->testata);
                 session()->put('corpo',$card->corpo); 
-                session()->put('user_id',$card->user_id);             
+                session()->put('user_id',$card->user_id);
+                session()->put('filepdf',$card->filepdf);             
             }
         } 
     }

@@ -32,17 +32,18 @@
         </div>
       </div>
     </div>
-    <div class="row">
+    @if (session('filepdf') != '')
+    <div class="row mt-5">      
       <div id="book">
         
       </div>     
     </div>     
+    @endif
   </div>
   <script>
-    $("#book").wowBook({
-        
+    $("#book").wowBook({       
 		  container: true,
-      pdf: "{{asset('storage/83840BONUS_GAS_PROCURA.pdf')}}",
+      pdf: "{{asset('storage/'.session('filepdf'))}}",
       pdfFind: true,
       toolbar: "back, zoomin,zoomout, find, right"
     });

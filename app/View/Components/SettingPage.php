@@ -26,6 +26,6 @@ class SettingPage extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.setting-page');
+        return view('components.users.setting-page');
     }
 }

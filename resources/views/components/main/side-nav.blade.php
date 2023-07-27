@@ -26,7 +26,11 @@
                     </nav>
                 </div>                
                 <!-- Sidenav Heading (UI Toolkit)-->
-                <div class="sidenav-menu-heading">Attività</div>
+                <div class="sidenav-menu-heading">Promozioni</div>
+                <a class="nav-link" href="{{url('/promotions')}}">
+                    <div class="nav-link-icon"><i data-feather="book-open"></i></div>
+                    Volantino                    
+                </a> 
                 <!-- Sidenav Accordion (Layout)-->
                 
                 <div class="sidenav-menu-heading">Statistiche</div>

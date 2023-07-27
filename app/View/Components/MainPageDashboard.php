@@ -25,6 +25,6 @@ class MainPageDashboard extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.main-page-dashboard');
+        return view('components.users.main-page-dashboard');
     }
 }

@@ -190,6 +190,19 @@ if (ul){
     })
 }
 
+let imp_vol = document.querySelector('#importa_volantino');
+let del_vol = document.querySelector('#elimina_volantino');
+let del = document.querySelector('#delete');
+imp_vol.addEventListener('click',() => {
+    del.value = '0';    
+   document.querySelector('#myform').submit();
+});
+
+del_vol.addEventListener('click',() => {
+    del.value = '1';    
+   document.querySelector('#myform').submit();
+});
+
 $(document).ready(function() {
     $('#alert').fadeOut(3000);
 });

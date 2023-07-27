@@ -5,6 +5,7 @@ use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\FidelityController;
+use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\VatController;
 use Illuminate\Support\Facades\Route;
 
@@ -36,5 +37,8 @@ Route::any('/fidelity/{id}',[FidelityController::class,'changeCard']);
 Route::get('receipt_list',[FidelityController::class,'index']);
 Route::get('receipt/{id}',[FidelityController::class,'show']);
 Route::get('receiptuser/{id}',[CustomerController::class,'receipt']);
+
+Route::get('/promotions',[PromotionController::class,'index']);
+Route::post('promotion/filepdf',[PromotionController::class,'upload']);
 
 

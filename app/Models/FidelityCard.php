@@ -23,7 +23,7 @@ class FidelityCard extends Model
                            ->join('customers','customers.id','=','fidelity_card.customer_id')
                            ->join('users','users.id','=','customers.user_id')
                            ->join('settings','users.id','=','settings.user_id')
-                           ->selectRaw('customers.codice_fidelity, users.user_name, users.id as user_id, customers.id as customer_id, customers.punti, settings.testata,settings.corpo')
+                           ->selectRaw('customers.codice_fidelity, users.user_name, users.id as user_id, customers.id as customer_id, customers.punti, settings.testata, settings.corpo, settings.filepdf')
                            ->get();
 
     }
