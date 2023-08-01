@@ -43,6 +43,7 @@ class TransactionBody extends Model
             'codean_id' => (($request->codean <> null) or ($request->codean <> '')) ? Codean::GetCodeanId($request,$article_id) : '0',
             'price' => str_replace(',','.',$request->importo),
             'discounts' => str_replace(',','.',$request->sconti),
+            'discounts_coupon' => str_replace(',','.',$request->sconti_coupon),
             'quantity' => str_replace(',','.',$request->qt),
             'type' => $request->tiporiga
         ]);

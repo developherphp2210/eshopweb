@@ -8,7 +8,7 @@
                             <div class="col-lg-5">
                                 <!-- Basic login form-->
                                 <div class="card shadow-lg border-0 rounded-lg mt-5">
-                                    <div class="card-header justify-content-center"><h3 class="fw-light my-4">Cliente Fidelity</h3></div>
+                                    <div class="card-header justify-content-center"><h3 class="fw-light my-4">Registrazione Cliente</h3></div>
                                     @if($errors->any())
                                         @foreach($errors->all() as $error)
                                             <div class="alert alert-danger" role="alert">
@@ -34,7 +34,7 @@
                                                 <label class="small mb-1" for="inputPassword">Password</label>
                                                 <input class="form-control" id="inputPassword" type="password" maxlength="20" name="password" placeholder="Inserisci Password" />                                            
                                                 <div id="passwordHelpBlock" class="form-text">
-                                                    La tua password deve essere lunga 8-20 caratteri, deve contenere lettere e numeri e almeno uno dei seguenti caratteri speciai ? ! @ # $ + - / .
+                                                    La tua password deve essere lunga 8-20 caratteri, deve contenere lettere e numeri e almeno uno dei seguenti caratteri speciali ? ! @ # $ + - / .
                                                 </div>
                                                 <ul id="checkpassword">
                                                     <li id="first" class="text-success mt-2 d-none"><i data-feather="check"></i> Lunghezza minima</li>

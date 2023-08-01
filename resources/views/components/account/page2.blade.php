@@ -52,7 +52,7 @@
                                 <label class="small mb-1" for="inputPassword">Nuova Password</label>
                                 <input class="form-control" id="inputPassword" type="password" name="newpassword" placeholder="Scrivi la nuova Password" />
                                 <div id="passwordHelpBlock" class="form-text">
-                                    La tua password deve essere lunga 8-20 caratteri, deve contenere lettere e numeri e almeno uno dei seguenti caratteri speciai ? ! @ # $ + - / .
+                                    La tua password deve essere lunga 8-20 caratteri, deve contenere lettere e numeri e almeno uno dei seguenti caratteri speciali ? ! @ # $ + - / .
                                 </div>
                                 <ul id="checkpassword">
                                     <li id="first" class="text-success mt-2 d-none"><i data-feather="check"></i> Lunghezza minima</li>

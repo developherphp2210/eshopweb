@@ -33,7 +33,7 @@ Route::get('/',function(){
     return view('login.login')->with(['title' => 'Login Page']);
 })->name('login');
 Route::get('/register_fidelity',function(){
-    return view('fidelity.register')->with(['title' => 'Pagina registrazione']);
+    return view('fidelity.register')->with(['title' => 'Pagina di registrazione']);
 });
 Route::post('/doregister_fidelity',[LoginController::class,'insert_fidelity']);
 Route::get('/logout',[LoginController::class,'logout']);
