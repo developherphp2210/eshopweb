@@ -37,9 +37,13 @@ class FidelityController extends Controller
     public function store(Request $request)
     {
         $user = session('user');
+        $result = FidelityCard::AddFidelity($request->id,$request->fidelitycard);
         $cards = FidelityCard::GetFidelityList($user->id);
-        FidelityCard::AddFidelity($request->id,$request->fidelitycard);
-        return redirect()->back();
+        if ($result){
+            return redirect()->back();
+        } else {
+            return redirect()->back()->withErrors(['errors' => "Tessera Fidelity non Trovata" ]);
+        }
     }
 
     /**
@@ -59,8 +63,13 @@ class FidelityController extends Controller
 
     public function dash(){
         $user = session('user');
-        $cards = FidelityCard::GetFidelityList($user->id);        
-        return view('fidelity.mainpage')->with(['title' => 'Main Page','user' => $user,'cards' => $cards]);
+        $cards = FidelityCard::GetFidelityList($user->id);
+        if ($cards->count() > 0){
+            return view('fidelity.mainpage')->with(['title' => 'Main Page','user' => $user,'cards' => $cards]);
+        } else {
+            return redirect('/account/profile/3');
+        }        
+        
     }
 
     /**

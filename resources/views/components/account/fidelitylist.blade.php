@@ -25,6 +25,13 @@
         <hr class="mt-0 mb-4" />
         <div class="card mb-4">
             <div class="card-body">
+                @if($errors->any())
+                    @foreach($errors->all() as $error)
+                        <div class="alert alert-danger" id="alert" role="alert">
+                            {{$error}}
+                        </div>
+                    @endforeach
+                @endif
                 <div class="table-responsive">
                     <table id="lista" class="table table-striped table-sm " style="width:100%">
                         <thead>
@@ -74,3 +81,8 @@
         </div>
     </div>
 </div>
+@if (session('codice_fidelity') === '')
+<script>
+    alert('Collega subito la tua tessera fidelity');
+</script>
+@endif

@@ -50,6 +50,22 @@ class User extends Authenticatable
         return User::where('id',$id)->first();
     }
 
+    static function RecoveryPassword($mail){
+        $user = User::where('email',$mail)->first();
+        if ($user){
+            $password = (new self)->create_password();            
+            $user->password = Hash::make($password);
+            $user->save();
+            // inserire invio mail
+            $notification['message'] = 'Ti è stata inviata una password temporanea al tuo indirizzo Email';
+            $notification['status'] = true;
+        } else {
+            $notification['message'] = 'Il tuo indirizzo Email non risulta nel nostro elenco!!';
+            $notification['status'] = false;
+        }
+        return $notification;
+    }
+
     static function CreateFidelity($request){
         return User::create([
             'email' => $request->email,
@@ -104,7 +120,7 @@ class User extends Authenticatable
         return User::create([
             'email' => $request->email,
             'password' => Hash::make($password),
-            'user_name' => $request->user_name,
+            'user_name' => ($request->user_name != '') ? $request->user_name :$request->email,
             'piva' => $request->piva,
             'firstname' => $request->firstname,
             'lastname' => $request->lastname,
@@ -114,6 +130,7 @@ class User extends Authenticatable
             'business_name' =>$request->business_name,
             'cap' => $request->cap            
         ]);
+        // inserire invio mail
     }
 
     private function create_password($length = 10) {

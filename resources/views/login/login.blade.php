@@ -39,7 +39,7 @@
                                             </div>
                                             <!-- Form Group (login box)-->
                                             <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
-                                                <a class="small" href="">Recupera Password</a>
+                                                <a class="small" href="{{url('/password_recovery')}}">Recupera Password</a>
                                                 <button class="btn btn-primary" type="submit">Login</button>
                                             </div>
                                         </form>

@@ -11,7 +11,7 @@
                                     <div class="card-header justify-content-center"><h3 class="fw-light my-4">Registrazione Cliente</h3></div>
                                     @if($errors->any())
                                         @foreach($errors->all() as $error)
-                                            <div class="alert alert-danger" role="alert">
+                                            <div class="alert alert-danger" id="alert" role="alert">
                                                 {{$error}}
                                             </div>
                                         @endforeach

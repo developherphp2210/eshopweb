@@ -12,28 +12,14 @@ class LoginController extends Controller
 {
     
     public function login(Request $request){        
-        $user = session('user');
-        // $data = new DateTime('now');      
+        $user = session('user');        
         switch ($user->type) {
-            case '0':
-                // $total['sessionid'] = $user->id;
-                // $total['date'] = $data->format('Y-m-d');
-                // // calcolo importo giornaliero                  
-                // $total['day'] = TransactionHeader::TotalDay($user->id,$data,0,0);                
-                // // calcolo importi settimanali
-                // $total['week'] = TransactionHeader::TotalWeek($user->id,$data,0,0);
-                // // calcolo importo mensile
-                // $total['month'] = TransactionHeader::TotalMonth($user->id,$data,0,0);
-                // // calcolo totale casse
-                // $total['tills'] = TransactionHeader::TotalTills($user->id,$data,0); 
-                // $total['name'] = ''; 
-                // $total['tillid'] = '';
-                // $total['shopid'] = '';       
+            case '0':                
                 return redirect('/dashboard');                
                 break;            
             case '1':                
-                $cards = FidelityCard::GetFidelityList($user->id);
-                if ($cards){
+                $cards = FidelityCard::GetFidelityList($user->id);                
+                if ($cards->count() > 0 ){
                     session()->put('customer_id',$cards[0]->customer_id);
                     session()->put('user_name',$cards[0]->user_name);
                     session()->put('codice_fidelity',$cards[0]->codice_fidelity);
@@ -41,11 +27,12 @@ class LoginController extends Controller
                     session()->put('testata',$cards[0]->testata);
                     session()->put('corpo',$cards[0]->corpo);
                     session()->put('user_id',$cards[0]->user_id);
-                    session()->put('filepdf',$cards[0]->filepdf);
-                }else{
-                    session()->put('fidelity','0');
-                }
-                return redirect('/dashboard/fidelity');                
+                    session()->put('filepdf',$cards[0]->filepdf);                    
+                    return redirect('/dashboard/fidelity');
+                }else{   
+                    session()->put('codice_fidelity','');                 
+                    return redirect('/account/profile/3');
+                }                                
                 break;
             case '9':
                 return view('admin.mainpage_admin')->with(['title' => 'Main Page','user' => $user]);        
@@ -53,6 +40,11 @@ class LoginController extends Controller
         }
         
         
+    }
+
+    public function recovery(Request $request){
+        $notification = User::RecoveryPassword($request->email);
+        return view('login.recovery')->with(['title' => 'Recupera Password','notification' => $notification]);
     }
 
     public function insert(Request $request){
@@ -88,7 +80,7 @@ class LoginController extends Controller
         ]);        
         $user = User::CreateFidelity($request);
         if ($user){
-            return redirect('login_fidelity');
+            return redirect('/');
         }
 
         return redirect()->back()->withErrors(['errors' => "Errore nella creazione dell'utente" ]);

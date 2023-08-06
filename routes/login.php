@@ -27,6 +27,7 @@ use Illuminate\Support\Facades\Route;
 Route::any('/dologin',[LoginController::class,'login'])->middleware(AccessToWeb::class);
 Route::get('/register_user',[AdminController::class,'insert']);
 Route::post('/doregister_user',[LoginController::class,'insert']);
+Route::post('/dopassword_recovery',[LoginController::class,'recovery']);
 
 
 Route::get('/',function(){
@@ -34,6 +35,10 @@ Route::get('/',function(){
 })->name('login');
 Route::get('/register_fidelity',function(){
     return view('fidelity.register')->with(['title' => 'Pagina di registrazione']);
+});
+Route::get('/password_recovery',function(){
+    $notification = '';
+    return view('login.recovery')->with(['title' => 'Recupera Password','notification' => $notification]);
 });
 Route::post('/doregister_fidelity',[LoginController::class,'insert_fidelity']);
 Route::get('/logout',[LoginController::class,'logout']);
