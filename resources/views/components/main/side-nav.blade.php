@@ -23,6 +23,19 @@
                         <a class="nav-link {{($index == '3') ? 'active' : ''}}" href="{{url('/articoli')}}">Articoli</a>
                         <a class="nav-link {{($index == '4') ? 'active' : ''}}" href="{{url('/reparti')}}">Reparti</a>
                         <a class="nav-link {{($index == '5') ? 'active' : ''}}" href="{{url('/iva')}}">Aliquote IVA</a>
+
+                        <a class="nav-link collapsed" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#OperatoriPages" aria-expanded="false" aria-controls="OperatoriPages">
+                            <div class="nav-link-icon"><i data-feather="corner-right-down"></i></div>
+                            Gestione Cassieri
+                            <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse {{( ($index > '5') && ($index < '8') ) ? 'show' : ''}}" id="OperatoriPages" data-bs-parent="#accordionSidenav2">
+                            <nav class="sidenav-menu-nested nav accordion" id="accordionSidenavPagesMenu">                        
+                                <a class="nav-link {{($index == '6') ? 'active' : ''}}" href="{{url('/cassieri')}}">Cassieri</a>
+                                <a class="nav-link {{($index == '7') ? 'active' : ''}}" href="{{url('/profili')}}">Profili</a>                                                                
+                            </nav>
+                        </div>
+
                     </nav>
                 </div>                
                 <!-- Sidenav Heading (UI Toolkit)-->
