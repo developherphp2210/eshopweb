@@ -86,6 +86,7 @@
                     </div>
                 </div>
             </div>
+        </div>    
             <div class="row">
                 <div class="col-lg-4 mb-4">
                     <div class="card mb-4">
@@ -176,9 +177,8 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
+            </div>        
+    </div>    
 </main>
 <script>
     window.onload = setInterval(Orologio, 6000);

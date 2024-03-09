@@ -10,13 +10,13 @@
             <!-- Navbar Items-->
             <ul class="navbar-nav align-items-center ms-auto">                                                
                 <li class="nav-item dropdown no-caret dropdown-user me-3 me-lg-4">
-                    <a class="btn btn-icon btn-transparent-dark dropdown-toggle" id="navbarDropdownUserImage" href="javascript:void(0);" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img class="img-fluid" src="{{asset('storage/'.$user->image)}}" /></a>
+                    <a class="btn btn-icon btn-transparent-dark dropdown-toggle" id="navbarDropdownUserImage" href="javascript:void(0);" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img class="img-fluid" src="{{asset('storage/'.session('user')->image)}}" /></a>
                     <div class="dropdown-menu dropdown-menu-end border-0 shadow animated--fade-in-up" aria-labelledby="navbarDropdownUserImage">
                         <h6 class="dropdown-header d-flex align-items-center">
-                            <img class="dropdown-user-img" src="{{asset('storage/'.$user->image)}}" />
+                            <img class="dropdown-user-img" src="{{asset('storage/'.session('user')->image)}}" />
                             <div class="dropdown-user-details">
-                                <div class="dropdown-user-details-name">{{$user->user_name}}</div>
-                                <div class="dropdown-user-details-email">{{$user->email}}</div>
+                                <div class="dropdown-user-details-name">{{session('user')->user_name}}</div>
+                                <div class="dropdown-user-details-email">{{session('user')->email}}</div>
                             </div>
                         </h6>
                         <div class="dropdown-divider"></div>

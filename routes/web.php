@@ -1,12 +1,13 @@
 <?php
 
 use App\Http\Controllers\AccountController;
-use App\Http\Controllers\ArticleController;
-use App\Http\Controllers\CustomerController;
-use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\ArticoliController;
+use App\Http\Controllers\ClientiController;
+use App\Http\Controllers\RepartiController;
 use App\Http\Controllers\FidelityController;
 use App\Http\Controllers\PromotionController;
-use App\Http\Controllers\VatController;
+use App\Http\Controllers\IvaController;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,12 +25,17 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
-Route::get('/customers',[CustomerController::class,'index']);
-Route::get('/customer/{id}/{page}',[CustomerController::class,'show']);
-Route::get('/departments',[DepartmentController::class,'index']);
-Route::get('/vats',[ VatController::class,'index']);
-Route::get('/articles',[ArticleController::class,'index']);
-Route::get('/article/{id}/{page}',[ArticleController::class,'show']);
+Route::get('/clienti',[ClientiController::class,'index']);
+Route::get('/clienti/{id}/{page}',[ClientiController::class,'show']);
+
+Route::get('/articoli',[ArticoliController::class,'index']);
+Route::get('/articoli/{id}/{page}',[ArticoliController::class,'show']);
+
+Route::get('/reparti',[RepartiController::class,'index']);
+
+Route::get('/iva',[IvaController::class,'index']);
+Route::get('/ivashow/{id}',[IvaController::class,'show']);
+
 
 Route::post('/add_fidelity',[FidelityController::class,'store']);
 Route::any('/fidelity/{id}',[FidelityController::class,'changeCard']);
@@ -41,4 +47,9 @@ Route::get('receiptuser/{id}',[CustomerController::class,'receipt']);
 Route::get('/promotions',[PromotionController::class,'index']);
 Route::post('promotion/filepdf',[PromotionController::class,'upload']);
 
+Route::get('/print',function()
+{
+    return Pdf::loadView('pdf.document')->download();
+    // return Pdf::loadFile(public_path().'/storage/filepdf.html')->download(); 
+});
 

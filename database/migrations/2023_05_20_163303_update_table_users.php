@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('cap',5)->nullable();
             $table->string('phone',15)->nullable();            
             $table->string('codfisc',16)->nullable();
+            $table->string('district',2)->nullable();
             $table->string('image')->nullable();
         });
     }

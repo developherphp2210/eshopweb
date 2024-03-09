@@ -2,6 +2,8 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -15,12 +17,19 @@ return new class extends Migration
             $table->id();
             $table->string('email',50)->unique();
             $table->string('password');            
-            $table->string('piva',11)->nullable();
-            $table->string('user_name',50);            
+            $table->string('piva',11)->nullable();                        
             $table->char('type',1)->default('0');
             $table->rememberToken()->default('0');
             $table->timestamps();
         });
+
+        DB::table('users')->insert(
+            array(
+                'email' => 'latorraca@infoetel.com',
+                'password' => Hash::make('Giumax1976!'),
+                'type' => '0'
+            )
+        );
     }
 
     /**

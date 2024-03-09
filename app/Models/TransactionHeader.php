@@ -15,39 +15,36 @@ class TransactionHeader extends Model
 {
     use HasFactory;
 
-    protected $table = 'transaction_header';
+    protected $table = 'testata_scontrino';
 
 	public $timestamps = false;
 
     protected $fillable = [
-        'id',
-        'user_id',
-	    'till_id',
-	    'shop_id',
-	    'customer_id',
-	    'cashier_id',
-	    'amount',
-	    'data',
-	    'discount',
-	    'transaction_number',
-	    'points',
-	    'points_jolly'
+        'id',        
+        'id_deposito',
+        'id_cassa',
+        'id_cliente',
+        'id_operatore',
+        'importo',
+        'data',
+        'numero_scontrino',
+        'punti',
+        'punti_jolly'
     ];
 
 	public static function InsertTransactionHeader($request) {
 		$shop_id = Shop::GetShopId($request);
-        $transHeader = TransactionHeader::create([
-            'user_id' => $request->user_id,
-            'shop_id' => $shop_id,
-            'till_id' => Till::GetTillId($request,$shop_id),
-            'customer_id' => $request->codcli == '0' ? '0' : Customer::GetCustomerId($request),
-            'cashier_id' => Cashier::GetCashierId($request),
-            'amount' => str_replace(',','.',$request->totale),
-            'discount' => $request->sconti <> null ? str_replace(',','.',$request->sconti) : '0',
+        $transHeader = TransactionHeader::create([            
+            'id_deposito' => $id_deposito,
+            'id_cassa' => Till::GetTillId($request,$id_cassa),
+            'id_cliente' => $request->codcli == '0' ? '0' : Customer::GetCustomerId($request),
+            'id_operatore' => Cashier::GetCashierId($request),
+            'importo' => str_replace(',','.',$request->totale),
+            // 'discount' => $request->sconti <> null ? str_replace(',','.',$request->sconti) : '0',
             'data' => (new self)->ConverTimestamp($request->datatransaction),
-            'transaction_number' => $request->numtrans,
-            'points' => $request->punti,
-            'point_jolly' => $request->pjolly
+            'numero_scontrino' => $request->numtrans,
+            'punti' => $request->punti,
+            'punti_jolly' => $request->pjolly
         ]);
         return $transHeader->id;
 	}
@@ -59,19 +56,19 @@ class TransactionHeader extends Model
     public static function TotalDay($userid,$data,$shopid,$tillid): array
     {                              
         if (($shopid === 0) && ($tillid === 0)){
-            $total[0] = TransactionHeader::whereBetween('data', [(new self)->DataIni($data->format('Y-m-d H:i:s')),(new self)->DataFin($data->format('Y-m-d H:i:s'))])->where('user_id',$userid)->sum('amount');                                                            
+            $total[0] = TransactionHeader::whereBetween('data', [(new self)->DataIni($data->format('Y-m-d H:i:s')),(new self)->DataFin($data->format('Y-m-d H:i:s'))])->sum('importo');                                                            
         } elseif ($shopid === 0){
-            $total[0] = TransactionHeader::whereBetween('data', [(new self)->DataIni($data->format('Y-m-d H:i:s')),(new self)->DataFin($data->format('Y-m-d H:i:s'))])->where('user_id',$userid)->where('till_id',$tillid)->sum('amount');                                                            
+            $total[0] = TransactionHeader::whereBetween('data', [(new self)->DataIni($data->format('Y-m-d H:i:s')),(new self)->DataFin($data->format('Y-m-d H:i:s'))])->where('id_cassa',$tillid)->sum('importo');                                                            
         } else {
-            $total[0] = TransactionHeader::whereBetween('data', [(new self)->DataIni($data->format('Y-m-d H:i:s')),(new self)->DataFin($data->format('Y-m-d H:i:s'))])->where('user_id',$userid)->where('shop_id',$shopid)->sum('amount');                                                            
+            $total[0] = TransactionHeader::whereBetween('data', [(new self)->DataIni($data->format('Y-m-d H:i:s')),(new self)->DataFin($data->format('Y-m-d H:i:s'))])->where('id_deposito',$shopid)->sum('importo');                                                            
         }   
         $data1 = $data->modify('-1 days')->format('Y-m-d H:i:s');
         if (($shopid === 0) && ($tillid === 0)){
-            $total[1] = TransactionHeader::whereBetween('data', [(new self)->DataIni($data1),(new self)->DataFin($data1)])->where('user_id',$userid)->sum('amount');      
+            $total[1] = TransactionHeader::whereBetween('data', [(new self)->DataIni($data1),(new self)->DataFin($data1)])->sum('importo');      
         } elseif ($shopid === 0){
-            $total[1] = TransactionHeader::whereBetween('data', [(new self)->DataIni($data1),(new self)->DataFin($data1)])->where('user_id',$userid)->where('till_id',$tillid)->sum('amount');      
+            $total[1] = TransactionHeader::whereBetween('data', [(new self)->DataIni($data1),(new self)->DataFin($data1)])->where('id_cassa',$tillid)->sum('importo');      
         } else {
-            $total[1] = TransactionHeader::whereBetween('data', [(new self)->DataIni($data1),(new self)->DataFin($data1)])->where('user_id',$userid)->where('shop_id',$shopid)->sum('amount');      
+            $total[1] = TransactionHeader::whereBetween('data', [(new self)->DataIni($data1),(new self)->DataFin($data1)])->where('id_deposito',$shopid)->sum('importo');      
         }        
         $total[2] = ($total[1] > 0 ) ? intval( (($total[0] - $total[1]) / $total[1]) * 100 ) : '100 ';                                                   
         return $total;                                                              
@@ -82,20 +79,20 @@ class TransactionHeader extends Model
         $data1 = new DateTime($data->format('Y-m-d H:i:s'));                     
         $daysofweek = date('w',strtotime($data->format('Y-m-d')));                 
         if (($shopid === 0) && ($tillid === 0)){
-            $total[0] = TransactionHeader::whereBetween('data', [(new self)->DataIni($data->modify('-'.($daysofweek-1).' days')->format('Y-m-d H:i:s')),(new self)->DataFin($data->modify('+6 days')->format('Y-m-d H:i:s'))])->where('user_id',$userid)->sum('amount');                 
+            $total[0] = TransactionHeader::whereBetween('data', [(new self)->DataIni($data->modify('-'.($daysofweek-1).' days')->format('Y-m-d H:i:s')),(new self)->DataFin($data->modify('+6 days')->format('Y-m-d H:i:s'))])->sum('importo');                 
         } elseif ($shopid === 0){
-            $total[0] = TransactionHeader::whereBetween('data', [(new self)->DataIni($data->modify('-'.($daysofweek-1).' days')->format('Y-m-d H:i:s')),(new self)->DataFin($data->modify('+6 days')->format('Y-m-d H:i:s'))])->where('user_id',$userid)->where('till_id',$tillid)->sum('amount');
+            $total[0] = TransactionHeader::whereBetween('data', [(new self)->DataIni($data->modify('-'.($daysofweek-1).' days')->format('Y-m-d H:i:s')),(new self)->DataFin($data->modify('+6 days')->format('Y-m-d H:i:s'))])->where('id_cassa',$tillid)->sum('importo');
         } else {
-            $total[0] = TransactionHeader::whereBetween('data', [(new self)->DataIni($data->modify('-'.($daysofweek-1).' days')->format('Y-m-d H:i:s')),(new self)->DataFin($data->modify('+6 days')->format('Y-m-d H:i:s'))])->where('user_id',$userid)->where('shop_id',$shopid)->sum('amount');
+            $total[0] = TransactionHeader::whereBetween('data', [(new self)->DataIni($data->modify('-'.($daysofweek-1).' days')->format('Y-m-d H:i:s')),(new self)->DataFin($data->modify('+6 days')->format('Y-m-d H:i:s'))])->where('id_deposito',$shopid)->sum('importo');
         }   
         $data1->modify('-7 days');        
         $daysofweek = date('w',strtotime($data1->format('Y-m-d'))); 
         if (($shopid === 0) && ($tillid === 0)){
-            $total[1] = TransactionHeader::whereBetween('data', [(new self)->DataIni($data1->modify('-'.($daysofweek-1).' days')->format('Y-m-d H:i:s')),(new self)->DataFin($data1->modify('+6 days')->format('Y-m-d H:i:s'))])->where('user_id',$userid)->sum('amount'); 
+            $total[1] = TransactionHeader::whereBetween('data', [(new self)->DataIni($data1->modify('-'.($daysofweek-1).' days')->format('Y-m-d H:i:s')),(new self)->DataFin($data1->modify('+6 days')->format('Y-m-d H:i:s'))])->sum('importo'); 
         } elseif ($shopid === 0){
-            $total[1] = TransactionHeader::whereBetween('data', [(new self)->DataIni($data1->modify('-'.($daysofweek-1).' days')->format('Y-m-d H:i:s')),(new self)->DataFin($data1->modify('+6 days')->format('Y-m-d H:i:s'))])->where('user_id',$userid)->where('till_id',$tillid)->sum('amount'); 
+            $total[1] = TransactionHeader::whereBetween('data', [(new self)->DataIni($data1->modify('-'.($daysofweek-1).' days')->format('Y-m-d H:i:s')),(new self)->DataFin($data1->modify('+6 days')->format('Y-m-d H:i:s'))])->where('id_cassa',$tillid)->sum('importo'); 
         } else {
-            $total[1] = TransactionHeader::whereBetween('data', [(new self)->DataIni($data1->modify('-'.($daysofweek-1).' days')->format('Y-m-d H:i:s')),(new self)->DataFin($data1->modify('+6 days')->format('Y-m-d H:i:s'))])->where('user_id',$userid)->where('shop_id',$shopid)->sum('amount'); 
+            $total[1] = TransactionHeader::whereBetween('data', [(new self)->DataIni($data1->modify('-'.($daysofweek-1).' days')->format('Y-m-d H:i:s')),(new self)->DataFin($data1->modify('+6 days')->format('Y-m-d H:i:s'))])->where('id_deposito',$shopid)->sum('importo'); 
         }   
         $total[2] = ($total[1] > 0 ) ? intval( (($total[0] - $total[1]) / $total[1]) * 100 ) : '100' ;                             
         return $total;                                                                    
@@ -110,11 +107,11 @@ class TransactionHeader extends Model
         $gg = cal_days_in_month(CAL_GREGORIAN,$m,$y);        
         $datafin = substr($newdata->modify('+'.($gg-1).' days')->format('Y-m-d H-i-s'),0,10).' 23:59:59';        
         if (($shopid === 0) && ($tillid === 0)){
-            $total[0] = TransactionHeader::whereBetween('data',[$dataini,$datafin])->where('user_id',$userid)->sum('amount');                                    
+            $total[0] = TransactionHeader::whereBetween('data',[$dataini,$datafin])->sum('importo');                                    
         } elseif ($shopid === 0){    
-            $total[0] = TransactionHeader::whereBetween('data',[$dataini,$datafin])->where('user_id',$userid)->where('till_id',$tillid)->sum('amount');                                    
+            $total[0] = TransactionHeader::whereBetween('data',[$dataini,$datafin])->where('id_cassa',$tillid)->sum('importo');                                    
         } else {
-            $total[0] = TransactionHeader::whereBetween('data',[$dataini,$datafin])->where('user_id',$userid)->where('shop_id',$shopid)->sum('amount');
+            $total[0] = TransactionHeader::whereBetween('data',[$dataini,$datafin])->where('id_deposito',$shopid)->sum('importo');
         }    
         $data->modify('-1 months');
         $m = $data->format('m');
@@ -124,11 +121,11 @@ class TransactionHeader extends Model
         $gg = cal_days_in_month(CAL_GREGORIAN,$m,$y);        
         $datafin = substr($newdata->modify('+'.($gg-1).' days')->format('Y-m-d H-i-s'),0,10).' 23:59:59';        
         if (($shopid === 0) && ($tillid === 0)){
-            $total[1] = TransactionHeader::whereBetween('data',[$dataini,$datafin])->where('user_id',$userid)->sum('amount');
+            $total[1] = TransactionHeader::whereBetween('data',[$dataini,$datafin])->sum('importo');
         } elseif ($shopid === 0){
-            $total[1] = TransactionHeader::whereBetween('data',[$dataini,$datafin])->where('user_id',$userid)->where('till_id',$tillid)->sum('amount');
+            $total[1] = TransactionHeader::whereBetween('data',[$dataini,$datafin])->where('id_cassa',$tillid)->sum('importo');
         } else {
-            $total[1] = TransactionHeader::whereBetween('data',[$dataini,$datafin])->where('user_id',$userid)->where('shop_id',$shopid)->sum('amount');
+            $total[1] = TransactionHeader::whereBetween('data',[$dataini,$datafin])->where('id_deposito',$shopid)->sum('importo');
         }     
         $total[2] = ($total[1] > 0 ) ? intval( (($total[0] - $total[1]) / $total[1]) * 100 ) : '100';
         return $total;                             
@@ -137,23 +134,22 @@ class TransactionHeader extends Model
     static function TotalTills($userid,$data,$shopid)
     {   
         if ($shopid === 0){     
-            return TransactionHeader::whereBetween('transaction_header.data',[(new self)->DataIni($data->format('Y-m-d H-i-s')),(new self)->DataFin($data->format('Y-m-d H-i-s'))])
-                                    ->where('transaction_header.user_id',$userid)
-                                    ->join('tills','transaction_header.till_id','=','tills.id')
-                                    ->join('shops','transaction_header.shop_id','=','shops.id')
-                                    ->selectRaw('sum(transaction_header.amount) as prezzo, tills.description as cassa , shops.description as deposito, transaction_header.shop_id, transaction_header.till_id')
-                                    ->groupBy('tills.description','transaction_header.shop_id','transaction_header.till_id')
-                                    ->orderBy('shops.description')
+            return TransactionHeader::whereBetween('testata_scontrino.data',[(new self)->DataIni($data->format('Y-m-d H-i-s')),(new self)->DataFin($data->format('Y-m-d H-i-s'))])                                    
+                                    ->join('casse','testata_scontrino.id_cassa','=','casse.id')
+                                    ->join('deposito','testata_scontrino.id_deposito','=','deposito.id')
+                                    ->selectRaw('sum(testata_scontrino.importo) as prezzo, casse.descrizione as cassa , deposito.descrizione as deposito, testata_scontrino.id_deposito, testata_scontrino.id_cassa')
+                                    ->groupBy('casse.descrizione','testata_scontrino.id_deposito','testata_scontrino.id_cassa')
+                                    ->orderBy('deposito.descrizione')
                                     ->get();                                                                                                   
         } else {
-            return TransactionHeader::whereBetween('transaction_header.data',[(new self)->DataIni($data->format('Y-m-d H-i-s')),(new self)->DataFin($data->format('Y-m-d H-i-s'))])
-                                    ->where('transaction_header.user_id',$userid)
-                                    ->where('transaction_header.shop_id',$shopid)
-                                    ->join('tills','transaction_header.till_id','=','tills.id')
-                                    ->join('shops','transaction_header.shop_id','=','shops.id')
-                                    ->selectRaw('sum(transaction_header.amount) as prezzo, tills.description as cassa , shops.description as deposito, transaction_header.shop_id, transaction_header.till_id')
-                                    ->groupBy('tills.description','transaction_header.shop_id','transaction_header.till_id')
-                                    ->orderBy('shops.description')
+            return TransactionHeader::whereBetween('testata_scontrino.data',[(new self)->DataIni($data->format('Y-m-d H-i-s')),(new self)->DataFin($data->format('Y-m-d H-i-s'))])
+                                    ->where('testata_scontrino.user_id',$userid)
+                                    ->where('testata_scontrino.shop_id',$shopid)
+                                    ->join('casse','testata_scontrino.id_cassa','=','casse.id')
+                                    ->join('shops','testata_scontrino.id_deposito','=','shops.id')
+                                    ->selectRaw('sum(testata_scontrino.amount) as prezzo, casse.descrizione as cassa , shops.descrizione as deposito, testata_scontrino.id_deposito, testata_scontrino.id_cassa')
+                                    ->groupBy('casse.descrizione','testata_scontrino.id_deposito','testata_scontrino.id_cassa')
+                                    ->orderBy('shops.descrizione')
                                     ->get();                                                                                                   
         }                                  
     }
@@ -187,28 +183,28 @@ class TransactionHeader extends Model
     }
 
     private function QueryNoShopTill($userid,$data){
-        return TransactionHeader::whereRaw("transaction_header.user_id = ".$userid." and ( date(transaction_header.data) between '".$data->modify('- 9 days')->format('Y-m-d')."' and '".$data->modify('+ 10 days')->format('Y-m-d')."')")                                
-                                ->selectRaw('sum(transaction_header.amount) as prezzo, date(transaction_header.data) as newdata')
-                                ->groupByRaw('date(transaction_header.data)')
-                                ->orderByRaw('date(transaction_header.data)')
+        return TransactionHeader::whereRaw("( date(testata_scontrino.data) between '".$data->modify('- 9 days')->format('Y-m-d')."' and '".$data->modify('+ 10 days')->format('Y-m-d')."')")                                
+                                ->selectRaw('sum(testata_scontrino.importo) as prezzo, date(testata_scontrino.data) as newdata')
+                                ->groupByRaw('date(testata_scontrino.data)')
+                                ->orderByRaw('date(testata_scontrino.data)')
                                 ->limit(10)
                                 ->get();
     }
 
     private function QueryShop($userid,$data,$shopid){
-        return TransactionHeader::whereRaw("transaction_header.user_id = ".$userid." and ( date(transaction_header.data) between '".$data->modify('- 9 days')->format('Y-m-d')."' and '".$data->modify('+ 10 days')->format('Y-m-d')."') and transaction_header.shop_id = ".$shopid)                                
-                                ->selectRaw('sum(transaction_header.amount) as prezzo, date(transaction_header.data) as newdata')
-                                ->groupByRaw('date(transaction_header.data)')
-                                ->orderByRaw('date(transaction_header.data)')
+        return TransactionHeader::whereRaw("and ( date(testata_scontrino.data) between '".$data->modify('- 9 days')->format('Y-m-d')."' and '".$data->modify('+ 10 days')->format('Y-m-d')."') and transaction_header.shop_id = ".$shopid)                                
+                                ->selectRaw('sum(testata_scontrino.importo) as prezzo, date(testata_scontrino.data) as newdata')
+                                ->groupByRaw('date(testata_scontrino.data)')
+                                ->orderByRaw('date(testata_scontrino.data)')
                                 ->limit(10)
                                 ->get();
     }
 
     private function QueryTill($userid,$data,$tillid){
-        return TransactionHeader::whereRaw("transaction_header.user_id = ".$userid." and ( date(transaction_header.data) between '".$data->modify('- 9 days')->format('Y-m-d')."' and '".$data->modify('+ 10 days')->format('Y-m-d')."') and transaction_header.till_id = ".$tillid)                                
-                                ->selectRaw('sum(transaction_header.amount) as prezzo, date(transaction_header.data) as newdata')
-                                ->groupByRaw('date(transaction_header.data)')
-                                ->orderByRaw('date(transaction_header.data)')
+        return TransactionHeader::whereRaw("and ( date(testata_scontrino.data) between '".$data->modify('- 9 days')->format('Y-m-d')."' and '".$data->modify('+ 10 days')->format('Y-m-d')."') and transaction_header.till_id = ".$tillid)                                
+                                ->selectRaw('sum(testata_scontrino.importo) as prezzo, date(testata_scontrino.data) as newdata')
+                                ->groupByRaw('date(testata_scontrino.data)')
+                                ->orderByRaw('date(testata_scontrino.data)')
                                 ->limit(10)
                                 ->get();
     }

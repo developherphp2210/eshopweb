@@ -114,7 +114,7 @@ class AccountController extends Controller
         $total['name'] = '';
         $total['tillid'] = '';
         $total['shopid'] = '';      
-        return view('users.mainpage')->with(['title' => 'Main Page','user' => $user, 'total' => $total]);                
+        return view('users.mainpage')->with(['title' => 'Main Page','user' => $user, 'index' => '1', 'total' => $total]);                
     }
 
     public function save(Request $request,$page){        

@@ -12,9 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('settings', function (Blueprint $table) {
-            $table->id();
-            $table->bigInteger('user_id')->index('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
+            $table->id();            
             $table->string('riga1',40)->nullable();
             $table->string('riga2',40)->nullable();
             $table->string('riga3',40)->nullable();

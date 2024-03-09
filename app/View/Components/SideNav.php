@@ -14,11 +14,11 @@ class SideNav extends Component
      * @var array
      */
 
-    public $user = '';
+    public $index = '';
 
-    public function __construct($us)
+    public function __construct($index)
     {
-        $this->user = $us;
+        $this->index = $index;
     }
 
     /**

@@ -5,7 +5,7 @@
                 <!-- Sidenav Menu Heading (Core)-->
                 <div class="sidenav-menu-heading">Principale</div>
                 <!-- Sidenav Accordion (Dashboard)-->                
-                <a class="nav-link" href="{{url('/dashboard')}}">
+                <a class="nav-link {{($index == '1') ? 'active' : ''}}" href="{{url('/dashboard')}}">
                     <div class="nav-link-icon"><i data-feather="activity"></i></div>
                     Dashboards                    
                 </a> 
@@ -17,12 +17,12 @@
                     Anagrafiche
                     <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                 </a>
-                <div class="collapse" id="collapsePages" data-bs-parent="#accordionSidenav">
+                <div class="collapse {{( ($index > '1') && ($index < '9') ) ? 'show' : ''}}" id="collapsePages" data-bs-parent="#accordionSidenav">
                     <nav class="sidenav-menu-nested nav accordion" id="accordionSidenavPagesMenu">                        
-                        <a class="nav-link" href="{{url('/customers')}}">Fidelity</a>
-                        <a class="nav-link" href="{{url('/articles')}}">Articoli</a>
-                        <a class="nav-link" href="{{url('/departments')}}">Reparti</a>
-                        <a class="nav-link" href="{{url('/vats')}}">Aliquote IVA</a>
+                        <a class="nav-link {{($index == '2') ? 'active' : ''}}" href="{{url('/clienti')}}">Fidelity</a>
+                        <a class="nav-link {{($index == '3') ? 'active' : ''}}" href="{{url('/articoli')}}">Articoli</a>
+                        <a class="nav-link {{($index == '4') ? 'active' : ''}}" href="{{url('/reparti')}}">Reparti</a>
+                        <a class="nav-link {{($index == '5') ? 'active' : ''}}" href="{{url('/iva')}}">Aliquote IVA</a>
                     </nav>
                 </div>                
                 <!-- Sidenav Heading (UI Toolkit)-->
@@ -41,7 +41,7 @@
         <div class="sidenav-footer">
             <div class="sidenav-footer-content">
                 <div class="sidenav-footer-subtitle">Utente:</div>
-                <div class="sidenav-footer-title">{{$user->user_name}}</div>
+                <div class="sidenav-footer-title">{{session('user')->user_name}}</div>
             </div>
         </div>
     </nav>

@@ -14,11 +14,9 @@ class NavBar extends Component
      * @var array
      */
 
-    public $user = '';
-
-    public function __construct($us)
+    public function __construct()
     {
-        $this->user = $us;
+        //
     }
 
     /**

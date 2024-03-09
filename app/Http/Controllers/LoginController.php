@@ -33,10 +33,7 @@ class LoginController extends Controller
                     session()->put('codice_fidelity','');                 
                     return redirect('/account/profile/3');
                 }                                
-                break;
-            case '9':
-                return view('admin.mainpage_admin')->with(['title' => 'Main Page','user' => $user]);        
-                break;
+                break;            
         }
         
         

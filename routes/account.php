@@ -22,8 +22,6 @@ Route::get('/dashboardtill/{data}/{till_id}',[AccountController::class,'till'])-
 Route::get('/dashboard/fidelity',[FidelityController::class,'dash'])->name('dashboardfidelity');
 Route::get('/dashboard_admin',[AdminController::class,'main']);
 
-Route::get('/admin/users',[AdminController::class,'list']);
-Route::get('/admin/user/{id}',[AdminController::class,'show']);
 
 Route::get('/account/profile/{page}',[AccountController::class,'show']);
 Route::get('/account/settings',[SettingController::class,'index']);

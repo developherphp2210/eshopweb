@@ -9,57 +9,58 @@ class Article extends Model
 {
     use HasFactory;
 
-    protected $table = 'articles';
+    protected $table = 'articoli';
 
     protected $fillable = [
         'id',
-        'user_id',
-        'code',
-        'description',
-        'department_id',
-        'price'
+        'codice',
+        'descrizione',
+        'des_breve',
+        'logo',
+        'id_reparto',        
+        'tasto_rapido',
+        'id_iva',
+        'attivo'
     ];
 
     static function GetArticleId($request,$department_id,$vat_id){
         $article = Article::updateorCreate(
-            ['user_id'=> $request->user_id,'code' => $request->codart],
-            ['department_id' => $department_id,
-            'description' => utf8_encode($request->desean),
-            'price' => str_replace(',','.',$request->importo),
-            'vat_id' => $vat_id]
+            ['code' => $request->codart],
+            ['id_reparto' => $department_id,
+            'descrizione' => mb_convert_encoding($request->desean,'UTF-8'),            
+            'id_iva' => $vat_id]
         );
         return $article->id;
     }
 
     static function GetArticleList($userid)
     {
-        return Article::where('articles.user_id',$userid)
-                        ->join('departments', 'articles.department_id', '=' ,'departments.id')
-                        ->select('articles.id','articles.code','articles.description','articles.price','departments.description as department')
+        return Article::select('articoli.id','articoli.codice','articoli.descrizione','reparti.descrizione as reparto')
+                        ->join('reparti', 'articoli.id_reparto', '=' ,'reparti.id')                        
                         ->get();        
         
     }
 
     static function GetSingleArticle($id)
     {
-        $article = Article::where('articles.id',$id)
-                            ->join('departments','articles.department_id','=','departments.id')
-                            ->join('vats','articles.vat_id','=','vats.id')                            
-                            ->select('articles.id','articles.code as codart','articles.description','articles.price','departments.code as codrep' ,'departments.description as desrep','vats.code as codiva' ,'vats.descriptions as desiva')
+        $article = Article::where('articoli.id',$id)
+                            ->join('reparti','articoli.department_id','=','reparti.id')
+                            ->join('iva','articoli.id_iva','=','iva.id')                            
+                            ->select('articoli.id','articoli.codice as codart','articoli.descrizione','reparti.codice as codrep' ,'reparti.descrizione as desrep','iva.codice as codiva' ,'iva.descrizione as desiva')
                             ->first();
         return $article;
     }
 
     static function GetArticleTransaction($id)
     {
-       $trans = Article::where('articles.id',$id)
-                        ->join('transaction_body','transaction_body.articles_id','=','articles.id')
-                        ->join('transaction_header','transaction_header.id','=','transaction_body.transaction_id') 
-                        ->join('tills','tills.id','=','transaction_header.till_id')
-                        ->join('shops','shops.id','=','transaction_header.shop_id')
-                        ->join('customers','customers.id','=','transaction_header.customer_id')
-                        ->join('cashiers','cashiers.id','=','transaction_header.cashier_id')
-                        ->select('tills.description as cassa','shops.description as deposito','customers.codice_fidelity as cliente' , 'cashiers.description AS cassiere' , 'transaction_body.quantity','transaction_body.price','transaction_body.discounts'  ,'transaction_header.data' ,'transaction_header.transaction_number' )
+       $trans = Article::where('articoli.id',$id)
+                        ->join('corpo_scontrino','corpo_scontrino.id_articolo','=','articoli.id')
+                        ->join('testata_scontrino','testata_scontrino.id','=','corpo_scontrino.id_testata') 
+                        ->join('casse','casse.id','=','testata_scontrino.id_cassa')
+                        ->join('deposito','deposito.id','=','testata_scontrino.id_deposito')
+                        ->join('clienti','clienti.id','=','testata_scontrino.id_clienti')
+                        ->join('operatori','operatori.id','=','testata_scontrino.id_operatore')
+                        ->select('casse.descrizione as cassa','deposito.descrizione as deposito','clienti.codice_fidelity as cliente' , 'operatori.descrizione AS cassiere' , 'testata_scontrino.quantita','testata_scontrino.importo','testata_scontrino.discounts'  ,'testata_scontrino.data' ,'testata_scontrino.numero_scontrino' )
                         ->get();
         return $trans;                
     }
