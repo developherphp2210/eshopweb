@@ -4,6 +4,8 @@ use App\Http\Controllers\AccountController;
 use App\Http\Controllers\ArticoliController;
 use App\Http\Controllers\ClientiController;
 use App\Http\Controllers\RepartiController;
+use App\Http\Controllers\CassieriController;
+use App\Http\Controllers\ProfiloController;
 use App\Http\Controllers\FidelityController;
 use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\IvaController;
@@ -32,10 +34,24 @@ Route::get('/articoli',[ArticoliController::class,'index']);
 Route::get('/articoli/{id}/{page}',[ArticoliController::class,'show']);
 
 Route::get('/reparti',[RepartiController::class,'index']);
+Route::post('/repartoinsert',[RepartiController::class,'store']);
+Route::post('/repartoupdate/{id}',[RepartiController::class,'update']);
+Route::get('/repartodelete/{id}',[RepartiController::class,'destroy']);
 
 Route::get('/iva',[IvaController::class,'index']);
-Route::get('/ivashow/{id}',[IvaController::class,'show']);
+Route::post('/ivaupdate/{id}',[IvaController::class,'update']);
+Route::post('/ivainsert',[IvaController::class,'store']);
+Route::get('/ivadelete/{id}',[IvaController::class,'destroy']);
 
+Route::get('/cassieri',[CassieriController::class,'index']);
+Route::post('/cassiereinsert',[CassieriController::class,'store']);
+Route::post('/cassiereupdate/{id}',[CassieriController::class,'update']);
+Route::get('/cassieredelete/{id}',[CassieriController::class,'destroy']);
+
+Route::get('/profili',[ProfiloController::class,'index']);
+Route::post('/profiloinsert',[ProfiloController::class,'store']);
+Route::post('/profiloupdate/{id}',[ProfiloController::class,'update']);
+Route::get('/profilodelete/{id}',[ProfiloController::class,'destroy']);
 
 Route::post('/add_fidelity',[FidelityController::class,'store']);
 Route::any('/fidelity/{id}',[FidelityController::class,'changeCard']);

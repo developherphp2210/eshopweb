@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('articoli', function (Blueprint $table) {
             $table->id();            
-            $table->string('codice',13)->index('codart');
+            $table->string('codice',13)->index('codart')->unique();
             $table->string('descrizione',30)->nullable();
             $table->string('des_breve',13)->nullable();
             $table->string('logo',20);

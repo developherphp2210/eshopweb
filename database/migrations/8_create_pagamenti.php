@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sconti', function (Blueprint $table) {
-            $table->id();
-            $table->string('codice',4)->index();
-	        $table->string('descrizione',20)->nullable();
-            $table->smallInteger('tipo')->default(1);
-            $table->decimal('valore');
+        Schema::create('pagamenti', function (Blueprint $table) {
+            $table->id();            
+            $table->bigInteger('codice')->index('codtend')->unsigned()->unique();
+            $table->string('descrizione',20)->nullable();
+            $table->smallInteger('tipologia');
+            $table->smallInteger('codice_sdi');
+            $table->smallInteger('tipo_rt');
             $table->smallInteger('attivo')->default(1);
             $table->timestamps();
         });
@@ -27,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sconti');
+        Schema::dropIfExists('pagamenti');
     }
 };

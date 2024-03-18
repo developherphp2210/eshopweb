@@ -11,8 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('settings', function (Blueprint $table) {
-            $table->id();            
+        Schema::create('impostazioni', function (Blueprint $table) {
+            $table->id();
+            $table->string('ragionesociale',40)->nullable();            
             $table->string('riga1',40)->nullable();
             $table->string('riga2',40)->nullable();
             $table->string('riga3',40)->nullable();
@@ -30,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('settings');
+        Schema::dropIfExists('impostazioni');
     }
 };

@@ -3,18 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Iva;
+use App\Models\Cassieri;
+use App\Models\Profili;
 
-class IvaController extends Controller
+class CassieriController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
-    {        
-
-        $iva = Iva::GetList();
-        return view('users.anagrafica.lista_iva')->with(['title' => 'Lista Aliquote Iva','index' => '5', 'aliquote' => $iva]);
+    {
+        $listacassieri['cassieri'] = Cassieri::GetList();
+        $listacassieri['profili'] = Profili::GetNameList();
+        return view('users.anagrafica.lista_operatori')->with(['title' => 'Lista Cassieri','index' => '6', 'listacassieri' => $listacassieri]);
     }
 
     /**
@@ -30,8 +31,8 @@ class IvaController extends Controller
      */
     public function store(Request $request)
     {
-        $result['title'] = 'Gestione Aliquote IVA';
-        $tmp = Iva::InserimentoIva($request);
+        $result['title'] = 'Gestione Cassieri';
+        $tmp = Cassieri::InserimentoCassieri($request);
         $result['message'] = $tmp['message'];
         $result['error'] = $tmp['error'];
         session()->flash('result',$result);        
@@ -43,7 +44,7 @@ class IvaController extends Controller
      */
     public function show(string $id)
     {
-        return Iva::SingleIva($id);         
+        return Cassieri::Show($id);
     }
 
     /**
@@ -59,11 +60,11 @@ class IvaController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $result['title'] = 'Gestione Aliquote IVA';
-        $tmp = Iva::IvaUpdate($request,$id);
+        $result['title'] = 'Gestione Cassieri';
+        $tmp = Cassieri::AggiornaCassieri($request,$id);
         $result['message'] = $tmp['message'];
         $result['error'] = $tmp['error'];
-        session()->flash('result',$result);                        
+        session()->flash('result',$result);        
         return redirect()->back();
     }
 
@@ -72,8 +73,8 @@ class IvaController extends Controller
      */
     public function destroy(string $id)
     {
-        $result['title'] = 'Gestione Aliquote IVA';
-        $tmp = Iva::IvaDelete($id);
+        $result['title'] = 'Gestione Cassieri';
+        $tmp = Cassieri::CassieriDelete($id);
         $result['message'] = $tmp['message'];
         $result['error'] = $tmp['error'];
         session()->flash('result',$result);        

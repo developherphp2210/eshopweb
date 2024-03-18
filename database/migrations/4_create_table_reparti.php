@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('reparti', function (Blueprint $table) {
             $table->id();            
-            $table->string('codice',10)->index('codrep');
+            $table->string('codice',10)->index('codrep')->unique();
             $table->string('descrizione',20)->nullable();
             $table->smallInteger('posizione')->default(0);
+            $table->smallInteger('attivo')->default(1);
             $table->timestamps();
         });
     }

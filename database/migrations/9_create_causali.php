@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('causali', function (Blueprint $table) {
             $table->id();            
-            $table->string('codice',6)->index();
+            $table->string('codice',6)->index()->unique();
             $table->string('descrizione',30);
             $table->smallInteger('type');
             $table->timestamps();

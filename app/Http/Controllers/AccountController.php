@@ -17,7 +17,7 @@ class AccountController extends Controller
         $notification = '';
         switch ($user->type) {
             case '0':                
-                return view('users.account.accountpage')->with(['title' => 'Account','user' => $user,'page' => $page,'notification' => $notification]);
+                return view('users.account.accountpage')->with(['title' => 'Account','user' => $user,'index' => 0 ,'page' => $page,'notification' => $notification]);
                 break;
             
             case '1':

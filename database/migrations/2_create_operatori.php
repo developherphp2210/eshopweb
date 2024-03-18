@@ -16,11 +16,25 @@ return new class extends Migration
             $table->string('codice',10)->index('codoper');
             $table->string('descrizione',20)->index('desoper');
             $table->string('password');
-            $table->string('barcode',13);
+            $table->string('barcode',13)->nullable();
             $table->smallInteger('attivo')->default(1);
-            // inserire profilo id
+            $table->smallInteger('visibile_cassa')->default(0);
+            $table->smallInteger('visibile_frontend')->default(0);
+            $table->bigInteger('id_profilo')->index()->unsigned();
             $table->timestamps();
         });
+
+        DB::table('operatori')->insert(
+            array(
+                'codice' => '01',
+                'descrizione' => 'admin',
+                'password' => 'admin',                
+                'id_profilo' => '1',
+                'visibile_frontend' => '1'
+            )
+        );
+
+        
     }
 
     /**

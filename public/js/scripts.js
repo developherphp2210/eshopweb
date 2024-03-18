@@ -86,6 +86,20 @@
         
 });
 
+function openTab(event, nomeid) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(nomeid).style.display = "block";
+    event.currentTarget.className += " active";
+}
+
 let upload = document.getElementById('uploadFile');
 if (upload){
     upload.addEventListener('change',function(e){    
@@ -188,6 +202,160 @@ if (ul){
             } 
         }
     })
+}
+
+/**  GESTIONE ALIQUOTE IVA  */
+
+const saveiva = document.querySelector('#saveiva');
+
+if (saveiva){    
+    const addiva = document.querySelector('#addiva');    
+    const ivaform = document.querySelector('#ivaform');
+
+    addiva.addEventListener('click',( ) => {                
+        document.querySelector('#codice').value = '';         
+        document.querySelector('#descrizione').value = '';
+        document.querySelector('#aliquota').value = '';         
+        document.querySelector('#reparto_fiscale').value = '';
+        document.querySelector('#attivo').checked = true;
+        ivaform.action = '/ivainsert';
+        saveiva.innerHTML = 'Inserisci';
+    });
+
+    function schedaIva(id)
+    {
+        fetch('/api/iva/'+id)
+        .then((response) => {
+            return response.json();
+        }).then((resp) => {            
+            document.querySelector('#codice').value = resp['codice'];             
+            document.querySelector('#descrizione').value = resp['descrizione']; 
+            document.querySelector('#aliquota').value = resp['aliquota']; 
+            document.querySelector('#reparto_fiscale').value = resp['reparto_fiscale'];                      
+            (resp['attivo'] == '1') ? document.getElementById('attivo').checked = true : document.getElementById('attivo').checked =  false;
+            ivaform.action = '/ivaupdate/'+id;
+            saveiva.innerHTML = 'Modifica';
+        });
+    }
+}
+
+/**  GESTIONE REPARTI  */
+
+const savereparto = document.querySelector('#savereparto');
+
+if (savereparto){    
+    const addreparto = document.querySelector('#addreparto');    
+    const repartoform = document.querySelector('#repartoform');
+
+    addreparto.addEventListener('click',( ) => {                
+        document.querySelector('#codice').value = '';         
+        document.querySelector('#descrizione').value = '';
+        document.querySelector('#posizione').value = '0';                 
+        document.querySelector('#attivo').checked = true;
+        repartoform.action = '/repartoinsert';
+        savereparto.innerHTML = 'Inserisci';
+    });
+
+    function schedaRep(id)
+    {
+        fetch('/api/reparto/'+id)
+        .then((response) => {
+            return response.json();
+        }).then((resp) => {            
+            document.querySelector('#codice').value = resp['codice'];             
+            document.querySelector('#descrizione').value = resp['descrizione']; 
+            document.querySelector('#posizione').value = resp['posizione'];             
+            (resp['attivo'] == '1') ? document.getElementById('attivo').checked = true :     document.getElementById('attivo').checked =  false ;            
+            repartoform.action = '/repartoupdate/'+id;
+            savereparto.innerHTML = 'Modifica';
+        });
+    }
+}
+
+/**  GESTIONE CASSIERI  */
+
+const savecassiere = document.querySelector('#savecassiere');
+
+if (savecassiere){    
+    const addcassiere = document.querySelector('#addcassiere');    
+    const cassiereform = document.querySelector('#cassiereform');
+
+    addcassiere.addEventListener('click',( ) => {                
+        document.querySelector('#codice').value = '';         
+        document.querySelector('#descrizione').value = '';
+        document.querySelector('#barcode').value = '';                 
+        document.querySelector('#password').value = '';
+        document.querySelector('#attivo').checked = true;
+        //document.querySelector('#id_profilo').value = '0'; 
+        cassiereform.action = '/cassiereinsert';
+        savecassiere.innerHTML = 'Inserisci';
+    });
+
+    function schedaCas(id)
+    {
+        fetch('/api/cassiere/'+id)
+        .then((response) => {
+            return response.json();
+        }).then((resp) => {            
+            document.querySelector('#codice').value = resp['codice'];             
+            document.querySelector('#descrizione').value = resp['descrizione']; 
+            document.querySelector('#barcode').value = resp['barcode'];             
+            document.querySelector('#password').value = resp['password'];              
+            (resp['visibile_cassa'] == '1') ? document.getElementById('visibile_cassa').checked = true : document.getElementById('visibile_cassa').checked =  false ;            
+            (resp['visibile_frontend'] == '1') ? document.getElementById('visibile_frontend').checked = true : document.getElementById('visibile_frontend').checked =  false ;                                                        
+            (resp['attivo'] == '1') ? document.getElementById('attivo').checked = true : document.getElementById('attivo').checked =  false ;            
+            // document.querySelector('#id_profilo').value = resp['id_profilo'];
+            cassiereform.action = '/cassiereupdate/'+id;
+            savecassiere.innerHTML = 'Modifica';
+        });
+    }
+}
+
+/**  GESTIONE PROFILI  */
+
+const saveprofilo = document.querySelector('#saveprofilo');
+
+if (saveprofilo){    
+    const addprofilo = document.querySelector('#addprofilo');    
+    const profiloform = document.querySelector('#profiloform');
+
+    addprofilo.addEventListener('click',( ) => {                
+        document.querySelector('#codice').value = '';         
+        document.querySelector('#descrizione').value = '';        
+        profiloform.action = '/profiloinsert';
+        saveprofilo.innerHTML = 'Inserisci';
+    });
+
+    function schedaPro(id)
+    {
+        fetch('/api/profilo/'+id)
+        .then((response) => {
+            return response.json();
+        }).then((resp) => {            
+            document.querySelector('#codice').value = resp['codice'];             
+            document.querySelector('#descrizione').value = resp['descrizione'];                         
+            (resp['dashboard'] == '1') ? document.getElementById('dashboard').checked = true : document.getElementById('dashboard').checked =  false ;            
+            (resp['anagrafiche'] == '1') ? document.getElementById('anagrafiche').checked = true : document.getElementById('anagrafiche').checked =  false ;            
+            (resp['cassieri'] == '1') ? document.getElementById('cassieri').checked = true : document.getElementById('cassieri').checked =  false ;            
+
+            (resp['versamenti'] == '1') ? document.getElementById('versamenti').checked = true : document.getElementById('versamenti').checked =  false ;            
+            (resp['prelievi'] == '1') ? document.getElementById('prelievi').checked = true : document.getElementById('prelievi').checked =  false ;            
+            (resp['richiama_scontrino'] == '1') ? document.getElementById('richiama_scontrino').checked = true : document.getElementById('richiama_scontrino').checked =  false ;            
+            (resp['sconti'] == '1') ? document.getElementById('sconti').checked = true : document.getElementById('sconti').checked =  false ;            
+            (resp['correzioni'] == '1') ? document.getElementById('correzioni').checked = true : document.getElementById('correzioni').checked =  false ;            
+            (resp['annulla_scontrino'] == '1') ? document.getElementById('annulla_scontrino').checked = true : document.getElementById('annulla_scontrino').checked =  false ;            
+            (resp['reso'] == '1') ? document.getElementById('reso').checked = true : document.getElementById('reso').checked =  false ;            
+            (resp['preconto'] == '1') ? document.getElementById('preconto').checked = true : document.getElementById('preconto').checked =  false ;            
+            (resp['gestione_fiscale'] == '1') ? document.getElementById('gestione_fiscale').checked = true : document.getElementById('gestione_fiscale').checked =  false ;            
+            (resp['rapporti'] == '1') ? document.getElementById('rapporti').checked = true : document.getElementById('rapporti').checked =  false ;            
+            (resp['scarico'] == '1') ? document.getElementById('scarico').checked = true : document.getElementById('scarico').checked =  false ;            
+            (resp['fattura'] == '1') ? document.getElementById('fattura').checked = true : document.getElementById('fattura').checked =  false ;            
+            (resp['scontrino'] == '1') ? document.getElementById('scontrino').checked = true : document.getElementById('scontrino').checked =  false ;
+
+            profiloform.action = '/profiloupdate/'+id;
+            saveprofilo.innerHTML = 'Modifica';
+        });
+    }
 }
 
 let imp_vol = document.querySelector('#importa_volantino');

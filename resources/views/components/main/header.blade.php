@@ -12,7 +12,7 @@
         <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
         <script src="http://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script> 
         <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>               
-       
+        <script data-search-pseudo-elements defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="../../../css/styles.css" >    
         <!-- <link rel="icon" type="image/x-icon" href="assets/img/favicon.png" /> -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js" crossorigin="anonymous"></script>        

@@ -1,13 +1,13 @@
-<x-header :$title></x-header>
+<x-header :title="$title"></x-header>
 <body class="nav-fixed">
-    <x-nav-bar ></x-nav-bar>
+    <x-nav-bar></x-nav-bar>
     <div id="layoutSidenav">
         <x-side-nav :$index></x-side-nav>  
-        <div id="layoutSidenav_content">          
-            
+        <div id="layoutSidenav_content">         
+            <x-ListaProfili :$listaprofili></x-ListaProfili>
             <x-main.footer_mainpage></x-main.footer_mainpage>
         </div>    
-    </div>       
+    </div>        
     <x-footer></x-footer>
 </body>
 </html>

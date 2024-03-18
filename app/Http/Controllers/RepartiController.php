@@ -14,6 +14,7 @@ class RepartiController extends Controller
     {        
         $reparti = Reparti::GetList();
         return view('users.anagrafica.lista_reparti')->with(['title' => 'Lista Reparti','index' => '4', 'reparti' => $reparti]);
+
     }
 
     /**
@@ -29,7 +30,12 @@ class RepartiController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $result['title'] = 'Gestione Reparti';
+        $tmp = Reparti::InserimentoReparto($request);
+        $result['message'] = $tmp['message'];
+        $result['error'] = $tmp['error'];
+        session()->flash('result',$result);        
+        return redirect()->back();
     }
 
     /**
@@ -37,7 +43,7 @@ class RepartiController extends Controller
      */
     public function show(string $id)
     {
-        //
+        return Reparti::Show($id);
     }
 
     /**
@@ -53,7 +59,12 @@ class RepartiController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $result['title'] = 'Gestione Reparti';
+        $tmp = Reparti::RepartoUpdate($request,$id);
+        $result['message'] = $tmp['message'];
+        $result['error'] = $tmp['error'];
+        session()->flash('result',$result);                        
+        return redirect()->back();
     }
 
     /**
@@ -61,6 +72,11 @@ class RepartiController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $result['title'] = 'Gestione Reparti';
+        $tmp = Reparti::RepartoDelete($id);
+        $result['message'] = $tmp['message'];
+        $result['error'] = $tmp['error'];
+        session()->flash('result',$result);        
+        return redirect()->back();
     }
 }

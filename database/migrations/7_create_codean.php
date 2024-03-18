@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('codean', function (Blueprint $table) {
             $table->id();            
-            $table->string('code',13)->index('codean');
+            $table->string('code',13)->index('codean')->unique();
             $table->string('descrizione',20);
             $table->bigInteger('id_articolo')->index('codart')->unsigned();
             $table->foreign('id_articolo')->references('id')->on('articoli')->onUpdate('cascade')->onDelete('cascade');

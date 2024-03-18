@@ -11,14 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pagamenti', function (Blueprint $table) {
+        Schema::create('deposito', function (Blueprint $table) {
             $table->id();            
-            $table->bigInteger('codice')->index('codtend')->unsigned();
-            $table->string('descrizione',20)->nullable();
-            $table->smallInteger('tipologia');
-            $table->smallInteger('codice_sdi');
-            $table->smallInteger('tipo_rt');
-            $table->smallInteger('attivo')->default(1);
+            $table->string('codice',10)->index('codrep')->unique();
+            $table->string('descrizione',20);
             $table->timestamps();
         });
     }
@@ -28,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pagamenti');
+        Schema::dropIfExists('deposito');
     }
 };

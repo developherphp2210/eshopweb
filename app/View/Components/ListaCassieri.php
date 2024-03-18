@@ -6,16 +6,16 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class PaginaReparti extends Component
+class ListaCassieri extends Component
 {
     /**
      * Create a new component instance.
      */
 
-    public $reparti = '';
-    public function __construct($reparti)
+    public $listacassieri = '';
+    public function __construct($listacassieri)
     {
-        $this->reparti = $reparti;
+        $this->listacassieri = $listacassieri;
     }
 
     /**
@@ -23,6 +23,6 @@ class PaginaReparti extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.anagrafica.lista_reparti');
+        return view('components.anagrafica.lista_cassieri');
     }
 }

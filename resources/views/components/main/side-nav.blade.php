@@ -12,20 +12,20 @@
                 <!-- Sidenav Heading (App Views)-->
                 <div class="sidenav-menu-heading">Gestionale</div>
                 <!-- Sidenav Accordion (Pages)-->
-                <a class="nav-link collapsed" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
+                <a class="nav-link {{( ($index > '1') && ($index < '9') ) ? 'active' : 'collapsed'}}" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
                     <div class="nav-link-icon"><i data-feather="users"></i></div>
                     Anagrafiche
                     <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                 </a>
                 <div class="collapse {{( ($index > '1') && ($index < '9') ) ? 'show' : ''}}" id="collapsePages" data-bs-parent="#accordionSidenav">
-                    <nav class="sidenav-menu-nested nav accordion" id="accordionSidenavPagesMenu">                        
+                    <nav class="sidenav-menu-nested nav accordion">                        
                         <a class="nav-link {{($index == '2') ? 'active' : ''}}" href="{{url('/clienti')}}">Fidelity</a>
                         <a class="nav-link {{($index == '3') ? 'active' : ''}}" href="{{url('/articoli')}}">Articoli</a>
                         <a class="nav-link {{($index == '4') ? 'active' : ''}}" href="{{url('/reparti')}}">Reparti</a>
                         <a class="nav-link {{($index == '5') ? 'active' : ''}}" href="{{url('/iva')}}">Aliquote IVA</a>
 
-                        <a class="nav-link collapsed" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#OperatoriPages" aria-expanded="false" aria-controls="OperatoriPages">
-                            <div class="nav-link-icon"><i data-feather="corner-right-down"></i></div>
+                        <a class="nav-link {{( ($index > '5') && ($index < '8') ) ? 'active' : 'collapsed'}}" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#OperatoriPages" aria-expanded="false" aria-controls="OperatoriPages">
+                            <div id="accordionSidenav2"></div>
                             Gestione Cassieri
                             <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                         </a>

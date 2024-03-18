@@ -24,7 +24,7 @@ class Articoli extends Model
     ];
 
     
-    static function GetArticleList($userid)
+    static function GetArticleList()
     {
         return Articoli::select('articoli.id','articoli.codice','articoli.descrizione','reparti.descrizione as reparto')
                         ->join('reparti', 'articoli.id_reparto', '=' ,'reparti.id')                        

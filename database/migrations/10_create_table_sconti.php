@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('iva', function (Blueprint $table) {
-            $table->id();                      
-            $table->string('codice',6)->index('codiva');
-	        $table->string('descrizione',25)->nullable();
-	        $table->integer('aliquota');
-            $table->integer('reparto_fiscale');
+        Schema::create('sconti', function (Blueprint $table) {
+            $table->id();
+            $table->string('codice',4)->index()->unique();
+	        $table->string('descrizione',20)->nullable();
+            $table->smallInteger('tipo')->default(1);
+            $table->decimal('valore');
             $table->smallInteger('attivo')->default(1);
             $table->timestamps();
         });
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('iva');
+        Schema::dropIfExists('sconti');
     }
 };

@@ -12,7 +12,7 @@ class ArticoliController extends Controller
      */
     public function index()
     {
-        $articoli = Articoli::GetArticleList($user->id);
+        $articoli = Articoli::GetArticleList();
         return view('users.anagrafica.lista_articoli')->with(['title' => 'Lista Articoli','index' => '3', 'articoli' => $articoli]);
     }
 
