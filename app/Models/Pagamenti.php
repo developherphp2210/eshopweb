@@ -6,40 +6,43 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\MyClass\MyLog;
 
-class Reparti extends Model
+class Pagamenti extends Model
 {
     use HasFactory;
 
-    protected $table = 'reparti';
+    protected $table = 'pagamenti';
 
-    protected $fillable=[
+    protected $fillable = [
         'id',        
         'codice',
         'descrizione',
-        'visibile'
+        'tipologia',
+        'codice_sdi',
+        'tipo_rt',
+        'attivo'
     ];
 
     static function GetList()
     {
-        return Reparti::orderBy('codice')->get();
+        return Pagamenti::OrderBy('codice')->get();
     }
 
     static function Show($id)
     {
-        return Reparti::where('id',$id)->first();
+        return Pagamenti::where('id',$id)->first();
     }
 
-    static function InserimentoReparto($data)
+    static function InserisciPagamento($data)
     {
         $result = [];
         try {            
-            Reparti::create([                    
+            Pagamenti::create([                    
                 'codice' => $data->codice,
-                'descrizione' => $data->descrizione,
-                'visibile' => ($data->visibile == 'on') ? '1' : '0',                
+                'descrizione' => $data->descrizione,                               
                 'attivo' => ($data->attivo == 'on') ? '1' : '0'
+                
             ]);   
-            $result['message'] = 'Reparto Creato Correttamente';
+            $result['message'] = 'Pagamento Inserito Correttamente';
             $result['error'] = 'false';             
         } catch (\Throwable $th) {
             $result['message'] = $th->getMessage();
@@ -49,17 +52,16 @@ class Reparti extends Model
         return $result;
     }
 
-    static function RepartoUpdate($data,$id)
+    static function ModificaPagamento($data,$id)
     {
         $result = [];
         try {            
-            Reparti::where('id',$id)->update([                    
+            Pagamenti::where('id',$id)->update([                    
                 'codice' => $data->codice,
-                'descrizione' => $data->descrizione,
-                'visibile' => ($data->visibile == 'on') ? '1' : '0',
-                'attivo' => ($data->attivo == 'on') ? '1' : '0'
+                'descrizione' => $data->descrizione,                               
+                'attivo' => ($data->attivo == 'on') ? '1' : '0'                
             ]);   
-            $result['message'] = 'Reparto Aggiornato Correttamente';
+            $result['message'] = 'Pagamento Modificato Correttamente';
             $result['error'] = 'false';             
         } catch (\Throwable $th) {
             $result['message'] = $th->getMessage();
@@ -69,12 +71,12 @@ class Reparti extends Model
         return $result;
     }
 
-    static function RepartoDelete(string $id)
+    static function CancellaPagamento(string $id)
     {
         $result = [];
         try {
-            Reparti::where('id',$id)->delete();            
-            $result['message'] = 'Reparto Cancellato!!';
+            Pagamenti::where('id',$id)->delete();            
+            $result['message'] = 'Pagamento Cancellato!!';
             $result['error'] = 'false';
         } catch (\Throwable $th) {
             $result['message'] = $th->getMessage();

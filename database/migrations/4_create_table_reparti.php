@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();            
             $table->string('codice',10)->index('codrep')->unique();
             $table->string('descrizione',20)->nullable();
-            $table->smallInteger('posizione')->default(0);
+            $table->smallInteger('visibile')->default(0);
             $table->smallInteger('attivo')->default(1);
             $table->timestamps();
         });

@@ -12,7 +12,7 @@ class LoginController extends Controller
 {
     
     public function login(Request $request){        
-        $user = session('user');        
+        $user = session('user');            
         switch ($user->type) {
             case '0':                
                 return redirect('/dashboard');                

@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\MyClass\MyLog;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class Cassieri extends Model
 {
@@ -41,7 +43,7 @@ class Cassieri extends Model
     {
         $result = [];
         try {            
-            Cassieri::create([                    
+            $cassiere = Cassieri::create([                    
                 'codice' => $data->codice,
                 'descrizione' => $data->descrizione,
                 'password' => $data->password,                
@@ -50,7 +52,15 @@ class Cassieri extends Model
                 'visibile_cassa' => ($data->visibile_cassa == 'on') ? '1' : '0',   
                 'visibile_frontend' => ($data->visibile_frontend == 'on') ? '1' : '0',   
                 'id_profilo' => $data->id_profilo                
-            ]);   
+            ]);  
+            if ($data->visibile_frontend == 'on'){
+                User::create([
+                    'user_name' => $data->descrizione,
+                    'password' => Hash::make($data->password),
+                    'id_operatore' => $cassiere->id,
+                    'primo_accesso' => 1
+                ]);
+            }
             $result['message'] = 'Cassiere Creato Correttamente';
             $result['error'] = 'false';             
         } catch (\Throwable $th) {
@@ -64,17 +74,35 @@ class Cassieri extends Model
     static function AggiornaCassieri($data,$id)
     {
         $result = [];
-        try {            
-            Cassieri::where('id',$id)->update([                    
+        try {        
+            $cassiere = Cassieri::where('id',$id)->first();
+            $dati = [
                 'codice' => $data->codice,
                 'descrizione' => $data->descrizione,
                 'password' => $data->password,                
                 'attivo' => ($data->attivo == 'on') ? '1' : '0',                
                 'barcode' => $data->barcode,    
-                'visibile_cassa' => ($data->visibile_cassa == 'on') ? '1' : '0',   
-                'visibile_frontend' => ($data->visibile_frontend== 'on') ? '1' : '0',   
-                'id_profilo' => $data->id_profilo                
-            ]);   
+                'visibile_cassa' => ($data->visibile_cassa == 'on') ? '1' : '0',                   
+                'id_profilo' => $data->id_profilo 
+            ];
+            if ($cassiere->visibile_frontend == 0)
+            {
+                if ($data->visibile_frontend == 'on'){
+                    User::create([
+                        'user_name' => $data->descrizione,
+                        'password' => Hash::make($data->password),
+                        'id_operatore' => $cassiere->id,
+                        'primo_accesso' => 1
+                    ]);
+                }
+                $dati['visibile_frontend'] = ($data->visibile_frontend == 'on') ? '1' : '0';
+            } else {
+                
+                User::where('id_operatore',$id)->update([
+                    'user_name' => $data->descrizione
+                ]);
+            }
+            Cassieri::where('id',$id)->update($dati);               
             $result['message'] = 'Cassiere Aggiornato Correttamente';
             $result['error'] = 'false';             
         } catch (\Throwable $th) {

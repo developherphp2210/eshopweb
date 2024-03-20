@@ -8,6 +8,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
 use PhpParser\Node\Stmt\TryCatch;
+use App\MyClass\MyLog;
 
 class User extends Authenticatable
 {
@@ -26,20 +27,22 @@ class User extends Authenticatable
      */
 
     protected $fillable=[
-        'email',
-        'password',
-        'piva',
         'user_name',
+        'password',
+        'id_operatore',
+        'id_cliente',
+        'piva',        
         'type',
-        'firstname',
-        'lastname',
-        'address',
-        'city',
-        'phone',
-        'business_name',
+        'nome',
+        'cognome',
+        'indirizzo',
+        'citta',
+        'telefono',
+        'codice_fiscale',
         'cap',
-        'codfisc',
-        'image'
+        'prov',
+        'image',
+        'primo_accesso'
     ];
 
     static function GetMyList(){
@@ -50,18 +53,31 @@ class User extends Authenticatable
         return User::where('id',$id)->first();
     }
 
+    static function AccessUser($data)
+    {
+        $user = User::where('user_name',$data->user_name)->first();
+        if ($user->type == '0')
+        {
+            return User::where('users.id',$user->id)
+                ->join('operatori','operatori.id','=','users.id_operatore')
+                ->join('profili','profili.id','=','operatori.id_profilo')
+                ->first();
+        }
+    }
+
     static function RecoveryPassword($mail){
-        $user = User::where('email',$mail)->first();
+        $user = User::where('user_name',$mail)->first();
         if ($user){
             $password = (new self)->create_password();            
             $user->password = Hash::make($password);
             $user->save();
             // inserire invio mail
             $notification['message'] = 'Ti è stata inviata una password temporanea al tuo indirizzo Email';
-            $notification['status'] = true;
+            $notification['status'] = 'false';
         } else {
             $notification['message'] = 'Il tuo indirizzo Email non risulta nel nostro elenco!!';
-            $notification['status'] = false;
+            $notification['status'] = 'true';
+            MyLog::WriteLog($th->getMessage(),0);
         }
         return $notification;
     }
@@ -82,22 +98,23 @@ class User extends Authenticatable
                 $user->image = $path;  
             }                     
             $user->user_name = $request->user_name;
-            $user->firstname = $request->firstname;
-            $user->lastname = $request->lastname;
-            $user->address = $request->address;
-            $user->city = $request->city;
+            $user->nome = $request->nome;
+            $user->cognome = $request->cognome;
+            $user->indirizzo = $request->indirizzo;
+            $user->citta = $request->citta;
             $user->cap = $request->cap;
-            $user->codfisc = $request->codfisc;
-            $user->email = $request->email;
-            $user->phone = $request->phone;
-            $user->business_name = $request->business_name;
+            $user->codice_fiscale = $request->codice_fiscale;
+            // $user->email = $request->email;
+            $user->telefono = $request->telefono;
+            $user->prov = $request->prov;
             $user->piva = $request->piva;        
             $user->save();
             $notification['message'] = 'Modifiche effettuate';
-            $notification['status'] = true;
+            $notification['error'] = 'false';
         } catch (\Throwable $th) {
             $notification['message'] = $th->getMessage();
-            $notification['status'] = false;            
+            $notification['error'] = 'true';            
+            MyLog::WriteLog($th->getMessage(),0);
         }
         return $notification;        
     }
@@ -107,10 +124,11 @@ class User extends Authenticatable
             $user->password = Hash::make($request->newpassword);
             $user->save();
             $notification['message'] = 'Password Aggiornata!!';
-            $notification['status'] = true;            
+            $notification['status'] = 'false';            
         } else {
             $notification['message'] = 'Password Corrente Errata!!';
-            $notification['status'] = false;            
+            $notification['status'] = 'true'; 
+            MyLog::WriteLog($th->getMessage(),0);           
         }
         return $notification;
     }
@@ -118,16 +136,16 @@ class User extends Authenticatable
     static function CreateUser($request){
         $password = (new self)->create_password();
         return User::create([
-            'email' => $request->email,
+            // 'email' => $request->email,
             'password' => Hash::make($password),
             'user_name' => ($request->user_name != '') ? $request->user_name :$request->email,
             'piva' => $request->piva,
-            'firstname' => $request->firstname,
-            'lastname' => $request->lastname,
-            'address' => $request->address,
-            'city' => $request->city,
-            'phone' => $request->phone,
-            'business_name' =>$request->business_name,
+            'nome' => $request->nome,
+            'cognome' => $request->cognome,
+            'indirizzo' => $request->indirizzo,
+            'citta' => $request->citta,
+            'telefono' => $request->telefono,
+            'codice_fiscale' =>$request->codice_fiscale,
             'cap' => $request->cap            
         ]);
         // inserire invio mail

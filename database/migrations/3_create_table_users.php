@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('id_operatore')->index('oper_id')->unsigned();
-            $table->foreign('id_operatore')->references('id')->on('operatori')->onUpdate('cascade')->onDelete('cascade');
+            $table->bigInteger('id_operatore')->index('oper_id')->unsigned()->nullable()->default(0);
+            $table->bigInteger('id_cliente')->index('cli_id')->unsigned()->nullable()->default(0);
             $table->string('user_name',50)->unique();
             $table->string('password');                                                
             $table->char('type',1)->default('0');            
@@ -30,9 +30,18 @@ return new class extends Migration
             $table->string('piva',11)->nullable();
             $table->string('prov',2)->nullable();
             $table->string('image')->nullable();
-            $table->rememberToken()->default('0');            
+            $table->smallInteger('primo_accesso')->default(0);
+            $table->rememberToken();                     
             $table->timestamps();
-        });        
+        }); 
+        
+        DB::table('users')->insert(
+            array(                
+                'user_name' => 'admin',
+                'password' => Hash::make('Oasi7676!'),                
+                'id_operatore' => '1'                
+            )
+        );
     }
 
     /**

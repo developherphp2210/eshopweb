@@ -15,12 +15,25 @@ return new class extends Migration
             $table->id();            
             $table->bigInteger('codice')->index('codtend')->unsigned()->unique();
             $table->string('descrizione',20)->nullable();
-            $table->smallInteger('tipologia');
-            $table->smallInteger('codice_sdi');
-            $table->smallInteger('tipo_rt');
+            $table->smallInteger('tipologia')->defaul(1);
+            $table->smallInteger('codice_sdi')->defaul(1);
+            $table->smallInteger('tipo_rt')->defaul(1);
             $table->smallInteger('attivo')->default(1);
             $table->timestamps();
         });
+
+        DB::table('pagamenti')->insert([
+            [                
+                'codice' => '1',
+                'descrizione' => 'CONTANTI',                
+                'tipologia' => '1'                
+            ],
+            [
+                'codice' => '2',
+                'descrizione' => 'BANCOMAT',                
+                'tipologia' => '2'           
+            ]
+            ]);
     }
 
     /**

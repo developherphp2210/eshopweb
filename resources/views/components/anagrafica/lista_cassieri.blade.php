@@ -20,7 +20,7 @@
                     <button type="button" id="addcassiere" class="btn btn-primary">Aggiungi un Cassiere</button>
                 </div>
                 <div class="table-responsive">
-                    <table id="lista" class="table table-striped table-sm" style="width:100%">
+                    <table id="lista" class="table table-hover table-sm" style="width:100%">
                         <thead>
                             <tr>
                                 <th>Codice</th>
@@ -49,7 +49,7 @@
         <div class="col-xl-7 col-xxl-7 p-4">
             <div class="sticky-leads-sidebar">
                 <div class="card mb-4">        
-                    <div class="card-body">
+                    
                         @if($listacassieri['cassieri']->count() > 0)
                             <form action="{{@url('/cassiereupdate/'.$listacassieri['cassieri'][0]->id)}}" enctype="multipart/form-data" id="cassiereform" method="post">
                                 <div class="card-body">                                
@@ -92,15 +92,15 @@
                                         <div class="col-6 d-flex ">
                                             <h5 class="mb-1">Visibile su FrontEnd</h5>
                                             <div class="form-check form-switch mb-0">
-                                                <input class="form-check-input ms-auto" type="checkbox" name="visibile_frontend" role="switch" {{($listacassieri['cassieri'][0]->visibile_frontend == '1') ? 'checked' : ''}}  id="visibile_frontend">
+                                                <input class="form-check-input ms-auto" type="checkbox" name="visibile_frontend" {{($listacassieri['cassieri'][0]->visibile_frontend == '1') ? 'disabled' : ''}} role="switch" {{($listacassieri['cassieri'][0]->visibile_frontend == '1') ? 'checked' : ''}}  id="visibile_frontend">
                                             </div>   
                                         </div>
                                     </div>
                                     <div class="row mt-4">
                                         <div>
                                             <h5 class="mb-1">Profilo Operatore</h5>
-                                            <select class="form-select mb-3" required name="id_profilo">
-                                            <option selected value="">Seleziona un Profilo</option>
+                                            <select class="form-select mb-3" required name="id_profilo" id="id_profilo">
+                                            <option value="">Seleziona un Profilo</option>
                                             @foreach ($listacassieri['profili'] as $profilo)
                                             <option {{( $listacassieri['cassieri'][0]->id_profilo == $profilo->id) ? 'selected' : ''}} value="{{$profilo->id}}">{{$profilo->descrizione}}</option>
                                             @endforeach
@@ -110,7 +110,7 @@
                                 </div>    
                                 <div class="card-footer">
                                     <div class="d-flex justify-content-end">
-                                        <button class="btn btn-outline-primary" id="savecassiere">Modifica</button>
+                                        <button class="btn btn-outline-primary" id="savecassiere">Salva</button>
                                     </div>
                                 </div>
                             </form>
@@ -178,8 +178,7 @@
                                     </div>
                                 </div>
                             </form>
-                        @endif    
-                    </div>
+                        @endif                        
                 </div>
             </div>    
         </div>    

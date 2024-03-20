@@ -20,7 +20,7 @@
                     <button type="button" id="addreparto" class="btn btn-primary">Aggiungi Reparto</button>
                 </div>
                 <div class="table-responsive">
-                    <table id="lista" class="table table-striped table-sm" style="width:100%">
+                    <table id="lista" class="table table-hover table-sm" style="width:100%">
                         <thead>
                             <tr>
                                 <th>Codice</th>
@@ -47,7 +47,7 @@
         <div class="col-xl-7 col-xxl-7 p-4">
             <div class="sticky-leads-sidebar">
                 <div class="card mb-4">        
-                    <div class="card-body">
+                    
                         @if($reparti->count() > 0)
                             <form action="{{@url('/repartoupdate/'.$reparti[0]->id)}}" enctype="multipart/form-data" id="repartoform" method="post">
                                 <div class="card-body">                                
@@ -72,14 +72,16 @@
                                     </div>                                     
                                     <div class="row mt-4">
                                         <div class="col-4">
-                                            <h5 class="mb-1">Posizione</h5>
-                                            <input class="form-control" type="number" min=0  required name="posizione" id="posizione" value="{{$reparti[0]->posizione}}">
+                                            <h5 class="mb-1">Visibile in Cassa</h5>
+                                            <div class="form-check form-switch mb-0">
+                                                <input class="form-check-input ms-auto" type="checkbox" name="visibile" role="switch" {{($reparti[0]->visibile == '1') ? 'checked' : ''}}  id="visibile">
+                                            </div> 
                                         </div>                                        
                                     </div>
                                 </div>    
                                 <div class="card-footer">
                                     <div class="d-flex justify-content-end">
-                                        <button class="btn btn-outline-primary" id="savereparto">Modifica</button>
+                                        <button class="btn btn-outline-primary" id="savereparto">Salva</button>
                                     </div>
                                 </div>
                             </form>
@@ -107,8 +109,10 @@
                                     </div>                                     
                                     <div class="row mt-4">
                                         <div class="col-4">
-                                            <h5 class="mb-1">Posizione</h5>
-                                            <input class="form-control" type="number" min=0  required name="posizione" id="posizione" value="">
+                                            <h5 class="mb-1">Visibile in Cassa</h5>
+                                            <div class="form-check form-switch mb-0">
+                                                <input class="form-check-input ms-auto" type="checkbox" name="visibile" role="switch"  id="visibile">
+                                            </div> 
                                         </div>                                        
                                     </div>   
                                 </div>                                                            
@@ -118,8 +122,7 @@
                                     </div>
                                 </div>
                             </form>
-                        @endif    
-                    </div>
+                        @endif                        
                 </div>
             </div>    
         </div>    

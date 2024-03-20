@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('sconti', function (Blueprint $table) {
             $table->id();
             $table->string('codice',4)->index()->unique();
-	        $table->string('descrizione',20)->nullable();
+	        $table->string('descrizione',30)->nullable();
             $table->smallInteger('tipo')->default(1);
             $table->decimal('valore');
             $table->smallInteger('attivo')->default(1);

@@ -20,7 +20,7 @@
                     <button type="button" id="addprofilo" class="btn btn-primary">Aggiungi un Profilo</button>
                 </div>
                 <div class="table-responsive">
-                    <table id="lista" class="table table-striped table-sm" style="width:100%">
+                    <table id="lista" class="table table-hover table-sm" style="width:100%">
                         <thead>
                             <tr>
                                 <th>Codice</th>
@@ -47,7 +47,7 @@
         <div class="col-xl-7 col-xxl-7 p-4">
             <div class="sticky-leads-sidebar">
                 <div class="card mb-4">        
-                    <div class="card-body">
+                    
                         @if($listaprofili->count() > 0)
                             <form action="{{@url('/profiloupdate/'.$listaprofili[0]->id)}}" enctype="multipart/form-data" id="profiloform" method="post">
                                 <div class="card-body">                                
@@ -299,7 +299,7 @@
                                 </div>    
                                 <div class="card-footer">
                                     <div class="d-flex justify-content-end">
-                                        <button class="btn btn-outline-primary" id="saveprofilo">Modifica</button>
+                                        <button class="btn btn-outline-primary" id="saveprofilo">Salva</button>
                                     </div>
                                 </div>
                             </form>
@@ -326,8 +326,7 @@
                                     </div>
                                 </div>
                             </form>
-                        @endif    
-                    </div>
+                        @endif                        
                 </div>
             </div>    
         </div>    

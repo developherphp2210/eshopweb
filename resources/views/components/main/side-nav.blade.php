@@ -12,18 +12,17 @@
                 <!-- Sidenav Heading (App Views)-->
                 <div class="sidenav-menu-heading">Gestionale</div>
                 <!-- Sidenav Accordion (Pages)-->
-                <a class="nav-link {{( ($index > '1') && ($index < '9') ) ? 'active' : 'collapsed'}}" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
+                <a class="nav-link {{( ($index > '1') && ($index < '9') ) ? 'active' : 'collapsed'}}" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapseAnagrafiche" aria-expanded="false" aria-controls="collapseAnagrafiche">
                     <div class="nav-link-icon"><i data-feather="users"></i></div>
                     Anagrafiche
                     <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                 </a>
-                <div class="collapse {{( ($index > '1') && ($index < '9') ) ? 'show' : ''}}" id="collapsePages" data-bs-parent="#accordionSidenav">
+                <div class="collapse {{( ($index > '1') && ($index < '9') ) ? 'show' : ''}}" id="collapseAnagrafiche" data-bs-parent="#accordionSidenav">
                     <nav class="sidenav-menu-nested nav accordion">                        
-                        <a class="nav-link {{($index == '2') ? 'active' : ''}}" href="{{url('/clienti')}}">Fidelity</a>
+                        <a class="nav-link {{($index == '2') ? 'active' : ''}}" href="{{url('/clienti')}}">Clienti / Fidelity Card</a>
                         <a class="nav-link {{($index == '3') ? 'active' : ''}}" href="{{url('/articoli')}}">Articoli</a>
                         <a class="nav-link {{($index == '4') ? 'active' : ''}}" href="{{url('/reparti')}}">Reparti</a>
                         <a class="nav-link {{($index == '5') ? 'active' : ''}}" href="{{url('/iva')}}">Aliquote IVA</a>
-
                         <a class="nav-link {{( ($index > '5') && ($index < '8') ) ? 'active' : 'collapsed'}}" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#OperatoriPages" aria-expanded="false" aria-controls="OperatoriPages">
                             <div id="accordionSidenav2"></div>
                             Gestione Cassieri
@@ -35,9 +34,21 @@
                                 <a class="nav-link {{($index == '7') ? 'active' : ''}}" href="{{url('/profili')}}">Profili</a>                                                                
                             </nav>
                         </div>
-
+                        <a class="nav-link {{($index == '8') ? 'active' : ''}}" href="{{url('/sconti')}}">Sconti</a>
+                        <a class="nav-link {{($index == '9') ? 'active' : ''}}" href="{{url('/pagamenti')}}">Forme di Pagamento</a>
                     </nav>
-                </div>                
+                </div> 
+                <a class="nav-link {{( ($index > '21') && ($index < '29') ) ? 'active' : 'collapsed'}}" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapseBarriera" aria-expanded="false" aria-controls="collapseBarriera">
+                    <div class="nav-link-icon"><i data-feather="monitor"></i></div>
+                    Barriera Casse
+                    <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                </a>
+                <div class="collapse {{( ($index > '20') && ($index < '29') ) ? 'show' : ''}}" id="collapseBarriera" data-bs-parent="#accordionSidenav">
+                    <nav class="sidenav-menu-nested nav accordion">                        
+                        <a class="nav-link {{($index == '21') ? 'active' : ''}}" href="{{url('/depositi')}}">Depositi</a>
+                        <a class="nav-link {{($index == '22') ? 'active' : ''}}" href="{{url('/casse')}}">Casse</a>                        
+                    </nav>
+                </div>               
                 <!-- Sidenav Heading (UI Toolkit)-->
                 <div class="sidenav-menu-heading">Promozioni</div>
                 <a class="nav-link" href="{{url('/promotions')}}">

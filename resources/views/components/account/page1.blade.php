@@ -22,7 +22,7 @@
             @if ($user->type==='1')
             <a class="nav-link" href="{{url('account/profile/3')}}">Fidelity Card</a>
             @endif
-            <a class="nav-link" href="">Notifications</a>
+            <!-- <a class="nav-link" href="">Notifications</a> -->
         </nav>
         <hr class="mt-0 mb-4" />
         <form action="{{url('saveaccount/1')}}" method="post" enctype="multipart/form-data">
@@ -46,20 +46,12 @@
                     <!-- Account details card-->
                     <div class="card mb-4">
                         <div class="card-header">Dati Profilo</div>
-                        @if ($notification != '')
-                            @if ($notification['status'])
-                                <div class="alert alert-success" id="alert" role="alert">
-                            @else
-                                <div class="alert alert-danger" id="alert" role="alert">   
-                            @endif        
-                                {{$notification['message']}}
-                            </div>
-                        @endif
+                        
                         <div class="card-body">
                             {{csrf_field()}}
                             <!-- Form Group (username)-->
                             <div class="mb-3">
-                                <label class="small mb-1" for="inputUsername">Nominativo Azienza (come apparirà il tuo nome agli altri utenti del sito)</label>
+                                <label class="small mb-1" for="inputUsername">Nome Utente</label>
                                 <input class="form-control" id="inputUsername" type="text" placeholder="Inserisci il tuo Nominativo Aziendale" value="{{$user->user_name}}" name="user_name" />
                             </div>
                             <!-- Form Row-->
@@ -74,16 +66,7 @@
                                     <label class="small mb-1" for="inputLastName">Cognome</label>
                                     <input class="form-control" id="inputLastName" type="text" placeholder="Inserisci il tuo Cognome" value="{{$user->lastname}}" name="lastname" />
                                 </div>
-                            </div>
-                            @if ($user->type !== '1')
-                            <div class="row gx-3 mb-3">
-                                <!-- Form Group (organization name)-->
-                                <div class="col-md-12">
-                                    <label class="small mb-1" for="inputOrgName">Ragione Sociale</label>
-                                    <input class="form-control" id="inputOrgName" type="text" placeholder="Inserisci il nome della tua Attività" value="{{$user->business_name}}" name="business_name" />
-                                </div>
-                            </div>
-                            @endif
+                            </div>                            
                             <div class="row gx-3 mb-3">
                                 <!-- Form Group (organization name)-->
                                 <div class="col-md-12">
@@ -102,14 +85,11 @@
                                     <input class="form-control" id="inputCap" type="text" placeholder="CAP" value="{{$user->cap}}" name="cap" />
                                 </div>
                             </div>
-                            <div class="row gx-3 mb-3">
-                                @if ($user->type !== '1')
+                            <div class="row gx-3 mb-3">                                
                                 <div class="col-md-6">
                                     <label class="small mb-1" for="inputPiva">P. IVA</label>
                                     <input class="form-control" id="inputPiva" type="text" placeholder="Inserisci la tua Partita IVA" value="{{$user->piva}}" name="piva" />
-                                </div>
-                                @endif
-                                <!-- Form Group (birthday)-->
+                                </div>                                                                
                                 <div class="col-md-6">
                                     <label class="small mb-1" for="inputCodfisc">Codice Fiscale</label>
                                     <input class="form-control" id="inputCodfisc" type="text" placeholder="Inserisci il tuo Codice Fiscale" value="{{$user->codfisc}}" name="codfisc" />

@@ -6,6 +6,8 @@ use App\Http\Controllers\ClientiController;
 use App\Http\Controllers\RepartiController;
 use App\Http\Controllers\CassieriController;
 use App\Http\Controllers\ProfiloController;
+use App\Http\Controllers\ScontiController;
+use App\Http\Controllers\PagamentiController;
 use App\Http\Controllers\FidelityController;
 use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\IvaController;
@@ -52,6 +54,16 @@ Route::get('/profili',[ProfiloController::class,'index']);
 Route::post('/profiloinsert',[ProfiloController::class,'store']);
 Route::post('/profiloupdate/{id}',[ProfiloController::class,'update']);
 Route::get('/profilodelete/{id}',[ProfiloController::class,'destroy']);
+
+Route::get('/sconti',[ScontiController::class,'index']);
+Route::post('/scontoinsert',[ScontiController::class,'store']);
+Route::post('/scontoupdate/{id}',[ScontiController::class,'update']);
+Route::get('/scontodelete/{id}',[ScontiController::class,'destroy']);
+
+Route::get('/pagamenti',[PagamentiController::class,'index']);
+Route::post('/pagamentoinsert',[PagamentiController::class,'store']);
+Route::post('/pagamentoupdate/{id}',[PagamentiController::class,'update']);
+Route::get('/pagamentodelete/{id}',[PagamentiController::class,'destroy']);
 
 Route::post('/add_fidelity',[FidelityController::class,'store']);
 Route::any('/fidelity/{id}',[FidelityController::class,'changeCard']);

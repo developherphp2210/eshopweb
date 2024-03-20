@@ -55,7 +55,6 @@ return new class extends Migration
             'fattura' => 1,            
             'scontrino' => 1
             ],
-
             ['codice' => 2,
             'descrizione' => 'CASSIERE',
             'versamenti' => 1,

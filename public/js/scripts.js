@@ -250,10 +250,11 @@ if (savereparto){
     addreparto.addEventListener('click',( ) => {                
         document.querySelector('#codice').value = '';         
         document.querySelector('#descrizione').value = '';
-        document.querySelector('#posizione').value = '0';                 
+        document.querySelector('#visibile').checked = true;                 
         document.querySelector('#attivo').checked = true;
         repartoform.action = '/repartoinsert';
         savereparto.innerHTML = 'Inserisci';
+        document.querySelector('#codice').focus();  
     });
 
     function schedaRep(id)
@@ -264,10 +265,10 @@ if (savereparto){
         }).then((resp) => {            
             document.querySelector('#codice').value = resp['codice'];             
             document.querySelector('#descrizione').value = resp['descrizione']; 
-            document.querySelector('#posizione').value = resp['posizione'];             
+            (resp['visibile'] == '1') ? document.getElementById('visibile').checked = true :     document.getElementById('visibile').checked =  false ;            
             (resp['attivo'] == '1') ? document.getElementById('attivo').checked = true :     document.getElementById('attivo').checked =  false ;            
             repartoform.action = '/repartoupdate/'+id;
-            savereparto.innerHTML = 'Modifica';
+            savereparto.innerHTML = 'Salva';
         });
     }
 }
@@ -286,7 +287,7 @@ if (savecassiere){
         document.querySelector('#barcode').value = '';                 
         document.querySelector('#password').value = '';
         document.querySelector('#attivo').checked = true;
-        //document.querySelector('#id_profilo').value = '0'; 
+        document.querySelector('#id_profilo').value = '0'; 
         cassiereform.action = '/cassiereinsert';
         savecassiere.innerHTML = 'Inserisci';
     });
@@ -302,11 +303,17 @@ if (savecassiere){
             document.querySelector('#barcode').value = resp['barcode'];             
             document.querySelector('#password').value = resp['password'];              
             (resp['visibile_cassa'] == '1') ? document.getElementById('visibile_cassa').checked = true : document.getElementById('visibile_cassa').checked =  false ;            
-            (resp['visibile_frontend'] == '1') ? document.getElementById('visibile_frontend').checked = true : document.getElementById('visibile_frontend').checked =  false ;                                                        
+            if (resp['visibile_frontend'] == '1'){
+                document.getElementById('visibile_frontend').checked = true;
+                document.getElementById('visibile_frontend').disabled = true;
+            } else {
+                document.getElementById('visibile_frontend').checked =  false ;                                                        
+                document.getElementById('visibile_frontend').disabled = false;
+            }
             (resp['attivo'] == '1') ? document.getElementById('attivo').checked = true : document.getElementById('attivo').checked =  false ;            
-            // document.querySelector('#id_profilo').value = resp['id_profilo'];
+            document.querySelector('#id_profilo').value = resp['id_profilo'];            
             cassiereform.action = '/cassiereupdate/'+id;
-            savecassiere.innerHTML = 'Modifica';
+            savecassiere.innerHTML = 'Salva';
         });
     }
 }
@@ -353,7 +360,43 @@ if (saveprofilo){
             (resp['scontrino'] == '1') ? document.getElementById('scontrino').checked = true : document.getElementById('scontrino').checked =  false ;
 
             profiloform.action = '/profiloupdate/'+id;
-            saveprofilo.innerHTML = 'Modifica';
+            saveprofilo.innerHTML = 'Salva';
+        });
+    }
+}
+
+/**  GESTIONE SCONTI  */
+
+const savesconto = document.querySelector('#savesconto');
+
+if (savesconto){    
+    const addsconto = document.querySelector('#addsconto');    
+    const scontoform = document.querySelector('#scontoform');
+
+    addsconto.addEventListener('click',( ) => {                
+        document.querySelector('#codice').value = '';         
+        document.querySelector('#descrizione').value = '';
+        document.querySelector('#tipo').value = 0;                 
+        document.querySelector('#valore').value = 0;
+        document.querySelector('#attivo').checked = true;
+        scontoform.action = '/scontoinsert';
+        savesconto.innerHTML = 'Inserisci';
+        document.querySelector('#codice').focus();  
+    });
+
+    function schedaSco(id)
+    {
+        fetch('/api/sconto/'+id)
+        .then((response) => {
+            return response.json();
+        }).then((resp) => {            
+            document.querySelector('#codice').value = resp['codice'];             
+            document.querySelector('#descrizione').value = resp['descrizione']; 
+            document.querySelector('#tipo').value = resp['tipo']; 
+            document.querySelector('#valore').value = resp['valore'];             
+            (resp['attivo'] == '1') ? document.getElementById('attivo').checked = true :     document.getElementById('attivo').checked =  false ;            
+            scontoform.action = '/scontoupdate/'+id;
+            savesconto.innerHTML = 'Salva';
         });
     }
 }

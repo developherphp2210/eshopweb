@@ -117,17 +117,21 @@ class AccountController extends Controller
         return view('users.mainpage')->with(['title' => 'Main Page','user' => $user, 'index' => '1', 'total' => $total]);                
     }
 
-    public function save(Request $request,$page){        
-        $user = session('user');
+    public function save(Request $request,$page){                
         switch ($page) {
             case '1':
-                $notification = User::modify_user($request,$user);                                    
+                $result['title'] = 'Gestione Cassieri';
+                $tmp = User::modify_user($request,session('user'));                                    
+                $result['message'] = $tmp['message'];
+                $result['error'] = $tmp['error'];                            
                 break;            
             case '2':
                 $notification = User::changePassword($request,session('user'));                                    
                 break;
-        }        
-        return view('users.account.accountpage')->with(['title' => 'Account','user' => $user,'page' => $page, 'notification' => $notification]);        
+        }  
+        session()->flash('result',$result);        
+        return redirect()->back();      
+        // return view('users.account.accountpage')->with(['title' => 'Account','user' => $user,'index' => '0' ,'page' => $page]);        
     }
     
 }

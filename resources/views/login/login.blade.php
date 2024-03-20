@@ -22,8 +22,8 @@
                                         {{csrf_field()}}
                                             <!-- Form Group (email address)-->
                                             <div class="mb-3">
-                                                <label class="small mb-1" for="inputEmailAddress">E-Mail</label>
-                                                <input class="form-control" id="inputEmailAddress" type="email" name="email" placeholder="Inserisci la tua Email" />
+                                                <label class="small mb-1" for="inputEmailAddress">Nome Utente o E-Mail</label>
+                                                <input class="form-control" id="inputEmailAddress" type="text" name="user_name" placeholder="Inserisci il tuo Nome Utente o Email" />
                                             </div>
                                             <!-- Form Group (password)-->
                                             <div class="mb-3">

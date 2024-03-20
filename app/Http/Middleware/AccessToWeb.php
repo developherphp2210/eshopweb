@@ -19,14 +19,14 @@ class AccessToWeb
     {
         
         $valid = $request->validate([
-            'email' => 'required | email',
+            'user_name' => 'required | string',
             'password' => 'required | string'
-        ]);            
-
+        ]);
+                
         if (Auth::attempt($valid,true))
         {
-            $request->session()->regenerate();                       
-            $user = User::where('email',$request->email)->first();                                            
+            $request->session()->regenerate();                              
+            $user = User::AccessUser($request);                                                              
             $request->session()->put('user',$user);
             return $next($request);            
         }
