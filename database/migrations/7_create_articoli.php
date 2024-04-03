@@ -12,11 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('articoli', function (Blueprint $table) {
-            $table->id();            
+            $table->bigInteger('id')->primary()->unsigned();           
             $table->string('codice',13)->index('codart')->unique();
             $table->string('descrizione',30)->nullable();
             $table->string('des_breve',13)->nullable();
-            $table->string('logo',20);
+            $table->string('logo',20)->nullable();
             $table->bigInteger('id_reparto')->index('codrep')->unsigned(); 
             $table->foreign('id_reparto')->references('id')->on('reparti')->onUpdate('restrict')->onDelete('restrict');
             $table->smallInteger('tasto_rapido')->default(0);

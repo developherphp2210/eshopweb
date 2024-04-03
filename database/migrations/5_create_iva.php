@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('iva', function (Blueprint $table) {
-            $table->id();                      
+            $table->bigInteger('id')->primary()->unsigned();                    
             $table->string('codice',6)->index('codiva')->unique();
 	        $table->string('descrizione',25)->nullable();
 	        $table->integer('aliquota');

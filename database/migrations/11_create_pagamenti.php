@@ -26,12 +26,16 @@ return new class extends Migration
             [                
                 'codice' => '1',
                 'descrizione' => 'CONTANTI',                
-                'tipologia' => '1'                
+                'tipologia' => '1',
+                'tipo_rt' => '9',
+                'codice_sdi' => '1'
             ],
             [
                 'codice' => '2',
                 'descrizione' => 'BANCOMAT',                
-                'tipologia' => '2'           
+                'tipologia' => '2',
+                'tipo_rt' => '10',
+                'codice_sdi' => '8'
             ]
             ]);
     }

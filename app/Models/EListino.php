@@ -5,18 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Codean extends Model
+class EListino extends Model
 {
     use HasFactory;
 
-    protected $table = 'codean';
+    protected $table = 'e_listino';
 
     protected $fillable = [
-        'id',
-        'id_articolo',
-        'barcode',
-        'descrizione',
-        'prezzo_special'
+        'id',        
+        'id_rlistino',
+        'id_ean',
+        'przlor',
+        'sconto1',
+        'sconto2',
+        'sconto3'
     ];
 
     static function GetListCasse($idcassa)
@@ -24,10 +26,10 @@ class Codean extends Model
         $lastupdate = Casse::LastUpdate($idcassa);        
         if ( $lastupdate <> null )
         {
-            return Codean::whereRaw("updated_at >= '".$lastupdate."' or updated_at is null")->get();
+            return EListino::whereRaw("updated_at >= '".$lastupdate."' or updated_at is null")->get();
         } else 
         {
-            return Codean::orderBy('codice')->get();
+            return EListino::orderBy('codice')->get();
         }
     }
 }

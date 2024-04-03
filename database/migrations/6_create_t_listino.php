@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('deposito', function (Blueprint $table) {
-            $table->id();            
-            $table->string('codice',10)->index('codrep')->unique();
-            $table->string('descrizione',20);
+        Schema::create('t_listino', function (Blueprint $table) {
+            $table->bigInteger('id')->primary()->unsigned();
+            $table->string('codice',6);
+            $table->string('descrizione',25);
             $table->timestamps();
         });
     }
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('deposito');
+        Schema::dropIfExists('t_listino');
     }
 };

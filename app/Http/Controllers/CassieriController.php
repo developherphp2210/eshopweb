@@ -18,6 +18,21 @@ class CassieriController extends Controller
         return view('users.anagrafica.lista_operatori')->with(['title' => 'Lista Cassieri','index' => '6', 'listacassieri' => $listacassieri]);
     }
 
+    public function indexCasse(string $idcassa)
+    {
+        $result = [];
+        try {
+            $result['status'] = '200';
+            $result['result'] = 'true';
+            $result['items'] = Cassieri::GetListCasse($idcassa);;    
+        } catch (\Throwable $th) {
+            $result['status'] = '400';
+            $result['result'] = 'false';
+            $result['error'] = $th->getMessage();
+        }                
+        return $result;
+    }
+
     /**
      * Show the form for creating a new resource.
      */

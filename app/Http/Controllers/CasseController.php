@@ -2,34 +2,56 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Casse;
+use App\Models\Depositi;
 use Illuminate\Http\Request;
-use App\Models\Iva;
 
-class IvaController extends Controller
+class CasseController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
-    {        
-
-        $iva = Iva::GetList();
-        return view('users.anagrafica.lista_iva')->with(['title' => 'Lista Aliquote Iva','index' => '5', 'aliquote' => $iva]);
+    {
+        $casse['casse'] = Casse::GetList();  
+        $casse['deposito'] = Depositi::GetList();
+        return view('users.barriera.lista_casse')->with(['title' => 'Lista Casse','index' => '22', 'listacasse' => $casse]);
     }
 
-    public function indexCasse(string $idcassa)
+    public function check(string $codcassa,string $codep)
     {
-        $result = [];
-        try {
-            $result['status'] = '200';
-            $result['result'] = 'true';
-            $result['items'] = Iva::GetListCasse($idcassa);;    
+        try{
+            $item = Casse::check($codcassa,$codep);                        
+            if ($item['aggiorna'] == '1')
+            {
+                $result['status'] = '200';
+                $result['result'] = 'true';
+                $result['idcassa'] = $item['id'];
+            } else 
+            {
+                $result['status'] = '200';
+                $result['result'] = 'false';
+            }
         } catch (\Throwable $th) {
             $result['status'] = '400';
             $result['result'] = 'false';
             $result['error'] = $th->getMessage();
-        }                
+        }
         return $result;
+    }
+
+    public function CloseRequest(string $idcassa)
+    {
+        try{
+            Casse::CloseRequest($idcassa);
+            $result['status'] = '200';
+            $result['result'] = 'true';
+        } catch (\Throwable $th){
+            $result['status'] = '400';
+            $result['result'] = 'false';
+            $result['error'] = $th->getMessage();
+        }
+        return $result;            
     }
 
     /**
@@ -45,8 +67,8 @@ class IvaController extends Controller
      */
     public function store(Request $request)
     {
-        $result['title'] = 'Gestione Aliquote IVA';
-        $tmp = Iva::InserimentoIva($request);
+        $result['title'] = 'Gestione Casse';
+        $tmp = Casse::InserimentoCasse($request);
         $result['message'] = $tmp['message'];
         $result['error'] = $tmp['error'];
         session()->flash('result',$result);        
@@ -58,7 +80,7 @@ class IvaController extends Controller
      */
     public function show(string $id)
     {
-        return Iva::SingleIva($id);         
+        return Casse::Show($id);
     }
 
     /**
@@ -74,11 +96,11 @@ class IvaController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $result['title'] = 'Gestione Aliquote IVA';
-        $tmp = Iva::IvaUpdate($request,$id);
+        $result['title'] = 'Gestione Casse';
+        $tmp = Casse::AggiornaCasse($request,$id);
         $result['message'] = $tmp['message'];
         $result['error'] = $tmp['error'];
-        session()->flash('result',$result);                        
+        session()->flash('result',$result);        
         return redirect()->back();
     }
 
@@ -87,8 +109,8 @@ class IvaController extends Controller
      */
     public function destroy(string $id)
     {
-        $result['title'] = 'Gestione Aliquote IVA';
-        $tmp = Iva::IvaDelete($id);
+        $result['title'] = 'Gestione Casse';
+        $tmp = Casse::CancellaCasse($id);
         $result['message'] = $tmp['message'];
         $result['error'] = $tmp['error'];
         session()->flash('result',$result);        

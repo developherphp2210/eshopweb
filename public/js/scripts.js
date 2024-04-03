@@ -288,6 +288,11 @@ if (savecassiere){
         document.querySelector('#password').value = '';
         document.querySelector('#attivo').checked = true;
         document.querySelector('#id_profilo').value = '0'; 
+        document.getElementById('visibile_cassa').checked =  false ;                                                        
+        document.getElementById('visibile_frontend').checked =  false ;                                                        
+        document.getElementById('visibile_frontend').disabled = false;
+        document.querySelector('#password').readOnly = false;
+        document.querySelector('#codice').focus();
         cassiereform.action = '/cassiereinsert';
         savecassiere.innerHTML = 'Inserisci';
     });
@@ -306,9 +311,11 @@ if (savecassiere){
             if (resp['visibile_frontend'] == '1'){
                 document.getElementById('visibile_frontend').checked = true;
                 document.getElementById('visibile_frontend').disabled = true;
+                document.querySelector('#password').readOnly = true;
             } else {
                 document.getElementById('visibile_frontend').checked =  false ;                                                        
                 document.getElementById('visibile_frontend').disabled = false;
+                document.querySelector('#password').readOnly = false;
             }
             (resp['attivo'] == '1') ? document.getElementById('attivo').checked = true : document.getElementById('attivo').checked =  false ;            
             document.querySelector('#id_profilo').value = resp['id_profilo'];            
@@ -397,6 +404,131 @@ if (savesconto){
             (resp['attivo'] == '1') ? document.getElementById('attivo').checked = true :     document.getElementById('attivo').checked =  false ;            
             scontoform.action = '/scontoupdate/'+id;
             savesconto.innerHTML = 'Salva';
+        });
+    }
+}
+
+/**  GESTIONE PAGAMENTI  */
+
+const savepagamento = document.querySelector('#savepagamento');
+
+if (savepagamento){    
+    const addpagamento = document.querySelector('#addpagamento');    
+    const pagamentoform = document.querySelector('#pagamentoform');
+
+    addpagamento.addEventListener('click',( ) => {                
+        document.querySelector('#codice').value = '';         
+        document.querySelector('#descrizione').value = '';        
+        document.querySelector('#attivo').checked = true;
+        document.querySelector('#tipologia').value = 0;            
+        document.querySelector('#tipo_rt').value = 0;            
+        document.querySelector('#codice_sdi').value = 0;  
+        pagamentoform.action = '/pagamentoinsert';
+        savepagamento.innerHTML = 'Inserisci';
+        document.querySelector('#codice').focus();  
+    });
+
+    function schedaPag(id)
+    {
+        fetch('/api/pagamento/'+id)
+        .then((response) => {
+            return response.json();
+        }).then((resp) => {            
+            document.querySelector('#codice').value = resp['codice'];             
+            document.querySelector('#descrizione').value = resp['descrizione'];             
+            (resp['attivo'] == '1') ? document.getElementById('attivo').checked = true :     document.getElementById('attivo').checked =  false ;            
+            document.querySelector('#tipologia').value = resp['tipologia'];            
+            document.querySelector('#tipo_rt').value = resp['tipo_rt'];            
+            document.querySelector('#codice_sdi').value = resp['codice_sdi'];            
+            pagamentoform.action = '/pagamentoupdate/'+id;
+            savepagamento.innerHTML = 'Salva';
+        });
+    }
+}
+
+/**  GESTIONE CAUSALI  */
+
+const savecausale = document.querySelector('#savecausale');
+
+if (savecausale){    
+    const addcausale = document.querySelector('#addcausale');    
+    const causaleform = document.querySelector('#causaleform');
+
+    addcausale.addEventListener('click',( ) => {                
+        document.querySelector('#codice').value = '';         
+        document.querySelector('#descrizione').value = '';        
+        document.querySelector('#attivo').checked = true;
+        document.querySelector('#type').value = 0;                    
+        causaleform.action = '/causaleinsert';
+        savecausale.innerHTML = 'Inserisci';
+        document.querySelector('#codice').focus();  
+    });
+
+    function schedaCau(id)
+    {
+        fetch('/api/causale/'+id)
+        .then((response) => {
+            return response.json();
+        }).then((resp) => {            
+            document.querySelector('#codice').value = resp['codice'];             
+            document.querySelector('#descrizione').value = resp['descrizione'];             
+            (resp['attivo'] == '1') ? document.getElementById('attivo').checked = true :     document.getElementById('attivo').checked =  false ;            
+            document.querySelector('#type').value = resp['type'];                        
+            causaleform.action = '/causaleupdate/'+id;
+            savecausale.innerHTML = 'Salva';
+        });
+    }
+}
+
+/**  GESTIONE DEPOSITI  */
+
+const listadeposito = document.querySelector('#listadeposito');
+
+if (listadeposito){    
+    
+    function schedaDep(id)
+    {
+        fetch('/api/deposito/'+id)
+        .then((response) => {
+            return response.json();
+        }).then((resp) => {            
+            document.querySelector('#codice').value = resp['codice'];             
+            document.querySelector('#descrizione').value = resp['descrizione'];             
+            document.querySelector('#id_listino').value = resp['id_listino'];
+            // causaleform.action = '/causaleupdate/'+id;
+            // savecausale.innerHTML = 'Salva';
+        });
+    }
+}
+
+/**  GESTIONE CASSE  */
+
+const savecassa = document.querySelector('#savecassa');
+
+if (savecassa){    
+    const addcassa = document.querySelector('#addcassa');    
+    const cassaform = document.querySelector('#cassaform');
+console.log('qui');
+    addcassa.addEventListener('click',( ) => {                
+        document.querySelector('#codice').value = '';         
+        document.querySelector('#descrizione').value = '';        
+        document.querySelector('#id_deposito').value = 0;
+        cassaform.action = '/cassainsert';
+        savecassa.innerHTML = 'Inserisci';
+        document.querySelector('#codice').focus();  
+    });
+
+    function schedaCas(id)
+    {
+        fetch('/api/casse/'+id)
+        .then((response) => {
+            return response.json();
+        }).then((resp) => {            
+            document.querySelector('#codice').value = resp['codice'];             
+            document.querySelector('#descrizione').value = resp['descrizione'];                         
+            document.querySelector('#id_deposito').value = resp['id_deposito'];                        
+            cassaform.action = '/cassaupdate/'+id;
+            savecassa.innerHTML = 'Salva';
         });
     }
 }

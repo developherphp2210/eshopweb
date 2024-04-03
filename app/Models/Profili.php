@@ -117,4 +117,16 @@ class Profili extends Model
     {
         return Profili::where('id',$id)->first();
     }
+
+    static function GetListCasse($idcassa)
+    {
+        $lastupdate = Casse::LastUpdate($idcassa);        
+        if ( $lastupdate <> null )
+        {
+            return Profili::whereRaw(" updated_at >= '".$lastupdate."' or updated_at is null")->get();
+        } else 
+        {
+            return Profili::orderBy('codice')->get();
+        }
+    }
 }

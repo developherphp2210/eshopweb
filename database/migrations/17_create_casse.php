@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('reparti', function (Blueprint $table) {
-            $table->bigInteger('id')->primary()->unsigned();            
-            $table->string('codice',10)->index('codrep')->unique();
+        Schema::create('casse', function (Blueprint $table) {
+            $table->id();            
+            $table->bigInteger('id_deposito')->index()->unsigned();
+            $table->string('codice',10)->index('codep');
             $table->string('descrizione',20)->nullable();
-            $table->smallInteger('visibile')->default(0);
-            $table->smallInteger('attivo')->default(1);
+            $table->char('aggiorna',1)->default('0');
+            $table->timestamp('lastupdate');
             $table->timestamps();
         });
     }
@@ -26,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('reparti');
+        Schema::dropIfExists('casse');
     }
 };

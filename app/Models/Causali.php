@@ -2,47 +2,45 @@
 
 namespace App\Models;
 
+use App\MyClass\MyLog;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\MyClass\MyLog;
 
-class Iva extends Model
+class Causali extends Model
 {
     use HasFactory;
 
-    protected $table = 'iva';
+    protected $table = 'causali';
 
     protected $fillable = [
-        'id',
+        'id',   
+        'attivo' ,
         'codice',
         'descrizione',
-        'aliquota',
-        'reparto_fiscale',
-        'attivo'
+        'type'
     ];
-    
+
     static function GetList()
     {
-        return Iva::orderBy('codice')->get();
+        return Causali::orderby('codice')->get();
     }
 
-    static function SingleIva(string $id)
+    static function Show($id)
     {
-        return Iva::where('id',$id)->first();
+        return Causali::where('id',$id)->first();
     }
 
-    static function IvaUpdate($data,$id)
+    static function InserimentoCausali($data)
     {
         $result = [];
         try {            
-            Iva::where('id',$id)->update([                    
+            Causali::create([                    
                 'codice' => $data->codice,
-                'descrizione' => $data->descrizione,
-                'aliquota' => $data->aliquota,
-                'reparto_fiscale' => $data->reparto_fiscale,
-                'attivo' => ($data->attivo == 'on') ? '1' : '0'
-            ]);   
-            $result['message'] = 'Aliquota IVA Aggiornata Correttamente';
+                'descrizione' => $data->descrizione,                
+                'attivo' => ($data->attivo == 'on') ? '1' : '0',                                
+                'type' => $data->type                
+            ]);              
+            $result['message'] = 'Causale Creata Correttamente';
             $result['error'] = 'false';             
         } catch (\Throwable $th) {
             $result['message'] = $th->getMessage();
@@ -52,18 +50,17 @@ class Iva extends Model
         return $result;
     }
 
-    static function InserimentoIva($data)
+    static function AggiornaCausali($data,$id)
     {
         $result = [];
-        try {            
-            Iva::create([                    
+        try {                    
+            Causali::where('id',$id)->update([
                 'codice' => $data->codice,
-                'descrizione' => $data->descrizione,
-                'aliquota' => $data->aliquota,
-                'reparto_fiscale' => $data->reparto_fiscale,
-                'attivo' => ($data->attivo == 'on') ? '1' : '0'
-            ]);   
-            $result['message'] = 'Aliquota IVA Creata Correttamente';
+                'descrizione' => $data->descrizione,                
+                'attivo' => ($data->attivo == 'on') ? '1' : '0',                                
+                'type' => $data->type  
+            ]);               
+            $result['message'] = 'Causale Aggiornata Correttamente';
             $result['error'] = 'false';             
         } catch (\Throwable $th) {
             $result['message'] = $th->getMessage();
@@ -73,12 +70,12 @@ class Iva extends Model
         return $result;
     }
 
-    static function IvaDelete(string $id)
+    static function CancellaCausali(string $id)
     {
         $result = [];
         try {
-            Iva::where('id',$id)->delete();            
-            $result['message'] = 'Aliquota IVA Cancellata!!';
+            Causali::where('id',$id)->delete();            
+            $result['message'] = 'Causale Cancellata!!';
             $result['error'] = 'false';
         } catch (\Throwable $th) {
             $result['message'] = $th->getMessage();
@@ -93,11 +90,11 @@ class Iva extends Model
         $lastupdate = Casse::LastUpdate($idcassa);        
         if ( $lastupdate <> null )
         {
-            return Iva::whereRaw(" updated_at >= '".$lastupdate."' or updated_at is null")->get();
+            return Causali::whereRaw("attivo = 1 and ( updated_at >= '".$lastupdate."' or updated_at is null)")->get();
         } else 
         {
-            return Iva::orderBy('codice')->get();
+            return Causali::where('attivo','1')->orderBy('codice')->get();
         }
     }
-
+    
 }

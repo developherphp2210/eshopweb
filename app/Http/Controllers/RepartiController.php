@@ -17,6 +17,21 @@ class RepartiController extends Controller
 
     }
 
+    public function indexCasse(string $idcassa)
+    {
+        $result = [];
+        try {
+            $result['status'] = '200';
+            $result['result'] = 'true';
+            $result['items'] = Reparti::GetListCasse($idcassa);;    
+        } catch (\Throwable $th) {
+            $result['status'] = '400';
+            $result['result'] = 'false';
+            $result['error'] = $th->getMessage();
+        }                
+        return $result;
+    }
+
     /**
      * Show the form for creating a new resource.
      */

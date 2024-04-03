@@ -12,12 +12,12 @@
                 <!-- Sidenav Heading (App Views)-->
                 <div class="sidenav-menu-heading">Gestionale</div>
                 <!-- Sidenav Accordion (Pages)-->
-                <a class="nav-link {{( ($index > '1') && ($index < '9') ) ? 'active' : 'collapsed'}}" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapseAnagrafiche" aria-expanded="false" aria-controls="collapseAnagrafiche">
+                <a class="nav-link {{( ($index > '1') && ($index < '21') ) ? 'active' : 'collapsed'}}" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapseAnagrafiche" aria-expanded="false" aria-controls="collapseAnagrafiche">
                     <div class="nav-link-icon"><i data-feather="users"></i></div>
                     Anagrafiche
                     <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                 </a>
-                <div class="collapse {{( ($index > '1') && ($index < '9') ) ? 'show' : ''}}" id="collapseAnagrafiche" data-bs-parent="#accordionSidenav">
+                <div class="collapse {{( ($index > '1') && ($index < '21') ) ? 'show' : ''}}" id="collapseAnagrafiche" data-bs-parent="#accordionSidenav">
                     <nav class="sidenav-menu-nested nav accordion">                        
                         <a class="nav-link {{($index == '2') ? 'active' : ''}}" href="{{url('/clienti')}}">Clienti / Fidelity Card</a>
                         <a class="nav-link {{($index == '3') ? 'active' : ''}}" href="{{url('/articoli')}}">Articoli</a>
@@ -36,9 +36,10 @@
                         </div>
                         <a class="nav-link {{($index == '8') ? 'active' : ''}}" href="{{url('/sconti')}}">Sconti</a>
                         <a class="nav-link {{($index == '9') ? 'active' : ''}}" href="{{url('/pagamenti')}}">Forme di Pagamento</a>
+                        <a class="nav-link {{($index == '10') ? 'active' : ''}}" href="{{url('/causali')}}">Versamenti / Prelievi</a>
                     </nav>
                 </div> 
-                <a class="nav-link {{( ($index > '21') && ($index < '29') ) ? 'active' : 'collapsed'}}" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapseBarriera" aria-expanded="false" aria-controls="collapseBarriera">
+                <a class="nav-link {{( ($index > '20') && ($index < '29') ) ? 'active' : 'collapsed'}}" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapseBarriera" aria-expanded="false" aria-controls="collapseBarriera">
                     <div class="nav-link-icon"><i data-feather="monitor"></i></div>
                     Barriera Casse
                     <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>

@@ -17,6 +17,21 @@ class ScontiController extends Controller
         return view('users.anagrafica.lista_sconti')->with(['title' => 'Lista Sconti','index' => '8', 'listasconti' => $sconti]);
     }
 
+    public function indexCasse(string $idcassa)
+    {
+        $result = [];
+        try {
+            $result['status'] = '200';
+            $result['result'] = 'true';
+            $result['items'] = Sconti::GetListCasse($idcassa);;    
+        } catch (\Throwable $th) {
+            $result['status'] = '400';
+            $result['result'] = 'false';
+            $result['error'] = $th->getMessage();
+        }                
+        return $result;
+    }
+
     /**
      * Show the form for creating a new resource.
      */

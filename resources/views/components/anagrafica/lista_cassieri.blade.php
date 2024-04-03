@@ -75,7 +75,7 @@
                                     <div class="row mt-4">
                                         <div class="col-6">
                                             <h5 class="mb-1">Password</h5>
-                                            <input class="form-control" type="password" maxlength="255" required name="password" id="password" value="{{$listacassieri['cassieri'][0]->password}}">
+                                            <input class="form-control" type="password" {{($listacassieri['cassieri'][0]->visibile_frontend == '1') ? 'readonly' : ''}} maxlength="255" required name="password" id="password" value="{{$listacassieri['cassieri'][0]->password}}">
                                         </div>
                                         <div class="col-6">
                                             <h5 class="mb-1">Barcode</h5>
@@ -101,10 +101,10 @@
                                             <h5 class="mb-1">Profilo Operatore</h5>
                                             <select class="form-select mb-3" required name="id_profilo" id="id_profilo">
                                             <option value="">Seleziona un Profilo</option>
-                                            @foreach ($listacassieri['profili'] as $profilo)
-                                            <option {{( $listacassieri['cassieri'][0]->id_profilo == $profilo->id) ? 'selected' : ''}} value="{{$profilo->id}}">{{$profilo->descrizione}}</option>
-                                            @endforeach
-                                        </select>
+                                                @foreach ($listacassieri['profili'] as $profilo)
+                                                <option {{( $listacassieri['cassieri'][0]->id_profilo == $profilo->id) ? 'selected' : ''}} value="{{$profilo->id}}">{{$profilo->descrizione}}</option>
+                                                @endforeach
+                                            </select>
                                         </div>    
                                     </div>                                                                         
                                 </div>    

@@ -39,7 +39,10 @@ class Pagamenti extends Model
             Pagamenti::create([                    
                 'codice' => $data->codice,
                 'descrizione' => $data->descrizione,                               
-                'attivo' => ($data->attivo == 'on') ? '1' : '0'
+                'attivo' => ($data->attivo == 'on') ? '1' : '0',
+                'tipologia' => $data->tipologia,
+                'tipo_rt' => $data->tipo_rt,
+                'codice_sdi' => $data->codice_sdi
                 
             ]);   
             $result['message'] = 'Pagamento Inserito Correttamente';
@@ -59,7 +62,10 @@ class Pagamenti extends Model
             Pagamenti::where('id',$id)->update([                    
                 'codice' => $data->codice,
                 'descrizione' => $data->descrizione,                               
-                'attivo' => ($data->attivo == 'on') ? '1' : '0'                
+                'attivo' => ($data->attivo == 'on') ? '1' : '0',
+                'tipologia' => $data->tipologia,
+                'tipo_rt' => $data->tipo_rt,
+                'codice_sdi' => $data->codice_sdi                
             ]);   
             $result['message'] = 'Pagamento Modificato Correttamente';
             $result['error'] = 'false';             
@@ -84,5 +90,17 @@ class Pagamenti extends Model
             MyLog::WriteLog($th->getMessage(),'0');
         }
         return $result;
+    }
+
+    static function GetListCasse($idcassa)
+    {
+        $lastupdate = Casse::LastUpdate($idcassa);        
+        if ( $lastupdate <> null )
+        {
+            return Pagamenti::whereRaw("attivo = 1 and ( updated_at >= '".$lastupdate."' or updated_at is null)")->get();
+        } else 
+        {
+            return Pagamenti::where('attivo','1')->orderBy('codice')->get();
+        }
     }
 }

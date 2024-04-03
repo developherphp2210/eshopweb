@@ -16,7 +16,7 @@
     <div class="container-xl px-4 mt-4">
         <div class="card mb-4">
             <!-- <div class="card-header">Lista Articoli</div> -->
-            <div class="card-body ">
+            <div class="card-body ">                
                 <div class="table-responsive">
                     <table id="lista" class="table table-striped table-sm " style="width:100%">
                         <thead>
@@ -24,7 +24,7 @@
                                 <th>Codice</th>
                                 <th>Descrizione</th>
                                 <th>Reparto</th>
-                                <th>Prezzo</th>
+                                <!-- <th>Prezzo</th> -->
                                 <th></th>
                             </tr>
                         </thead>
@@ -36,7 +36,7 @@
                                 <td>{{$articolo->reparto}}</td>
                                 <!-- <td>{{number_format($articolo->price, 2, ",", ".")}}</td> -->
                                 <td>
-                                    <a title="Visualizza" href="{{url('/article/'.$article->id.'/1')}}"><button class="btn btn-datatable btn-icon btn-transparent-dark"><i data-feather="eye"></i></button></a>
+                                    <a title="Visualizza" href="{{url('/article/'.$articolo->id.'/1')}}"><button class="btn btn-datatable btn-icon btn-transparent-dark"><i data-feather="eye"></i></button></a>
                                 </td>
                             </tr>
                             @endforeach
@@ -50,7 +50,7 @@
 <script>
     $(document).ready(function() {
         $('#lista').DataTable({
-            "lengthMenu": [25, 50, 75, 100],
+            "lengthMenu": [100, 150, 300, 500],
             "language": {
                 "search": "Ricerca:",
                 "lengthMenu": "_MENU_",

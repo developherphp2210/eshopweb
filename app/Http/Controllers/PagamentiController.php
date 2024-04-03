@@ -17,6 +17,21 @@ class PagamentiController extends Controller
         return view('users.anagrafica.lista_pagamenti')->with(['title' => 'Lista Pagamenti','index' => '9', 'listapagamenti' => $pagamenti]);
     }
 
+    public function indexCasse(string $idcassa)
+    {
+        $result = [];
+        try {
+            $result['status'] = '200';
+            $result['result'] = 'true';
+            $result['items'] = Pagamenti::GetListCasse($idcassa);;    
+        } catch (\Throwable $th) {
+            $result['status'] = '400';
+            $result['result'] = 'false';
+            $result['error'] = $th->getMessage();
+        }                
+        return $result;
+    }
+
     /**
      * Show the form for creating a new resource.
      */

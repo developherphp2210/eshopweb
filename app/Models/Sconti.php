@@ -87,4 +87,16 @@ class Sconti extends Model
         }
         return $result;
     }
+
+    static function GetListCasse($idcassa)
+    {
+        $lastupdate = Casse::LastUpdate($idcassa);        
+        if ( $lastupdate <> null )
+        {
+            return Sconti::whereRaw("attivo = 1 and ( updated_at >= '".$lastupdate."' or updated_at is null)")->get();
+        } else 
+        {
+            return Sconti::where('attivo','1')->orderBy('codice')->get();
+        }
+    }
 }

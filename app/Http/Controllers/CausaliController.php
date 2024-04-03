@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Causali;
 use Illuminate\Http\Request;
-use App\Models\Clienti;
 
-class ClientiController extends Controller
+class CausaliController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
-    {          
-        $clienti = Clienti::GetList();
-        return view('users.anagrafica.lista_clienti')->with(['title' => 'Lista Clienti Fidelity','index' => '2', 'clienti' => $clienti]);
+    {        
+        $listacausali = Causali::GetList();
+        return view('users.anagrafica.lista_causali')->with(['title' => 'Lista Causali','index' => '10', 'listacausali' => $listacausali]);
     }
 
     public function indexCasse(string $idcassa)
@@ -22,7 +22,7 @@ class ClientiController extends Controller
         try {
             $result['status'] = '200';
             $result['result'] = 'true';
-            $result['items'] = Clienti::GetListCasse($idcassa);;    
+            $result['items'] = Causali::GetListCasse($idcassa);;    
         } catch (\Throwable $th) {
             $result['status'] = '400';
             $result['result'] = 'false';
@@ -43,8 +43,13 @@ class ClientiController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        //
+    {        
+        $result['title'] = 'Gestione Causali';
+        $tmp = Causali::InserimentoCausali($request);
+        $result['message'] = $tmp['message'];
+        $result['error'] = $tmp['error'];
+        session()->flash('result',$result);        
+        return redirect()->back();
     }
 
     /**
@@ -52,7 +57,7 @@ class ClientiController extends Controller
      */
     public function show(string $id)
     {
-        //
+        return Causali::Show($id);
     }
 
     /**
@@ -68,7 +73,12 @@ class ClientiController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $result['title'] = 'Gestione Causali';
+        $tmp = Causali::AggiornaCausali($request,$id);
+        $result['message'] = $tmp['message'];
+        $result['error'] = $tmp['error'];
+        session()->flash('result',$result);        
+        return redirect()->back();
     }
 
     /**
@@ -76,6 +86,11 @@ class ClientiController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $result['title'] = 'Gestione Causali';
+        $tmp = Causali::CancellaCausali($id);
+        $result['message'] = $tmp['message'];
+        $result['error'] = $tmp['error'];
+        session()->flash('result',$result);        
+        return redirect()->back();
     }
 }

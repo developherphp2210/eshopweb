@@ -11,11 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('casse', function (Blueprint $table) {
-            $table->id();            
-            $table->bigInteger('id_deposito')->index()->unsigned();
-            $table->string('codice',10)->index('codep');
-            $table->string('descrizione',20)->nullable();
+        Schema::create('causali', function (Blueprint $table) {
+            $table->bigInteger('id')->primary()->unsigned();
+            $table->smallInteger('attivo')->default(1);           
+            $table->string('codice',6)->index();
+            $table->string('descrizione',30);
+            $table->char('type',1);
             $table->timestamps();
         });
     }
@@ -25,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('casse');
+        Schema::dropIfExists('causali');
     }
 };

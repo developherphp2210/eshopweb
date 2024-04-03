@@ -127,5 +127,17 @@ class Cassieri extends Model
         }
         return $result;
     }
+
+    static function GetListCasse($idcassa)
+    {
+        $lastupdate = Casse::LastUpdate($idcassa);        
+        if ( $lastupdate <> null )
+        {
+            return Cassieri::whereRaw("visibile_cassa = 1 and ( updated_at >= '".$lastupdate."' or updated_at is null)")->get();
+        } else 
+        {
+            return Cassieri::where('visibile_cassa','1')->orderBy('codice')->get();
+        }
+    }
     
 }

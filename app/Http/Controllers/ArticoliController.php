@@ -12,8 +12,24 @@ class ArticoliController extends Controller
      */
     public function index()
     {
-        $articoli = Articoli::GetArticleList();
+        $articoli = Articoli::GetList();
+       
         return view('users.anagrafica.lista_articoli')->with(['title' => 'Lista Articoli','index' => '3', 'articoli' => $articoli]);
+    }
+
+    public function indexCasse(string $idcassa)
+    {
+        $result = [];
+        try {
+            $result['status'] = '200';
+            $result['result'] = 'true';
+            $result['items'] = Articoli::GetListCasse($idcassa);;    
+        } catch (\Throwable $th) {
+            $result['status'] = '400';
+            $result['result'] = 'false';
+            $result['error'] = $th->getMessage();
+        }                
+        return $result;
     }
 
     /**

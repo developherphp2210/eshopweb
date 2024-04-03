@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\ArticoliController;
+use App\Http\Controllers\CasseController;
 use App\Http\Controllers\ClientiController;
 use App\Http\Controllers\RepartiController;
 use App\Http\Controllers\CassieriController;
@@ -9,6 +10,8 @@ use App\Http\Controllers\ProfiloController;
 use App\Http\Controllers\ScontiController;
 use App\Http\Controllers\PagamentiController;
 use App\Http\Controllers\FidelityController;
+use App\Http\Controllers\CausaliController;
+use App\Http\Controllers\DepositoController;
 use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\IvaController;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -65,12 +68,24 @@ Route::post('/pagamentoinsert',[PagamentiController::class,'store']);
 Route::post('/pagamentoupdate/{id}',[PagamentiController::class,'update']);
 Route::get('/pagamentodelete/{id}',[PagamentiController::class,'destroy']);
 
+Route::get('/causali',[CausaliController::class,'index']);
+Route::post('/causaleinsert',[CausaliController::class,'store']);
+Route::post('/causaleupdate/{id}',[CausaliController::class,'update']);
+Route::get('/causaledelete/{id}',[CausaliController::class,'destroy']);
+
+Route::get('/depositi',[DepositoController::class,'index']);
+
+Route::get('/casse',[CasseController::class,'index']);
+Route::post('/cassainsert',[CasseController::class,'store']);
+Route::post('/cassaupdate/{id}',[CasseController::class,'update']);
+Route::get('/cassadelete/{id}',[CasseController::class,'destroy']);
+
 Route::post('/add_fidelity',[FidelityController::class,'store']);
 Route::any('/fidelity/{id}',[FidelityController::class,'changeCard']);
 
 Route::get('receipt_list',[FidelityController::class,'index']);
 Route::get('receipt/{id}',[FidelityController::class,'show']);
-Route::get('receiptuser/{id}',[CustomerController::class,'receipt']);
+// Route::get('receiptuser/{id}',[CustomerController::class,'receipt']);
 
 Route::get('/promotions',[PromotionController::class,'index']);
 Route::post('promotion/filepdf',[PromotionController::class,'upload']);

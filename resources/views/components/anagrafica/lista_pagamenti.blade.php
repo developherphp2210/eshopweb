@@ -48,7 +48,7 @@
             <div class="sticky-leads-sidebar">
                 <div class="card mb-4">                            
                         @if($listapagamenti->count() > 0)
-                            <form action="{{@url('/pagamentoupdate/'.$reparti[0]->id)}}" enctype="multipart/form-data" id="pagamentoform" method="post">
+                            <form action="{{@url('/pagamentoupdate/'.$listapagamenti[0]->id)}}" enctype="multipart/form-data" id="pagamentoform" method="post">
                                 <div class="card-body">                                
                                     {{csrf_field()}}
                                     <div class="row">                                    
@@ -69,7 +69,66 @@
                                             <input class="form-control" type="text" maxlength="25" required name="descrizione" id="descrizione" value="{{$listapagamenti[0]->descrizione}}">
                                         </div>
                                     </div>                                                                         
-                                </div>    
+                                    <div class="row mt-4">
+                                        <div class="col-6">
+                                            <h5 class="mb-1">Tipologia di Pagamento</h5>                                            
+                                            <select class="form-select" required name="tipologia" id="tipologia">
+                                                <option {{$listapagamenti[0]->tipologia == '1' ? 'selected' : ''}} value="1">Contante</option>                                            
+                                                <option {{$listapagamenti[0]->tipologia == '2' ? 'selected' : ''}} value="2">Carta di Credito / Bancomat</option>                                            
+                                                <option {{$listapagamenti[0]->tipologia == '3' ? 'selected' : ''}} value="3">Buoni Pasto</option>                                            
+                                                <option {{$listapagamenti[0]->tipologia == '4' ? 'selected' : ''}} value="4">Carta Cliente</option>                                            
+                                                <option {{$listapagamenti[0]->tipologia == '5' ? 'selected' : ''}} value="5">Assegno</option>                                            
+                                                <option {{$listapagamenti[0]->tipologia == '6' ? 'selected' : ''}} value="6">A credito</option>                                            
+                                            </select>
+                                        </div>
+                                        <div class="col-6">
+                                            <h5 class="mb-1">Codice RT</h5>                                            
+                                            <select class="form-select" required name="tipo_rt" id="tipo_rt">
+                                                <option {{$listapagamenti[0]->tipo_rt == '0' ? 'selected' : ''}} value="0">Nessuno</option>                                            
+                                                <option {{$listapagamenti[0]->tipo_rt == '1' ? 'selected' : ''}} value="1">Non Riscosso Beni</option>                                            
+                                                <option {{$listapagamenti[0]->tipo_rt == '2' ? 'selected' : ''}} value="2">Non Riscosso Segue Fattura</option>                                            
+                                                <option {{$listapagamenti[0]->tipo_rt == '3' ? 'selected' : ''}} value="3">Non Riscosso Servizi</option>                                            
+                                                <option {{$listapagamenti[0]->tipo_rt == '4' ? 'selected' : ''}} value="4">Sconto a Pagare</option>                                            
+                                                <option {{$listapagamenti[0]->tipo_rt == '5' ? 'selected' : ''}} value="5">Non Riscosso Buoni Multiuso</option>                                            
+                                                <option {{$listapagamenti[0]->tipo_rt == '6' ? 'selected' : ''}} value="6">Ticket</option>                                            
+                                                <option {{$listapagamenti[0]->tipo_rt == '7' ? 'selected' : ''}} value="7">DCR SSN</option>                                            
+                                                <option {{$listapagamenti[0]->tipo_rt == '8' ? 'selected' : ''}} value="8">Buoni Monouso</option>                                            
+                                                <option {{$listapagamenti[0]->tipo_rt == '9' ? 'selected' : ''}} value="9">Contanti</option>                                            
+                                                <option {{$listapagamenti[0]->tipo_rt == '10' ? 'selected' : ''}} value="10">Elettronico</option>                                            
+                                            </select>
+                                        </div>                                        
+                                    </div>   
+                                    <div class="row mt-4">
+                                        <div class="col-6">
+                                            <h5 class="mb-1">Codice SDI</h5>
+                                            <select class="form-select" required name="codice_sdi" id="codice_sdi">
+                                                <option {{$listapagamenti[0]->codice_sdi == '0' ? 'selected' : ''}} value="0">Nessuno</option>
+                                                <option {{$listapagamenti[0]->codice_sdi == '1' ? 'selected' : ''}} value="1">Contanti (MP01)</option>
+                                                <option {{$listapagamenti[0]->codice_sdi == '2' ? 'selected' : ''}} value="2">Assegno (MP02)</option>
+                                                <option {{$listapagamenti[0]->codice_sdi == '3' ? 'selected' : ''}} value="3">Assegno circolare (MP03)</option>
+                                                <option {{$listapagamenti[0]->codice_sdi == '4' ? 'selected' : ''}} value="4">Contanti presso Tesoreria (MP04)</option>
+                                                <option {{$listapagamenti[0]->codice_sdi == '5' ? 'selected' : ''}} value="5">Bonifico (MP05)</option>
+                                                <option {{$listapagamenti[0]->codice_sdi == '6' ? 'selected' : ''}} value="6">Vaglia cambiario (MP06)</option>
+                                                <option {{$listapagamenti[0]->codice_sdi == '7' ? 'selected' : ''}} value="7">Bollettino bancario (MP07)</option>
+                                                <option {{$listapagamenti[0]->codice_sdi == '8' ? 'selected' : ''}} value="8">Carta di credito (MP08)</option>
+                                                <option {{$listapagamenti[0]->codice_sdi == '9' ? 'selected' : ''}} value="9">RID (MP09)</option>
+                                                <option {{$listapagamenti[0]->codice_sdi == '10' ? 'selected' : ''}} value="10">RID utenze (MP10)</option>
+                                                <option {{$listapagamenti[0]->codice_sdi == '11' ? 'selected' : ''}} value="11">RID veloce (MP11)</option>
+                                                <option {{$listapagamenti[0]->codice_sdi == '12' ? 'selected' : ''}} value="12">Riba (MP12)</option>
+                                                <option {{$listapagamenti[0]->codice_sdi == '13' ? 'selected' : ''}} value="13">MAV (MP13)</option>
+                                                <option {{$listapagamenti[0]->codice_sdi == '14' ? 'selected' : ''}} value="14">Quietanza erario stato (MP14)</option>
+                                                <option {{$listapagamenti[0]->codice_sdi == '15' ? 'selected' : ''}} value="15">Giroconto su conti di contabilità speciale (MP15)</option>
+                                                <option {{$listapagamenti[0]->codice_sdi == '16' ? 'selected' : ''}} value="16">Domiciliazione bancaria (MP16)</option>
+                                                <option {{$listapagamenti[0]->codice_sdi == '17' ? 'selected' : ''}} value="17">Domiciliazione postale (MP17)</option>
+                                                <option {{$listapagamenti[0]->codice_sdi == '18' ? 'selected' : ''}} value="18">Bollettino di c/c postale (MP 18)</option>
+                                                <option {{$listapagamenti[0]->codice_sdi == '19' ? 'selected' : ''}} value="19">Sepa direct debit (MP 19)</option>
+                                                <option {{$listapagamenti[0]->codice_sdi == '20' ? 'selected' : ''}} value="20">Sepa direct debit core (MP 20)</option>
+                                                <option {{$listapagamenti[0]->codice_sdi == '21' ? 'selected' : ''}} value="21">Sepa direct debit B2B (MP 21)</option>
+                                                <option {{$listapagamenti[0]->codice_sdi == '22' ? 'selected' : ''}} value="22">Trattenute su somme già riscosse (MP 22)</option>
+                                            </select>
+                                        </div>
+                                    </div> 
+                                </div>                                
                                 <div class="card-footer">
                                     <div class="d-flex justify-content-end">
                                         <button class="btn btn-outline-primary" id="savepagamento">Salva</button>
