@@ -520,7 +520,7 @@ console.log('qui');
 
     function schedaCas(id)
     {
-        fetch('/api/casse/'+id)
+        fetch('/api/cassa/'+id)
         .then((response) => {
             return response.json();
         }).then((resp) => {            

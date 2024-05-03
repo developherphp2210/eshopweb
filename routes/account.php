@@ -17,10 +17,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('/dashboard',[AccountController::class,'dash'])->name('dashboard');
-Route::get('/dashboardshop/{data}/{shop_id}',[AccountController::class,'shop'])->name('dashboardshop');
-Route::get('/dashboardtill/{data}/{till_id}',[AccountController::class,'till'])->name('dashboardtill');
+Route::get('/dashboarddeposito/{data}/{id_deposito}',[AccountController::class,'deposito'])->name('dashboardshop');
+Route::get('/dashboardcassa/{data}/{id_cassa}',[AccountController::class,'cassa'])->name('dashboardtill');
 Route::get('/dashboard/fidelity',[FidelityController::class,'dash'])->name('dashboardfidelity');
-Route::get('/dashboard_admin',[AdminController::class,'main']);
+// Route::get('/dashboard_admin',[AdminController::class,'main']);
 
 
 Route::get('/account/profile/{page}',[AccountController::class,'show']);

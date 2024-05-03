@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Casse;
+use App\Models\Depositi;
 use App\Models\FidelityCard;
 use App\Models\Shop;
+use App\Models\TestataScontrino;
 use App\Models\Till;
 use App\Models\TransactionHeader;
 use App\Models\User;
@@ -39,77 +42,76 @@ class AccountController extends Controller
         }   
     }
 
-    public function shop(string $newdata,string $shop_id)
+    public function deposito(string $newdata,string $id_deposito)
     {
         $user = session('user'); 
         $data = new DateTime($newdata);
-
-        $total['sessionid'] = $user->id;
+        
         $total['date'] = $data->format('Y-m-d');
 
         // calcolo importo giornaliero
-        $total['day'] = TransactionHeader::TotalDay($user->id,new DateTime($newdata),$shop_id,0);
+        $total['day'] = TestataScontrino::TotaleGiorno(new DateTime($newdata),$id_deposito,0);
         // calcolo importi settimanali
-        $total['week'] = TransactionHeader::TotalWeek($user->id,new DateTime($newdata),$shop_id,0);
+        $total['week'] = TestataScontrino::TotaleSettimana(new DateTime($newdata),$id_deposito,0);
         
         // calcolo importo mensile
-        $total['month'] = TransactionHeader::TotalMonth($user->id,new DateTime($newdata),$shop_id,0);
+        $total['month'] = TestataScontrino::TotaleMese(new DateTime($newdata),$id_deposito,0);
         
         // calcolo totale casse       
-        $total['tills'] = TransactionHeader::TotalTills($user->id,new DateTime($newdata),$shop_id);
+        $total['tills'] = TestataScontrino::TotaleCasse(new DateTime($newdata),$id_deposito);
 
-        $total['name'] = Shop::GetNameShop($shop_id);
-        $total['shopid'] = $shop_id;
+        $total['name'] = Depositi::GetName($id_deposito);
+        $total['shopid'] = $id_deposito;
         $total['tillid'] = '';
-        return view('users.mainpage')->with(['title' => 'Main Page','user' => $user, 'total' => $total]);                
+        return view('users.mainpage')->with(['title' => 'Main Page','user' => $user,'index' => '1', 'total' => $total]);                
 
     }
 
-    public function till(string $newdata,string $till_id)
+    public function cassa(string $newdata,string $id_cassa)
     {
         $user = session('user'); 
         $data = new DateTime($newdata);
 
-        $total['sessionid'] = $user->id;
+        
         $total['date'] = $data->format('Y-m-d');
 
         // calcolo importo giornaliero
-        $total['day'] = TransactionHeader::TotalDay($user->id,new DateTime($newdata),0,$till_id);
+        $total['day'] = TestataScontrino::Totalegiorno(new DateTime($newdata),0,$id_cassa);
         // calcolo importi settimanali
-        $total['week'] = TransactionHeader::TotalWeek($user->id,new DateTime($newdata),0,$till_id);
+        $total['week'] = TestataScontrino::TotaleSettimana(new DateTime($newdata),0,$id_cassa);
         
         // calcolo importo mensile
-        $total['month'] = TransactionHeader::TotalMonth($user->id,new DateTime($newdata),0,$till_id);
+        $total['month'] = TestataScontrino::TotaleMese(new DateTime($newdata),0,$id_cassa);
         
         // calcolo totale casse
         $total['tills'] = [];
 
-        $total['name'] = Till::GetNameTill($till_id);
-        $total['tillid'] = $till_id;
+        $total['name'] = Casse::GetName($id_cassa);
+        $total['tillid'] = $id_cassa;
         $total['shopid'] = '';
         
         // $total['tills'] = TransactionHeader::TotalTills($user->id,new DateTime($newdata));
-        return view('users.mainpage')->with(['title' => 'Main Page','user' => $user, 'total' => $total]);                
+        return view('users.mainpage')->with(['title' => 'Main Page','user' => $user,'index' => '1', 'total' => $total]);                
 
     }
 
     public function dash(Request $request){                   
         $user = session('user');        
         $data = $this->AggiornaData($request);
-        $total['sessionid'] = $user->id;
+        
         $total['date'] = $data->format('Y-m-d');
         
         // calcolo importo giornaliero
-        $total['day'] = TransactionHeader::TotalDay($user->id,$this->AggiornaData($request),0,0);
+        $total['day'] = TestataScontrino::Totalegiorno($this->AggiornaData($request),0,0);
         
         // calcolo importi settimanali
-        $total['week'] = TransactionHeader::TotalWeek($user->id,$this->AggiornaData($request),0,0);
+        $total['week'] = TestataScontrino::TotaleGiorno($this->AggiornaData($request),0,0);
         
         // calcolo importo mensile
-        $total['month'] = TransactionHeader::TotalMonth($user->id,$this->AggiornaData($request),0,0);
+        $total['month'] = TestataScontrino::TotaleMese($this->AggiornaData($request),0,0);
         
         // calcolo totale casse
-        $total['tills'] = TransactionHeader::TotalTills($user->id,$this->AggiornaData($request),0);
+        $total['tills'] = TestataScontrino::TotaleCasse($this->AggiornaData($request),0);
 
         $total['name'] = '';
         $total['tillid'] = '';

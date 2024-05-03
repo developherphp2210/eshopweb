@@ -31,6 +31,20 @@ class Casse extends Model
                     ->get();
     }
 
+    static function GetName($id_cassa){
+        return Casse::where('id',$id_cassa)
+                    ->select('descrizione')
+                    ->first();
+    }
+
+    static function GetCassa($idcassa)
+    {
+        return Casse::where('casse.id',$idcassa)
+                    ->join('deposito','deposito.id','=','casse.id_deposito')
+                    ->selectRaw('casse.id, casse.id_deposito,casse.codice , casse.descrizione , deposito.descrizione as deposito, deposito.codice as codep, deposito.id_listino')
+                    ->get();
+    }
+
     static function InserimentoCasse($data)
     {
         $result = [];
@@ -108,8 +122,13 @@ class Casse extends Model
     static function CloseRequest($idcassa)
     {
         Casse::where('id',$idcassa)->update([
-            'aggiorna' => 1,
+            'aggiorna' => 0,
             'lastupdate' => Date::now()
         ]);
+    }
+
+    static function GetId($codice)
+    {
+        return Casse::where('codice',$codice)->select('id')->first();
     }
 }

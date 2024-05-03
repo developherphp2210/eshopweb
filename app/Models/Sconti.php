@@ -23,7 +23,7 @@ class Sconti extends Model
 
     static function GetList()
     {
-        return Sconti::OrderBy('codice')->get();
+        return Sconti::whereRaw('id > 2')->OrderBy('codice')->get();
     }
 
     static function Show($id)

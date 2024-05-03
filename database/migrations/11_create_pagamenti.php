@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('pagamenti', function (Blueprint $table) {
             $table->id();            
-            $table->bigInteger('codice')->index('codtend')->unsigned()->unique();
+            $table->string('codice',6)->index('codtend');
             $table->string('descrizione',20)->nullable();
             $table->smallInteger('tipologia')->defaul(1);
             $table->smallInteger('codice_sdi')->defaul(1);

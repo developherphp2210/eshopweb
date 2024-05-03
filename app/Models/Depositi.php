@@ -13,7 +13,8 @@ class Depositi extends Model
     protected $fillable = [
         'id',        
         'codice',
-        'descrizione'
+        'descrizione',
+        'id_listino'
     ];
     
 
@@ -22,9 +23,20 @@ class Depositi extends Model
         return Depositi::orderBy('codice')->get();
     }
 
+    static function GetName($id_deposito){
+        return Depositi::where('id',$id_deposito)
+                    ->select('descrizione')
+                    ->first();
+    }
+
     static function Show($id)
     {
         return Depositi::where('id',$id)->first();
+    }
+
+    static function GetId($codice)
+    {
+        return Depositi::where('codice',$codice)->select('id')->first();
     }
     
 }

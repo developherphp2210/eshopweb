@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('sconti_scontrino', function (Blueprint $table) {
             $table->bigInteger('id_testata')->index('trans_id')->unsigned();
             $table->foreign('id_testata')->references('id')->on('testata_scontrino')->onUpdate('cascade')->onDelete('cascade');   
-            $table->string('id_sconti',30)->index();
+            $table->bigInteger('id_sconti')->index();
+            $table->bigInteger('id_corpo')->index();
             $table->decimal('importo')->default(0);            
         });
     }

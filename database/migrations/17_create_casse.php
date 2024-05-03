@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('codice',10)->index('codep');
             $table->string('descrizione',20)->nullable();
             $table->char('aggiorna',1)->default('0');
-            $table->timestamp('lastupdate');
+            $table->timestamp('lastupdate')->nullable();
             $table->timestamps();
         });
     }

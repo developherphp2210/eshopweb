@@ -5,7 +5,7 @@
         <div class="d-flex justify-content-between align-items-sm-center flex-column flex-sm-row mb-4">
             <div class="me-4 mb-3 mb-sm-0">
                 @if ($total['name'] != '')
-                <h1 class="mb-0">Dashboard - {{$total['name']->description}}</h1>
+                <h1 class="mb-0">Dashboard - {{$total['name']->descrizione}}</h1>
                 @else
                 <h1 class="mb-0">Dashboard</h1>
                 @endif
@@ -18,8 +18,7 @@
                 @elseif ($total['tillid'] != '')
                 <input type="hidden" id="tillid" value="{{$total['tillid']}}">
                 @endif
-            </div>
-            <input type="hidden" id="sessionId" value="{{$total['sessionid']}}">
+            </div>            
             <!-- Date range picker example-->
             <form id="formdate" action="{{url('/dashboard')}}" method="GET">
                 <div class="input-group input-group-joined border-0 shadow" style="width: 16.5rem">
@@ -99,43 +98,55 @@
                             @php($totale = 0)
 
                             @foreach ($total['tills'] as $till)
-                            @if ($firstrow == true)
-                            @php($deposito = $till->deposito)
-                            @php($firstrow=false)
-                            @elseif ($deposito !== $till->deposito)
-                            <a class="list-group-item list-group-item-action text-green" href="{{url('/dashboardshop/'.$total['date'].'/'.$shopid)}}">
-                                <!-- <i class="fas fa-dollar-sign fa-fw text-blue me-2"></i> -->
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <div>{{$deposito}}</div>
-                                    <div>{{'€ '.number_format($totale, 2, ",", ".")}}</div>
-                                </div>
-                            </a>
-                            @php($totale = 0)
-                            @php($deposito = $till->deposito)
-                            @endif
-                            <a class="list-group-item list-group-item-action text-pink" href="{{url('/dashboardtill/'.$total['date'].'/'.$till->till_id)}}">
-                                <!-- <i class="fas fa-dollar-sign fa-fw text-blue me-2"></i> -->
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <div>{{$till->cassa}}</div>
-                                    <div>{{'€ '.number_format($till->prezzo, 2, ",", ".")}}</div>
-                                </div>
-                            </a>
-                            @php($totale = $totale + $till->prezzo)
-                            @php($shopid = $till->shop_id)
+                                @if ($firstrow == true)
+                                    @php($deposito = $till->deposito)
+                                    @php($firstrow=false)
+                                @elseif ($deposito !== $till->deposito)
+                                <a class="list-group-item list-group-item-action text-green" href="{{url('/dashboarddeposito/'.$total['date'].'/'.$shopid)}}">
+                                    <!-- <i class="fas fa-dollar-sign fa-fw text-blue me-2"></i> -->
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <div>{{$deposito}}</div>
+                                        <div>{{'€ '.number_format($totale, 2, ",", ".")}}</div>
+                                    </div>
+                                </a>
+                                @php($totale = 0)
+                                @php($deposito = $till->deposito)
+                                @endif
+                                <a class="list-group-item list-group-item-action text-pink" href="{{url('/dashboardcassa/'.$total['date'].'/'.$till->id_cassa)}}">
+                                    <!-- <i class="fas fa-dollar-sign fa-fw text-blue me-2"></i> -->
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <div>{{$till->cassa}}</div>
+                                        <div>{{'€ '.number_format($till->prezzo, 2, ",", ".")}}</div>
+                                    </div>
+                                </a>
+                                @php($totale = $totale + $till->prezzo)
+                                @php($shopid = $till->id_deposito)
                             @endforeach
                             @if ($deposito !== '')
-                            <a class="list-group-item list-group-item-action text-green" href="{{url('/dashboardshop/'.$total['date'].'/'.$shopid)}}">
-                                <!-- <i class="fas fa-dollar-sign fa-fw text-blue me-2"></i> -->
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <div>{{$deposito}}</div>
-                                    <div>{{'€ '.number_format($totale, 2, ",", ".")}}</div>
-                                </div>
-                            </a>
+                                <a class="list-group-item list-group-item-action text-green" href="{{url('/dashboarddeposito/'.$total['date'].'/'.$shopid)}}">
+                                    <!-- <i class="fas fa-dollar-sign fa-fw text-blue me-2"></i> -->
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <div>{{$deposito}}</div>
+                                        <div>{{'€ '.number_format($totale, 2, ",", ".")}}</div>
+                                    </div>
+                                </a>
                             @endif
                         </div>
                         <div class="card-footer position-relative border-top-0">
                         </div>
                     </div>
+                    <div class="col-lg-12">
+                            <!-- Pie chart example-->
+                            <div class="card h-100">
+                                <div class="card-header">Forme di Pagamento</div>
+                                <div class="card-body">
+                                    <div class="mb-4"><canvas id="payment" width="100%" height="70"></canvas></div>
+                                    <div class="list-group list-group-flush" id="mainlist">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                 </div>
                 <div class="col-lg-8 mb-4">
                     <!-- Area chart example-->
@@ -146,9 +157,9 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-lg-6">
+                        <div class="col-lg-12">
                             <!-- Bar chart example-->
-                            <div class="card h-100">
+                            <div class="card ">
                                 <div class="card-header">Top 10 Reparti</div>
                                 <div class="card-body d-flex flex-column justify-content-center">
                                     <div class="mb-4"><canvas id="reparti" width="180" height="100%"></canvas></div>
@@ -163,18 +174,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-6">
-                            <!-- Pie chart example-->
-                            <div class="card h-100">
-                                <div class="card-header">Forme di Pagamento</div>
-                                <div class="card-body">
-                                    <div class="mb-4"><canvas id="payment" width="100%" height="70"></canvas></div>
-                                    <div class="list-group list-group-flush" id="mainlist">
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        
                     </div>
                 </div>
             </div>        

@@ -18,6 +18,21 @@ class CasseController extends Controller
         return view('users.barriera.lista_casse')->with(['title' => 'Lista Casse','index' => '22', 'listacasse' => $casse]);
     }
 
+    public function indexCasse(string $idcassa)
+    {
+        $result = [];
+        try {
+            $result['status'] = '200';
+            $result['result'] = 'true';
+            $result['items'] = Casse::GetCassa($idcassa);
+        } catch (\Throwable $th) {
+            $result['status'] = '400';
+            $result['result'] = 'false';
+            $result['error'] = $th->getMessage();
+        }                
+        return $result;
+    }
+
     public function check(string $codcassa,string $codep)
     {
         try{

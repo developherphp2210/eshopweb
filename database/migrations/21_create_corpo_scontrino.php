@@ -12,6 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('corpo_scontrino', function (Blueprint $table) {          
+            $table->id();
             $table->bigInteger('id_testata')->index('trans_id')->unsigned();
             $table->foreign('id_testata')->references('id')->on('testata_scontrino')->onUpdate('cascade')->onDelete('cascade');            
             $table->bigInteger('id_articolo')->index('codart')->unsigned();

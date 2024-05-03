@@ -20,7 +20,7 @@ function vis_data(data){
     return data.substr(8,2)+'/'+data.substr(5,2);
 }
 
-fetch('/api/chart/1/'+dateSelect.value+'/'+sessionId.value+'/'+shop_till)
+fetch('/api/chart/1/'+dateSelect.value+'/'+shop_till)
 .then( (response) => { return response.json(); })
 .then( (resp) =>{
     let label = [];
@@ -70,13 +70,13 @@ fetch('/api/chart/1/'+dateSelect.value+'/'+sessionId.value+'/'+shop_till)
 
    
 
-fetch('/api/chart/2/'+dateSelect.value+'/'+sessionId.value+'/'+shop_till)
+fetch('/api/chart/2/'+dateSelect.value+'/'+shop_till)
 .then( (response) => { return response.json(); })
 .then( (resp) =>{
     let label = [];
     let date = [];
     resp.forEach(element => {   
-        label.push(element['description'].substr(0,7));
+        label.push(element['descrizione'].substr(0,7));
         date.push(element['totale']);
     });     
     new Chart(chart2, {
@@ -128,26 +128,26 @@ function AddListPayment(payment){
     div1.classList.add('px-0');
     div1.classList.add('py-2');
     let div2 = document.createElement('div');
-    div2.innerHTML = payment['description'];
+    div2.innerHTML = payment['descrizione'];
     let i = document.createElement('i');
     i.classList.add('me-1');
     div1.appendChild(div2);
     let div3 = document.createElement('div');
     div3.classList.add('fw-500');
     div3.classList.add('text-dark');
-    let imp = ((100 * parseFloat(payment['totale'])) / parseFloat(totalday.innerHTML)) / 1000;    
+    let imp = ((100 * parseFloat(payment['totale'])) / parseFloat(totalday.innerHTML)) ;    
     div3.innerHTML = imp.toFixed(2) + ' %';
     div1.appendChild(div3);
     divList.appendChild(div1);
 }
 
-fetch('/api/chart/3/'+dateSelect.value+'/'+sessionId.value+'/'+shop_till)
+fetch('/api/chart/3/'+dateSelect.value+'/'+shop_till)
 .then( (response) => { return response.json(); })
 .then( (resp) =>{
     let label = [];
     let date = [];
     resp.forEach(element => {   
-        label.push(element['description']);
+        label.push(element['descrizione']);
         date.push(element['totale']);
         AddListPayment(element);
     });

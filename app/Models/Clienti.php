@@ -80,4 +80,6 @@ class Clienti extends Model
             return Clienti::orderBy('codice')->get();
         }
     }
+
+    
 }

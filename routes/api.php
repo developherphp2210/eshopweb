@@ -12,6 +12,7 @@ use App\Http\Controllers\DepositoController;
 use App\Http\Controllers\ProfiloController;
 use App\Http\Controllers\ScontiController;
 use App\Http\Controllers\PagamentiController;
+use App\Http\Controllers\VendutoController;
 use App\Http\Middleware\AccessToApi;
 use App\Models\Codean;
 use App\Models\EListino;
@@ -43,9 +44,10 @@ Route::get('sconto/{id}',[ScontiController::class,'show']);
 Route::get('pagamento/{id}',[PagamentiController::class,'show']);
 Route::get('causale/{id}',[CausaliController::class,'show']);
 Route::get('deposito/{id}',[DepositoController::class,'show']);
-Route::get('casse/{id}',[CasseController::class,'show']);
+Route::get('cassa/{id}',[CasseController::class,'show']);
 
 Route::get('check/{cassa}/{deposito}',[CasseController::class,'check']);
+Route::get('casse/{idcassa}',[CasseController::class,'indexCasse']);
 Route::get('profili/{idcassa}',[ProfiloController::class,'indexCasse']);
 Route::get('cassieri/{idcassa}',[CassieriController::class,'indexCasse']);
 Route::get('aliquote/{idcassa}',[IvaController::class,'indexCasse']);
@@ -85,7 +87,7 @@ Route::get('barcode/{idcassa}',function($idcassa){
     try {
         $result['status'] = '200';
         $result['result'] = 'true';
-        $result['items'] = Codean::GetListCasse($idcassa);;    
+        $result['items'] = Codean::GetListCasse($idcassa);
     } catch (\Throwable $th) {
         $result['status'] = '400';
         $result['result'] = 'false';
@@ -107,6 +109,8 @@ Route::get('elistini/{idcassa}',function($idcassa){
     return $result;
 });
 Route::get('clienti/{idcassa}',[ClientiController::class,'indexCasse']);
-Route::get('closerequest/{idcassa}',[CasseController::class,'closeRequest']);
+Route::get('closecheck/{idcassa}',[CasseController::class,'closeRequest']);
 
-Route::get('/chart/{type}/{date}/{id}/{shoptill}',[TransactionController::class,'show']);
+Route::post('venduto',[VendutoController::class,'store']);
+
+Route::get('/chart/{type}/{date}/{shoptill}',[TransactionController::class,'show']);

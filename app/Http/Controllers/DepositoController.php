@@ -14,7 +14,7 @@ class DepositoController extends Controller
         $listadepositi['listino'] = TListino::GetList();
         return view('users.barriera.lista_depositi')->with(['title' => 'Lista Depositi','index' => '21', 'listadepositi' => $listadepositi]);
     }
-
+    
     public function Show(string $id)
     {
         return Depositi::Show($id);
