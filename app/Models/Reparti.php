@@ -16,7 +16,7 @@ class Reparti extends Model
         'id',        
         'codice',
         'descrizione',
-        'visibile'
+        'posizione'
     ];
 
     static function GetList()
@@ -36,7 +36,7 @@ class Reparti extends Model
             Reparti::create([                    
                 'codice' => $data->codice,
                 'descrizione' => $data->descrizione,
-                'visibile' => ($data->visibile == 'on') ? '1' : '0',                
+                'posizione' => ($data->visibile == 'on') ? '1' : '0',                
                 'attivo' => ($data->attivo == 'on') ? '1' : '0'
             ]);   
             $result['message'] = 'Reparto Creato Correttamente';
@@ -56,7 +56,7 @@ class Reparti extends Model
             Reparti::where('id',$id)->update([                    
                 'codice' => $data->codice,
                 'descrizione' => $data->descrizione,
-                'visibile' => ($data->visibile == 'on') ? '1' : '0',
+                'posizione' => ($data->visibile == 'on') ? '1' : '0',
                 'attivo' => ($data->attivo == 'on') ? '1' : '0'
             ]);   
             $result['message'] = 'Reparto Aggiornato Correttamente';

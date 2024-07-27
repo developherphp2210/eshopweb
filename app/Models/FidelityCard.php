@@ -35,7 +35,7 @@ class FidelityCard extends Model
     */
     static function AddFidelity($id,$card){
 
-        $customerid = Customer::where('codice_fidelity',$card)->first();
+        $customerid = FidelityCard::where('codice_fidelity',$card)->first();
         
         if ($customerid){
             FidelityCard::create([

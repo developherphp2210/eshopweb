@@ -61,6 +61,7 @@ class Cassieri extends Model
                     'primo_accesso' => 1
                 ]);
             }
+            Casse::UpdateCasse();
             $result['message'] = 'Cassiere Creato Correttamente';
             $result['error'] = 'false';             
         } catch (\Throwable $th) {
@@ -102,7 +103,8 @@ class Cassieri extends Model
                     'user_name' => $data->descrizione
                 ]);
             }
-            Cassieri::where('id',$id)->update($dati);               
+            Cassieri::where('id',$id)->update($dati);  
+            Casse::UpdateCasse();             
             $result['message'] = 'Cassiere Aggiornato Correttamente';
             $result['error'] = 'false';             
         } catch (\Throwable $th) {
@@ -120,6 +122,7 @@ class Cassieri extends Model
             Cassieri::where('id',$id)->delete();            
             $result['message'] = 'Cassiere Cancellato!!';
             $result['error'] = 'false';
+            Casse::UpdateCasse();
         } catch (\Throwable $th) {
             $result['message'] = $th->getMessage();
             $result['error'] = 'true';

@@ -52,6 +52,7 @@ class Profili extends Model
                 'codice' => $data->codice,
                 'descrizione' => $data->descrizione,                
             ]);   
+            Casse::UpdateCasse();
             $result['message'] = 'Profilo Creato Correttamente';
             $result['error'] = 'false';             
         } catch (\Throwable $th) {
@@ -88,6 +89,7 @@ class Profili extends Model
                 'fattura' => ($data->fattura == 'on') ? '1' : '0',   
                 'scontrino' => ($data->scontrino == 'on') ? '1' : '0',
             ]);   
+            Casse::UpdateCasse();
             $result['message'] = 'Profilo Aggiornato Correttamente';
             $result['error'] = 'false';             
         } catch (\Throwable $th) {
@@ -105,6 +107,7 @@ class Profili extends Model
             Profili::where('id',$id)->delete();            
             $result['message'] = 'Profilo Cancellato!!';
             $result['error'] = 'false';
+            Casse::UpdateCasse();
         } catch (\Throwable $th) {
             $result['message'] = $th->getMessage();
             $result['error'] = 'true';

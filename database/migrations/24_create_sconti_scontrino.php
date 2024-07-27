@@ -15,9 +15,12 @@ return new class extends Migration
             $table->bigInteger('id_testata')->index('trans_id')->unsigned();
             $table->foreign('id_testata')->references('id')->on('testata_scontrino')->onUpdate('cascade')->onDelete('cascade');   
             $table->bigInteger('id_sconti')->index();
+            $table->foreign('id_sconti')->references('id')->on('sconti')->onUpdate('restrict')->onDelete('restrict');   
             $table->bigInteger('id_corpo')->index();
             $table->decimal('importo')->default(0);            
         });
+
+        
     }
 
     /**

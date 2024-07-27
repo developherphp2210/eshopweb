@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('logo',20)->nullable();
             $table->bigInteger('id_reparto')->index('codrep')->unsigned(); 
             $table->foreign('id_reparto')->references('id')->on('reparti')->onUpdate('restrict')->onDelete('restrict');
-            $table->smallInteger('tasto_rapido')->default(0);
+            $table->smallInteger('posizione')->default(0);            
             $table->bigInteger('id_iva')->index('codiva')->unsigned();
             $table->foreign('id_iva')->references('id')->on('iva')->onUpdate('restrict')->onDelete('restrict');
             $table->smallInteger('attivo')->default(1);

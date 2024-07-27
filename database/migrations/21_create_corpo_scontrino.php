@@ -22,7 +22,7 @@ return new class extends Migration
             $table->decimal('prezzo')->default(0);
             $table->smallInteger('presenza_sconto')->default(0);
             $table->decimal('quantita')->default(1);        
-            $table->string('type',1);
+            $table->string('causale',1);
             // $table->decimal('discounts_coupon')->default(0);         
         });
     }

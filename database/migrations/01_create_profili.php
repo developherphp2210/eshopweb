@@ -19,6 +19,7 @@ return new class extends Migration
             $table->smallInteger('versamenti')->default(0);
             $table->smallInteger('prelievi')->default(0);
             $table->smallInteger('richiama_scontrino')->default(0);
+            $table->smallInteger('sospendi_scontrino')->default(0);
             $table->smallInteger('sconti')->default(0);
             $table->smallInteger('correzioni')->default(0);
             $table->smallInteger('annulla_scontrino')->default(0);
@@ -44,6 +45,7 @@ return new class extends Migration
             'versamenti' => 1,
             'prelievi' => 1,
             'richiama_scontrino' => 1,
+            'sospendi_scontrino' => 1,
             'sconti' => 1,
             'correzioni' => 1,
             'annulla_scontrino' => 1,
@@ -60,6 +62,7 @@ return new class extends Migration
             'versamenti' => 1,
             'prelievi' => 0,
             'richiama_scontrino' => 1,
+            'sospendi_scontrino' => 1,
             'sconti' => 0,
             'correzioni' => 1,
             'annulla_scontrino' => 0,

@@ -209,18 +209,9 @@ if (ul){
 const saveiva = document.querySelector('#saveiva');
 
 if (saveiva){    
-    const addiva = document.querySelector('#addiva');    
+    
     const ivaform = document.querySelector('#ivaform');
 
-    addiva.addEventListener('click',( ) => {                
-        document.querySelector('#codice').value = '';         
-        document.querySelector('#descrizione').value = '';
-        document.querySelector('#aliquota').value = '';         
-        document.querySelector('#reparto_fiscale').value = '';
-        document.querySelector('#attivo').checked = true;
-        ivaform.action = '/ivainsert';
-        saveiva.innerHTML = 'Inserisci';
-    });
 
     function schedaIva(id)
     {
@@ -244,19 +235,10 @@ if (saveiva){
 const savereparto = document.querySelector('#savereparto');
 
 if (savereparto){    
-    const addreparto = document.querySelector('#addreparto');    
+        
     const repartoform = document.querySelector('#repartoform');
 
-    addreparto.addEventListener('click',( ) => {                
-        document.querySelector('#codice').value = '';         
-        document.querySelector('#descrizione').value = '';
-        document.querySelector('#visibile').checked = true;                 
-        document.querySelector('#attivo').checked = true;
-        repartoform.action = '/repartoinsert';
-        savereparto.innerHTML = 'Inserisci';
-        document.querySelector('#codice').focus();  
-    });
-
+    
     function schedaRep(id)
     {
         fetch('/api/reparto/'+id)

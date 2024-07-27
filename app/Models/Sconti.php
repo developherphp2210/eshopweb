@@ -41,7 +41,8 @@ class Sconti extends Model
                 'attivo' => ($data->attivo == 'on') ? '1' : '0',
                 'valore' => $data->valore,
                 'tipo' => $data->tipo
-            ]);   
+            ]); 
+            Casse::UpdateCasse();  
             $result['message'] = 'Sconto Inserito Correttamente';
             $result['error'] = 'false';             
         } catch (\Throwable $th) {
@@ -63,6 +64,7 @@ class Sconti extends Model
                 'valore' => $data->valore,
                 'tipo' => $data->tipo
             ]);   
+            Casse::UpdateCasse();
             $result['message'] = 'Sconto Modificato Correttamente';
             $result['error'] = 'false';             
         } catch (\Throwable $th) {
@@ -80,6 +82,7 @@ class Sconti extends Model
             Sconti::where('id',$id)->delete();            
             $result['message'] = 'Sconto Cancellato!!';
             $result['error'] = 'false';
+            Casse::UpdateCasse();
         } catch (\Throwable $th) {
             $result['message'] = $th->getMessage();
             $result['error'] = 'true';

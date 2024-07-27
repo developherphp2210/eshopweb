@@ -15,6 +15,7 @@ return new class extends Migration
             $table->bigInteger('id_testata')->index('trans_id')->unsigned();
             $table->foreign('id_testata')->references('id')->on('testata_scontrino')->onUpdate('cascade')->onDelete('cascade');   
             $table->bigInteger('id_pagamenti')->index('codpay')->unsigned();
+            $table->foreign('id_pagamenti')->references('id')->on('pagamenti')->onUpdate('restrict')->onDelete('restrict');    
             $table->decimal('importo')->default(0);      
         });
     }

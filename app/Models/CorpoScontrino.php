@@ -23,14 +23,14 @@ class CorpoScontrino extends Model
         'prezzo',
         'presenza_sconto',
         'quantita',
-        'type'
+        'causale'
     ];
 
     static function MemorizzoCorpo($id,$data)
     {
         $corpo = CorpoScontrino::create([
             'id_testata' => $id,
-            'type' => $data[1],
+            'causale' => $data[1],
             'id_articolo' => $data[2],
             'id_codean' => $data[3],
             'prezzo' => ($data[6] < 0) ? '-'.str_replace(',','.',$data[4]) : str_replace(',','.',$data[4]),

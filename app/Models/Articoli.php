@@ -18,7 +18,7 @@ class Articoli extends Model
         'des_breve',
         'logo',
         'id_reparto',        
-        'tasto_rapido',
+        'posizione',
         'id_iva',
         'attivo'
     ];

@@ -131,4 +131,13 @@ class Casse extends Model
     {
         return Casse::where('codice',$codice)->select('id')->first();
     }
+
+    static function UpdateCasse():void
+    {
+
+        Casse::all()->update([
+            'aggiorna' => 1
+        ]);
+        
+    }
 }

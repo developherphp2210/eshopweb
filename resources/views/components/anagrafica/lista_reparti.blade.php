@@ -15,29 +15,20 @@
     </header>
     <div class="px-4 mt-4">
         <div class="row g-4 g-xl-6">
-            <div class="col-xl-5 col-xxl-5">
-                <div class="p-1 mb-2">
-                    <button type="button" id="addreparto" class="btn btn-primary">Aggiungi Reparto</button>
-                </div>
+            <div class="col-xl-5 col-xxl-5">                
                 <div class="table-responsive">
                     <table id="lista" class="table table-hover table-sm" style="width:100%">
                         <thead>
                             <tr>
                                 <th>Codice</th>
-                                <th>Descrizione</th>
-                                <th></th>
+                                <th>Descrizione</th>                                
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($reparti as $reparto)
                             <tr onclick="schedaRep({{$reparto->id}})">
                                 <td>{{$reparto->codice}}</td>
-                                <td>{{$reparto->descrizione}}</td>
-                                <td>
-                                    <a title="Elimina" onclick="return confirm(`Sei sicuro di voler cancellare il Reparto {{$reparto->descrizione}} ? `)" href="{{url('/repartodelete/'.$reparto->id)}}">
-                                            <button class="btn btn-datatable btn-icon btn-transparent-dark"><i style="color:red" data-feather="trash-2"></i></button>
-                                    </a>
-                                </td>
+                                <td>{{$reparto->descrizione}}</td>                                
                             </tr>
                             @endforeach
                         </tbody>
@@ -46,8 +37,7 @@
             </div>
         <div class="col-xl-7 col-xxl-7 p-4">
             <div class="sticky-leads-sidebar">
-                <div class="card mb-4">        
-                    
+                <div class="card mb-4">                            
                         @if($reparti->count() > 0)
                             <form action="{{@url('/repartoupdate/'.$reparti[0]->id)}}" enctype="multipart/form-data" id="repartoform" method="post">
                                 <div class="card-body">                                
@@ -69,19 +59,11 @@
                                             <h5 class="mb-1">Descrizione</h5>
                                             <input class="form-control" type="text" maxlength="25" required name="descrizione" id="descrizione" value="{{$reparti[0]->descrizione}}">
                                         </div>
-                                    </div>                                     
-                                    <div class="row mt-4">
-                                        <div class="col-4">
-                                            <h5 class="mb-1">Visibile in Cassa</h5>
-                                            <div class="form-check form-switch mb-0">
-                                                <input class="form-check-input ms-auto" type="checkbox" name="visibile" role="switch" {{($reparti[0]->visibile == '1') ? 'checked' : ''}}  id="visibile">
-                                            </div> 
-                                        </div>                                        
-                                    </div>
+                                    </div>                                                                         
                                 </div>    
                                 <div class="card-footer">
                                     <div class="d-flex justify-content-end">
-                                        <button class="btn btn-outline-primary" id="savereparto">Salva</button>
+                                        <button class="btn btn-outline-primary d-none" id="savereparto">Salva</button>
                                     </div>
                                 </div>
                             </form>
@@ -106,19 +88,11 @@
                                             <h5 class="mb-1">Descrizione</h5>
                                             <input class="form-control" type="text" maxlength="25" required name="descrizione" id="descrizione" value="">
                                         </div>
-                                    </div>                                     
-                                    <div class="row mt-4">
-                                        <div class="col-4">
-                                            <h5 class="mb-1">Visibile in Cassa</h5>
-                                            <div class="form-check form-switch mb-0">
-                                                <input class="form-check-input ms-auto" type="checkbox" name="visibile" role="switch"  id="visibile">
-                                            </div> 
-                                        </div>                                        
-                                    </div>   
+                                    </div>                                                                           
                                 </div>                                                            
                                 <div class="card-footer">
                                     <div class="d-flex justify-content-end">
-                                        <button class="btn btn-outline-primary" id="savereparto">Inserisci</button>
+                                        <button class="btn btn-outline-primary d-none" id="savereparto">Inserisci</button>
                                     </div>
                                 </div>
                             </form>

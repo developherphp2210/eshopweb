@@ -15,18 +15,14 @@
     </header>
     <div class="px-4 mt-4">
         <div class="row g-4 g-xl-6">
-            <div class="col-xl-5 col-xxl-5">
-                <div class="p-1 mb-2">
-                    <button type="button" id="addiva" class="btn btn-primary">Aggiungi Aliquota</button>
-                </div>
+            <div class="col-xl-5 col-xxl-5">                
                 <div class="table-responsive">
                     <table id="lista" class="table table-hover table-sm" style="width:100%">
                         <thead>
                             <tr>
                                 <th>Codice</th>
                                 <th>Descrizione</th>
-                                <th>Aliquota</th>
-                                <th></th>
+                                <th>Aliquota</th>                                
                             </tr>
                         </thead>
                         <tbody>
@@ -34,12 +30,7 @@
                             <tr onclick="schedaIva({{$iva->id}})">
                                 <td>{{$iva->codice}}</td>
                                 <td>{{$iva->descrizione}}</td>
-                                <td>{{$iva->aliquota}}</td>
-                                <td>
-                                    <a title="Elimina" onclick="return confirm(`Sei sicuro di voler cancellare l'aliquota IVA {{$iva->descrizione}} ? `)" href="{{url('/ivadelete/'.$iva->id)}}">
-                                            <button class="btn btn-datatable btn-icon btn-transparent-dark"><i style="color:red" data-feather="trash-2"></i></button>
-                                    </a>
-                                </td>
+                                <td>{{$iva->aliquota}}</td>                                
                             </tr>
                             @endforeach
                         </tbody>
@@ -56,7 +47,7 @@
                                     <div class="row">                                    
                                         <div class="col-4">
                                             <h5 class="mb-1">Codice</h5>
-                                            <input class="form-control" type="text" maxlength="6" id="codice" name="codice" value="{{$aliquote[0]->codice}}">
+                                            <input class="form-control" readonly type="text" maxlength="6" id="codice" name="codice" value="{{$aliquote[0]->codice}}">
                                         </div>
                                         <div class="col-8 d-flex justify-content-end">
                                             <h5 class="mb-1">Attivo</h5>
@@ -123,7 +114,7 @@
                                 </div>                                                            
                                 <div class="card-footer">
                                     <div class="d-flex justify-content-end">
-                                        <button class="btn btn-outline-primary" id="saveiva">Inserisci</button>
+                                        <button class="btn btn-outline-primary d-none" id="saveiva">Inserisci</button>
                                     </div>
                                 </div>
                             </form>

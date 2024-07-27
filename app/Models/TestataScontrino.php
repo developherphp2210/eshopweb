@@ -25,7 +25,9 @@ class TestataScontrino extends Model
         'numero_scontrino',
         'punti',
         'punti_jolly',
-        'causale_documento'  
+        'causale_documento',
+        'numero_chiusura',
+        'matricola_fiscale'  
     ];
 
     private function ConverTimestamp($data){        
@@ -42,7 +44,9 @@ class TestataScontrino extends Model
             'data' => (new self)->ConverTimestamp($data[2]),
             'causale_documento' => $data[1],
             'importo' => str_replace(',','.',$data[7]),
-            'numero_scontrino' => $data[9]
+            'numero_scontrino' => $data[9],
+            'numero_chiusura' => $data[10],
+            'matricola_fiscale' => $data[11]
         ]);
         return $testata['id'];
     }
