@@ -71,14 +71,18 @@ class Clienti extends Model
 
     static function GetListCasse($idcassa)
     {
-        $lastupdate = Casse::LastUpdate($idcassa);        
-        if ( $lastupdate <> null )
-        {
-            return Clienti::whereRaw("updated_at >= '".$lastupdate."' or updated_at is null")->get();
-        } else 
-        {
-            return Clienti::orderBy('codice')->get();
-        }
+        if (Casse::AggiornaBackend($idcassa) == '1'){
+            $lastupdate = Casse::LastUpdate($idcassa);        
+            if ( $lastupdate <> null )
+            {
+                return Clienti::whereRaw("updated_at >= '".$lastupdate."' or updated_at is null")->get();
+            } else 
+            {
+                return Clienti::orderBy('codice')->get();
+            }
+        } else {
+            return [];
+        }    
     }
 
     

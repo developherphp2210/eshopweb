@@ -39,4 +39,14 @@ class ScontiScontrino extends Model
             'importo' => str_replace(',','.',$data[3])
         ]);
     }
+
+    static function ListaTransazioni($idcassa,$iddeposito,$data)
+    {
+        return ScontiScontrino::where('testata_scontrino.id_deposito',$iddeposito)
+                                ->where('testata_scontrino.id_cassa',$idcassa)
+                                ->whereRaw(" DATE(testata_scontrino.data) = '".$data."'")
+                                ->join('testata_scontrino','testata_scontrino.id','=','sconti_scontrino.id_testata')
+                                ->selectRaw('sconti_scontrino.id_testata,sconti_scontrino.id_sconti,sconti_scontrino.importo,sconti_scontrino.id_corpo')
+                                ->get();
+    }
 }

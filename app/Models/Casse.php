@@ -7,6 +7,7 @@ use App\MyClass\MyLog;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Facades\DB;
 
 class Casse extends Model
 {
@@ -19,7 +20,8 @@ class Casse extends Model
         'id_deposito',
         'codice',
         'descrizione',
-        'aggiorna',
+        'aggiorna_backend',
+        'aggiorna_frontend',
         'lastupdate'
     ];
 
@@ -109,7 +111,7 @@ class Casse extends Model
         return Casse::where('casse.codice',$codcassa)
               ->where('deposito.codice',$codep)
               ->join('deposito','deposito.id','=','casse.id_deposito')            
-              ->selectRaw('casse.id , casse.aggiorna')
+              ->selectRaw('casse.id , casse.aggiorna_backend, casse.aggiorna_frontend')
               ->first();
     }
 
@@ -119,25 +121,28 @@ class Casse extends Model
         return $tmp['lastupdate'];
     }
 
+    static function AggiornaBackend($id)
+    {
+        $tmp = Casse::where('id',$id)->select('aggiorna_backend')->first();
+        return $tmp['aggiorna_backend'];
+    }
+
     static function CloseRequest($idcassa)
     {
         Casse::where('id',$idcassa)->update([
-            'aggiorna' => 0,
+            'aggiorna_backend' => 0,
+            'aggiorna_frontend' =>0,
             'lastupdate' => Date::now()
         ]);
     }
 
-    static function GetId($codice)
+    static function GetId($codice,$iddeposito)
     {
-        return Casse::where('codice',$codice)->select('id')->first();
+        return Casse::where('codice',$codice)->where('id_deposito',$iddeposito)->select('id')->first();
     }
 
     static function UpdateCasse():void
     {
-
-        Casse::all()->update([
-            'aggiorna' => 1
-        ]);
-        
+        DB::table('casse')->update(['aggiorna_frontend' => 1]);
     }
 }

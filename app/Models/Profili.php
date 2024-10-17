@@ -13,8 +13,7 @@ class Profili extends Model
     protected $table = 'profili';
 
     protected $fillable = [
-        'id',
-        'codice',
+        'id',        
         'descrizione',
         'versamenti',
         'prelievi',
@@ -31,12 +30,13 @@ class Profili extends Model
         'scontrino',
         'dashboard',
         'cassieri',
-        'anagrafiche'
+        'anagrafiche',
+        'stampa_addestramenti'
     ];
 
     static function GetNameList()
     {
-        return Profili::select('codice','descrizione','id')->OrderBy('codice')->get();
+        return Profili::select('descrizione','id')->OrderBy('id')->get();
     }
 
     static function GetList()
@@ -48,8 +48,7 @@ class Profili extends Model
     {
         $result = [];
         try {            
-            Profili::create([                    
-                'codice' => $data->codice,
+            Profili::create([                                    
                 'descrizione' => $data->descrizione,                
             ]);   
             Casse::UpdateCasse();
@@ -67,8 +66,7 @@ class Profili extends Model
     {
         $result = [];
         try {            
-            Profili::where('id',$id)->update([                    
-                'codice' => $data->codice,
+            Profili::where('id',$id)->update([                                    
                 'descrizione' => $data->descrizione,                        
                 'dashboard' => ($data->dashboard == 'on') ? '1' : '0',   
                 'anagrafiche' => ($data->anagrafiche == 'on') ? '1' : '0',   
@@ -88,6 +86,7 @@ class Profili extends Model
                 'scarico' => ($data->scarico == 'on') ? '1' : '0',   
                 'fattura' => ($data->fattura == 'on') ? '1' : '0',   
                 'scontrino' => ($data->scontrino == 'on') ? '1' : '0',
+                'stampa_addestramenti' => ($data->stampa_addestramenti == 'on') ? '1' : '0'
             ]);   
             Casse::UpdateCasse();
             $result['message'] = 'Profilo Aggiornato Correttamente';

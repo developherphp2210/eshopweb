@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Casse;
+use App\Models\Causali;
 use App\Models\CorpoScontrino;
+use App\Models\Depositi;
+use App\Models\MovimentiVerpre;
 use App\Models\PagamentiScontrino;
 use App\Models\ScontiScontrino;
 use App\Models\TestataScontrino;
@@ -42,11 +46,12 @@ class VendutoController extends Controller
                 $data = str_getcsv($value,'|');
                 MyLog::WriteLog($value,1);
                 switch ($data[0]) {
+                    case 'V': MovimentiVerpre::InsertMovimentiVerpre($data);
                     case 'T':                        
                         if ($data[1] == 'S') {
                             ScontiScontrino::MemorizzoScontiSbt($id,$data);
-                        } else {    
-                            $id = TestataScontrino::MemorizzaTestata($data);
+                        } else {                            
+                            $id = TestataScontrino::MemorizzaTestata($data);                            
                         }
                         break;
                     case 'C':
@@ -78,9 +83,17 @@ class VendutoController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $cassa,string $deposito,string $data)
     {
-        //
+        $iddeposito = Depositi::GetId($deposito)['id'];
+        $idcassa = Casse::GetId($cassa,$iddeposito)['id']; 
+        $result['status'] = '200';
+        $result['result'] = 'true';      
+        $result['testata'] = TestataScontrino::ListaTransazioni($idcassa,$iddeposito,$data);
+        $result['corpo'] = CorpoScontrino::ListaTransazioni($idcassa,$iddeposito,$data);
+        $result['sconti'] = ScontiScontrino::ListaTransazioni($idcassa,$iddeposito,$data);
+        $result['pagamenti'] = PagamentiScontrino::ListaTransazioni($idcassa,$iddeposito,$data);
+        return $result;
     }
 
     /**

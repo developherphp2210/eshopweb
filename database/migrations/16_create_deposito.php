@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -18,6 +19,14 @@ return new class extends Migration
             $table->bigInteger('id_listino')->index()->unsigned();
             $table->timestamps();
         });
+
+        DB::table('deposito')->insert([
+            ['id' => 0,
+            'codice' => 0,
+            'descrizione' => 'TUTTI I DEPOSITI',
+            'id_listino' => 0
+            ]            
+        ]);
     }
 
     /**

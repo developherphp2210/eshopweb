@@ -36,7 +36,8 @@ Route::get('/clienti',[ClientiController::class,'index']);
 Route::get('/clienti/{id}/{page}',[ClientiController::class,'show']);
 
 Route::get('/articoli',[ArticoliController::class,'index']);
-Route::get('/articoli/{id}/{page}',[ArticoliController::class,'show']);
+Route::get('/articolo/{id}/{page}',[ArticoliController::class,'show']);
+Route::get('/ricercaArticoli',[ArticoliController::class,'ricerca']);
 
 Route::get('/reparti',[RepartiController::class,'index']);
 Route::post('/repartoinsert',[RepartiController::class,'store']);

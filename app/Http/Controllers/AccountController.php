@@ -105,7 +105,7 @@ class AccountController extends Controller
         $total['day'] = TestataScontrino::Totalegiorno($this->AggiornaData($request),0,0);
         
         // calcolo importi settimanali
-        $total['week'] = TestataScontrino::TotaleGiorno($this->AggiornaData($request),0,0);
+        $total['week'] = TestataScontrino::TotaleSettimana($this->AggiornaData($request),0,0);
         
         // calcolo importo mensile
         $total['month'] = TestataScontrino::TotaleMese($this->AggiornaData($request),0,0);

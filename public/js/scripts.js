@@ -204,6 +204,24 @@ if (ul){
     })
 }
 
+// PAGINA RICERCA ARTICOLI
+
+const mysearch = document.querySelector('#mysearch');
+const departmentList = document.querySelector('#departmentList');
+
+
+if (mysearch){
+    
+    function schedaArt(id){        
+        window.location.href='/article/'+id+'/1';
+    }
+
+    departmentList.addEventListener('change',() => {
+        document.getElementById('myform').submit();
+    });
+}
+
+
 /**  GESTIONE ALIQUOTE IVA  */
 
 const saveiva = document.querySelector('#saveiva');
@@ -263,13 +281,13 @@ if (savecassiere){
     const addcassiere = document.querySelector('#addcassiere');    
     const cassiereform = document.querySelector('#cassiereform');
 
-    addcassiere.addEventListener('click',( ) => {                
-        document.querySelector('#codice').value = '';         
+    addcassiere.addEventListener('click',( ) => {                                 
         document.querySelector('#descrizione').value = '';
         document.querySelector('#barcode').value = '';                 
         document.querySelector('#password').value = '';
         document.querySelector('#attivo').checked = true;
         document.querySelector('#id_profilo').value = '0'; 
+        document.querySelector('#id_deposito').value = '0';
         document.getElementById('visibile_cassa').checked =  false ;                                                        
         document.getElementById('visibile_frontend').checked =  false ;                                                        
         document.getElementById('visibile_frontend').disabled = false;
@@ -284,8 +302,7 @@ if (savecassiere){
         fetch('/api/cassiere/'+id)
         .then((response) => {
             return response.json();
-        }).then((resp) => {            
-            document.querySelector('#codice').value = resp['codice'];             
+        }).then((resp) => {                                   
             document.querySelector('#descrizione').value = resp['descrizione']; 
             document.querySelector('#barcode').value = resp['barcode'];             
             document.querySelector('#password').value = resp['password'];              
@@ -301,6 +318,7 @@ if (savecassiere){
             }
             (resp['attivo'] == '1') ? document.getElementById('attivo').checked = true : document.getElementById('attivo').checked =  false ;            
             document.querySelector('#id_profilo').value = resp['id_profilo'];            
+            document.querySelector('#id_deposito').value = resp['id_deposito'];
             cassiereform.action = '/cassiereupdate/'+id;
             savecassiere.innerHTML = 'Salva';
         });
@@ -315,9 +333,10 @@ if (saveprofilo){
     const addprofilo = document.querySelector('#addprofilo');    
     const profiloform = document.querySelector('#profiloform');
 
-    addprofilo.addEventListener('click',( ) => {                
-        document.querySelector('#codice').value = '';         
-        document.querySelector('#descrizione').value = '';        
+    addprofilo.addEventListener('click',( ) => { 
+        document.querySelector('#id').value = '';                                
+        document.querySelector('#descrizione').value = ''; 
+        document.querySelector('#descrizione').focus();      
         profiloform.action = '/profiloinsert';
         saveprofilo.innerHTML = 'Inserisci';
     });
@@ -327,8 +346,7 @@ if (saveprofilo){
         fetch('/api/profilo/'+id)
         .then((response) => {
             return response.json();
-        }).then((resp) => {            
-            document.querySelector('#codice').value = resp['codice'];             
+        }).then((resp) => {                                   
             document.querySelector('#descrizione').value = resp['descrizione'];                         
             (resp['dashboard'] == '1') ? document.getElementById('dashboard').checked = true : document.getElementById('dashboard').checked =  false ;            
             (resp['anagrafiche'] == '1') ? document.getElementById('anagrafiche').checked = true : document.getElementById('anagrafiche').checked =  false ;            
@@ -362,15 +380,15 @@ if (savesconto){
     const addsconto = document.querySelector('#addsconto');    
     const scontoform = document.querySelector('#scontoform');
 
-    addsconto.addEventListener('click',( ) => {                
-        document.querySelector('#codice').value = '';         
+    addsconto.addEventListener('click',( ) => { 
+        document.querySelector('#id').value = '';                              
         document.querySelector('#descrizione').value = '';
         document.querySelector('#tipo').value = 0;                 
         document.querySelector('#valore').value = 0;
         document.querySelector('#attivo').checked = true;
         scontoform.action = '/scontoinsert';
         savesconto.innerHTML = 'Inserisci';
-        document.querySelector('#codice').focus();  
+        document.querySelector('#descrizione').focus();  
     });
 
     function schedaSco(id)
@@ -378,8 +396,8 @@ if (savesconto){
         fetch('/api/sconto/'+id)
         .then((response) => {
             return response.json();
-        }).then((resp) => {            
-            document.querySelector('#codice').value = resp['codice'];             
+        }).then((resp) => {                        
+            document.querySelector('#id').value = resp['id'];
             document.querySelector('#descrizione').value = resp['descrizione']; 
             document.querySelector('#tipo').value = resp['tipo']; 
             document.querySelector('#valore').value = resp['valore'];             
@@ -398,8 +416,8 @@ if (savepagamento){
     const addpagamento = document.querySelector('#addpagamento');    
     const pagamentoform = document.querySelector('#pagamentoform');
 
-    addpagamento.addEventListener('click',( ) => {                
-        document.querySelector('#codice').value = '';         
+    addpagamento.addEventListener('click',( ) => {
+        document.querySelector('#id').value = '';
         document.querySelector('#descrizione').value = '';        
         document.querySelector('#attivo').checked = true;
         document.querySelector('#tipologia').value = 0;            
@@ -407,7 +425,7 @@ if (savepagamento){
         document.querySelector('#codice_sdi').value = 0;  
         pagamentoform.action = '/pagamentoinsert';
         savepagamento.innerHTML = 'Inserisci';
-        document.querySelector('#codice').focus();  
+        document.querySelector('#descrizione').focus();  
     });
 
     function schedaPag(id)
@@ -415,8 +433,8 @@ if (savepagamento){
         fetch('/api/pagamento/'+id)
         .then((response) => {
             return response.json();
-        }).then((resp) => {            
-            document.querySelector('#codice').value = resp['codice'];             
+        }).then((resp) => {                                    
+            document.querySelector('#id').value = resp['id'];             
             document.querySelector('#descrizione').value = resp['descrizione'];             
             (resp['attivo'] == '1') ? document.getElementById('attivo').checked = true :     document.getElementById('attivo').checked =  false ;            
             document.querySelector('#tipologia').value = resp['tipologia'];            

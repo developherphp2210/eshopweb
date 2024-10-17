@@ -23,6 +23,7 @@ return new class extends Migration
             $table->bigInteger('id_iva')->index('codiva')->unsigned();
             $table->foreign('id_iva')->references('id')->on('iva')->onUpdate('restrict')->onDelete('restrict');
             $table->smallInteger('attivo')->default(1);
+            $table->string('um',1)->nullable();
             $table->timestamps();
         });
     }

@@ -23,20 +23,22 @@
                     <table id="lista" class="table table-hover table-sm" style="width:100%">
                         <thead>
                             <tr>
-                                <th>Codice</th>
+                                <th>Codice</th>                                
                                 <th>Descrizione</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($listapagamenti as $pagamento)
-                            <tr onclick="schedaPag({{$pagamento->id}})">
-                                <td>{{$pagamento->codice}}</td>
+                            <tr onclick="schedaPag({{$pagamento->id}})">                                
+                                <td>{{$pagamento->id}}</td>
                                 <td>{{$pagamento->descrizione}}</td>
                                 <td>
+                                    @if ($pagamento->id > 1)
                                     <a title="Elimina" onclick="return confirm(`Sei sicuro di voler cancellare il Pagamento {{$pagamento->descrizione}} ? `)" href="{{url('/pagamentodelete/'.$pagamento->id)}}">
                                             <button class="btn btn-datatable btn-icon btn-transparent-dark"><i style="color:red" data-feather="trash-2"></i></button>
-                                    </a>
+                                    </a>                                    
+                                    @endif
                                 </td>
                             </tr>
                             @endforeach
@@ -52,9 +54,9 @@
                                 <div class="card-body">                                
                                     {{csrf_field()}}
                                     <div class="row">                                    
-                                        <div class="col-4">
+                                        <div class="col-4" id="codice_id">
                                             <h5 class="mb-1">Codice</h5>
-                                            <input class="form-control" type="text" maxlength="6" id="codice" name="codice" value="{{$listapagamenti[0]->codice}}">
+                                            <input class="form-control" type="text" readonly maxlength="6" id="id" name="id" value="{{$listapagamenti[0]->id}}">
                                         </div>
                                         <div class="col-8 d-flex justify-content-end">
                                             <h5 class="mb-1">Attivo</h5>
@@ -67,7 +69,7 @@
                                         <div class="col-8">
                                             <h5 class="mb-1">Descrizione</h5>
                                             <input class="form-control" type="text" maxlength="25" required name="descrizione" id="descrizione" value="{{$listapagamenti[0]->descrizione}}">
-                                        </div>
+                                        </div>                                        
                                     </div>                                                                         
                                     <div class="row mt-4">
                                         <div class="col-6">
@@ -85,16 +87,20 @@
                                             <h5 class="mb-1">Codice RT</h5>                                            
                                             <select class="form-select" required name="tipo_rt" id="tipo_rt">
                                                 <option {{$listapagamenti[0]->tipo_rt == '0' ? 'selected' : ''}} value="0">Nessuno</option>                                            
+                                                <option {{$listapagamenti[0]->tipo_rt == '9' ? 'selected' : ''}} value="9">Contanti</option>
+                                                <option {{$listapagamenti[0]->tipo_rt == '10' ? 'selected' : ''}} value="10">Elettronico</option>                                            
+                                                <option {{$listapagamenti[0]->tipo_rt == '11' ? 'selected' : ''}} value="11">Assegno</option>
+                                                <option {{$listapagamenti[0]->tipo_rt == '6' ? 'selected' : ''}} value="6">Ticket</option>                                            
+                                                <option {{$listapagamenti[0]->tipo_rt == '4' ? 'selected' : ''}} value="4">Sconto a Pagare</option>                                            
+                                                <option {{$listapagamenti[0]->tipo_rt == '8' ? 'selected' : ''}} value="8">Buoni Monouso</option>                                            
                                                 <option {{$listapagamenti[0]->tipo_rt == '1' ? 'selected' : ''}} value="1">Non Riscosso Beni</option>                                            
                                                 <option {{$listapagamenti[0]->tipo_rt == '2' ? 'selected' : ''}} value="2">Non Riscosso Segue Fattura</option>                                            
-                                                <option {{$listapagamenti[0]->tipo_rt == '3' ? 'selected' : ''}} value="3">Non Riscosso Servizi</option>                                            
-                                                <option {{$listapagamenti[0]->tipo_rt == '4' ? 'selected' : ''}} value="4">Sconto a Pagare</option>                                            
-                                                <option {{$listapagamenti[0]->tipo_rt == '5' ? 'selected' : ''}} value="5">Non Riscosso Buoni Multiuso</option>                                            
-                                                <option {{$listapagamenti[0]->tipo_rt == '6' ? 'selected' : ''}} value="6">Ticket</option>                                            
+                                                <option {{$listapagamenti[0]->tipo_rt == '3' ? 'selected' : ''}} value="3">Non Riscosso Servizi</option>                                                                                                                                                                                            
                                                 <option {{$listapagamenti[0]->tipo_rt == '7' ? 'selected' : ''}} value="7">DCR SSN</option>                                            
-                                                <option {{$listapagamenti[0]->tipo_rt == '8' ? 'selected' : ''}} value="8">Buoni Monouso</option>                                            
-                                                <option {{$listapagamenti[0]->tipo_rt == '9' ? 'selected' : ''}} value="9">Contanti</option>                                            
-                                                <option {{$listapagamenti[0]->tipo_rt == '10' ? 'selected' : ''}} value="10">Elettronico</option>                                            
+                                                
+                                                
+                                                
+                                                
                                             </select>
                                         </div>                                        
                                     </div>   

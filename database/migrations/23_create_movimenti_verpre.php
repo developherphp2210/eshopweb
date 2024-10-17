@@ -11,15 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('causali_scontrino', function (Blueprint $table) {
+        Schema::create('movimenti_verpre', function (Blueprint $table) {
             $table->id();            
             $table->bigInteger('id_deposito')->index()->unsigned();
             $table->bigInteger('id_cassa')->index()->unsigned();
             $table->bigInteger('id_operatore')->index()->unsigned();
-            $table->bigInteger('id_causale')->index()->unsigned();
-            $table->bigInteger('id_pagamenti')->index()->unsigned();
-            $table->decimal('importo')->default(0);
-            $table->integer('numero_scontrino');
+            $table->bigInteger('id_causale')->index()->unsigned();            
+            $table->decimal('importo')->default(0);            
             $table->timestamp('data');
         });
     }
@@ -29,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('causali_scontrino');
+        Schema::dropIfExists('movimenti_verpre');
     }
 };

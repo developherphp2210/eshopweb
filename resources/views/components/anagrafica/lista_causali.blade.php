@@ -142,10 +142,10 @@
                     "next": "Prossima",
                     "previous": "Precedente"
                 },
-                "infoFiltered": "(filtro su _MAX_ Pagamenti totali)",
-                "emptyTable": "Nessun Pagamento trovato",
-                "info": "Mostra da _START_ a _END_ su _TOTAL_ Pagamenti",
-                "infoEmpty": "Mostra 0 di 0 su 0 Pagamenti",
+                "infoFiltered": "(filtro su _MAX_ Causali totali)",
+                "emptyTable": "Nessuna Causale trovata",
+                "info": "Mostra da _START_ a _END_ su _TOTAL_ Causali",
+                "infoEmpty": "Mostra 0 di 0 su 0 Causalii",
             }
         });
     });

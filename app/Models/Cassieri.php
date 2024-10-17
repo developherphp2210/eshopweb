@@ -15,22 +15,21 @@ class Cassieri extends Model
     protected $table = 'operatori';
 
     protected $fillable = [
-        'id',        
-        'codice',
+        'id',                
         'descrizione',
         'password',
         'barcode',
         'attivo',
         'visibile_cassa',
         'visibile_frontend',
-        'id_profilo'
+        'id_profilo',
+        'id_deposito'
     ];
 
     static function GetList()
     {
-        return Cassieri::selectRaw('operatori.visibile_cassa ,operatori.visibile_frontend, operatori.attivo,operatori.codice,operatori.descrizione,operatori.id,profili.descrizione as profilo,operatori.password,operatori.barcode,operatori.id_profilo')
-                        ->join('profili','profili.id','=','operatori.id_profilo')               
-                        ->orderBy('operatori.codice') 
+        return Cassieri::selectRaw('operatori.visibile_cassa ,operatori.visibile_frontend, operatori.attivo,operatori.descrizione,operatori.id,profili.descrizione as profilo,operatori.password,operatori.barcode,operatori.id_profilo')
+                        ->join('profili','profili.id','=','operatori.id_profilo')                                                               
                         ->get();
     }
 
@@ -43,15 +42,15 @@ class Cassieri extends Model
     {
         $result = [];
         try {            
-            $cassiere = Cassieri::create([                    
-                'codice' => $data->codice,
+            $cassiere = Cassieri::create([                                    
                 'descrizione' => $data->descrizione,
                 'password' => $data->password,                
                 'attivo' => ($data->attivo == 'on') ? '1' : '0',                
                 'barcode' => $data->barcode, 
                 'visibile_cassa' => ($data->visibile_cassa == 'on') ? '1' : '0',   
                 'visibile_frontend' => ($data->visibile_frontend == 'on') ? '1' : '0',   
-                'id_profilo' => $data->id_profilo                
+                'id_profilo' => $data->id_profilo,                
+                'id_deposito' => $data->id_deposito
             ]);  
             if ($data->visibile_frontend == 'on'){
                 User::create([
@@ -77,14 +76,14 @@ class Cassieri extends Model
         $result = [];
         try {        
             $cassiere = Cassieri::where('id',$id)->first();
-            $dati = [
-                'codice' => $data->codice,
+            $dati = [                
                 'descrizione' => $data->descrizione,
                 'password' => $data->password,                
                 'attivo' => ($data->attivo == 'on') ? '1' : '0',                
                 'barcode' => $data->barcode,    
                 'visibile_cassa' => ($data->visibile_cassa == 'on') ? '1' : '0',                   
-                'id_profilo' => $data->id_profilo 
+                'id_profilo' => $data->id_profilo,
+                'id_deposito' => $data->id_deposito
             ];
             if ($cassiere->visibile_frontend == 0)
             {
@@ -136,10 +135,16 @@ class Cassieri extends Model
         $lastupdate = Casse::LastUpdate($idcassa);        
         if ( $lastupdate <> null )
         {
-            return Cassieri::whereRaw("visibile_cassa = 1 and ( updated_at >= '".$lastupdate."' or updated_at is null)")->get();
+            return Cassieri::selectRaw('operatori.id,operatori.descrizione,operatori.id_profilo,operatori.password,operatori.barcode,deposito.codice')
+                            ->join('deposito','deposito.id','=','operatori.id_deposito')
+                            ->whereRaw("operatori.attivo = 1 and operatori.visibile_cassa = 1 and ( operatori.updated_at >= '".$lastupdate."' or operatori.updated_at is null)")
+                            ->get();
         } else 
         {
-            return Cassieri::where('visibile_cassa','1')->orderBy('codice')->get();
+            return Cassieri::selectRaw('operatori.id,operatori.descrizione,operatori.id_profilo,operatori.password,operatori.barcode,deposito.codice')
+                            ->join('deposito','deposito.id','=','operatori.id_deposito')
+                            ->whereRaw('operatori.attivo = 1 and operatori.visibile_cassa = 1')                            
+                            ->get();
         }
     }
     

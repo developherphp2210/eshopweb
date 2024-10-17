@@ -42,4 +42,8 @@ class Utility
         }
         return $randomString;
     }
+
+    static function ConverTimestamp($data){        
+        return substr($data,6,4).'-'.substr($data,3,2).'-'.substr($data,0,2).' '.substr($data,11,8);
+    }
 }

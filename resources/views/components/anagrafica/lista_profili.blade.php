@@ -31,7 +31,7 @@
                         <tbody>
                             @foreach ($listaprofili as $profilo)
                             <tr onclick="schedaPro({{$profilo->id}})">
-                                <td>{{$profilo->codice}}</td>
+                                <td>{{$profilo->id}}</td>
                                 <td>{{$profilo->descrizione}}</td>                                
                                 <td>
                                     <a title="Elimina" onclick="return confirm(`Sei sicuro di voler cancellare il Profilo {{$profilo->descrizione}} ? `)" href="{{url('/profilodelete/'.$profilo->id)}}">
@@ -46,8 +46,7 @@
             </div>
         <div class="col-xl-7 col-xxl-7 p-4">
             <div class="sticky-leads-sidebar">
-                <div class="card mb-4">        
-                    
+                <div class="card mb-4">                            
                         @if($listaprofili->count() > 0)
                             <form action="{{@url('/profiloupdate/'.$listaprofili[0]->id)}}" enctype="multipart/form-data" id="profiloform" method="post">
                                 <div class="card-body">                                
@@ -55,7 +54,7 @@
                                     <div class="row">                                    
                                         <div class="col-4">
                                             <h5 class="mb-1">Codice</h5>
-                                            <input class="form-control" type="text" maxlength="6" id="codice" name="codice" value="{{$listaprofili[0]->codice}}">
+                                            <input class="form-control" type="text" readonly maxlength="6" id="id" name="id" value="{{$listaprofili[0]->id}}">
                                         </div>                                        
                                     </div>
                                     <div class="row mt-4">
@@ -285,11 +284,11 @@
                                             <div class="col-4">
                                                 <div class="row">
                                                     <div class="col-8">
-                                                        <!-- <h5 class="mb-1">Stampa Scontrini</h5> -->
+                                                        <h5 class="mb-1">Visualizza Addestramento</h5>
                                                     </div>
                                                     <div class="col-4">                                                            
                                                         <div class="form-check form-switch mb-0">
-                                                            <!-- <input class="form-check-input ms-auto" type="checkbox" name="scontrino" role="switch" {{($listaprofili[0]->scontrino == '1') ? 'checked' : ''}} id="scontrino"> -->
+                                                            <input class="form-check-input ms-auto" type="checkbox" name="stampa_addestramenti" role="switch" {{($listaprofili[0]->stampa_addestramenti == '1') ? 'checked' : ''}} id="stampa_addestramenti">
                                                         </div> 
                                                     </div>    
                                                 </div>  
@@ -306,13 +305,7 @@
                         @else
                             <form action="{{@url('/profiloinsert')}}" enctype="multipart/form-data" id="profiloform" method="post">                            
                                 <div class="card-body">
-                                    {{csrf_field()}} 
-                                    <div class="row">                                    
-                                        <div class="col-4">
-                                            <h5 class="mb-1">Codice</h5>
-                                            <input class="form-control" type="text" maxlength="6" id="codice" name="codice" value="">
-                                        </div>                                        
-                                    </div>
+                                    {{csrf_field()}}                                     
                                     <div class="row mt-4">
                                         <div class="col-8">
                                             <h5 class="mb-1">Descrizione</h5>

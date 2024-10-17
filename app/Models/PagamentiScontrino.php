@@ -77,4 +77,14 @@ class PagamentiScontrino extends Model
                                  ->limit(10)
                                  ->get();
     }
+
+    static function ListaTransazioni($idcassa,$iddeposito,$data)
+    {
+        return PagamentiScontrino::where('testata_scontrino.id_deposito',$iddeposito)
+                                ->where('testata_scontrino.id_cassa',$idcassa)
+                                ->whereRaw(" DATE(testata_scontrino.data) = '".$data."'")
+                                ->join('testata_scontrino','testata_scontrino.id','=','pagamenti_scontrino.id_testata')
+                                ->selectRaw('pagamenti_scontrino.id_testata,pagamenti_scontrino.id_pagamenti,pagamenti_scontrino.importo')
+                                ->get();
+    }
 }

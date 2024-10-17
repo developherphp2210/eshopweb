@@ -37,15 +37,15 @@ class CasseController extends Controller
     {
         try{
             $item = Casse::check($codcassa,$codep);                        
-            if ($item['aggiorna'] == '1')
+            if (($item['aggiorna_backend'] == '1') || ($item['aggiorna_frontend'] == '1'))
             {
                 $result['status'] = '200';
                 $result['result'] = 'true';
                 $result['idcassa'] = $item['id'];
-            } else 
-            {
+                return $result;
+            } else { 
                 $result['status'] = '200';
-                $result['result'] = 'false';
+                $result['result'] = 'false';            
             }
         } catch (\Throwable $th) {
             $result['status'] = '400';

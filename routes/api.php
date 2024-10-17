@@ -32,9 +32,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
 
 Route::get('iva/{id}',[IvaController::class,'show']);
 Route::get('reparto/{id}',[RepartiController::class,'show']);
@@ -114,3 +111,5 @@ Route::get('closecheck/{idcassa}',[CasseController::class,'closeRequest']);
 Route::post('venduto',[VendutoController::class,'store']);
 
 Route::get('/chart/{type}/{date}/{shoptill}',[TransactionController::class,'show']);
+
+Route::get('/listatransazione/{cassa}/{deposito}/{data}',[VendutoController::class,'show']);

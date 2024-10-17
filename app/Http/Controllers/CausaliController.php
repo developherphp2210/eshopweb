@@ -36,7 +36,7 @@ class CausaliController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**

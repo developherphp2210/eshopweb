@@ -13,8 +13,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('sconti', function (Blueprint $table) {
-            $table->id();
-            $table->string('codice',4)->index()->unique();
+            $table->id();            
 	        $table->string('descrizione',30)->nullable();
             $table->smallInteger('tipo')->default(1);
             $table->decimal('valore');

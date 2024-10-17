@@ -6,7 +6,7 @@
                     <div class="col-auto mb-3">
                         <h1 class="page-header-title">
                             <div class="page-header-icon"><i data-feather="user"></i></div>
-                            Scheda Articolo - {{$articles->description}}
+                            Scheda Articolo - {{$listaArticolo['articolo']->descrizione}}
                         </h1>
                     </div>
                 </div>
@@ -17,8 +17,8 @@
     <div class="container-xl px-4 mt-4">
         <!-- Account page navigation-->
         <nav class="nav nav-borders">
-            <a class="nav-link ms-0" href="{{url('/article/'.$articles->id.'/1')}}">Scheda Articolo</a>
-            <a class="nav-link active " href="{{url('/article/'.$articles->id.'/2')}}">Partitario</a>
+        <a class="nav-link  ms-0" href="{{url('/articolo/'.$listaArticolo['articolo']->id.'/1')}}">Scheda Articolo</a>
+        <a class="nav-link active" href="{{url('/articolo/'.$listaArticolo['articolo']->id.'/2')}}">Partitario</a>
         </nav>
         <hr class="mt-0 mb-4" />
         <div class="card mb-4">
@@ -32,24 +32,24 @@
                                 <th class="text-center">Cliente</th>
                                 <th class="text-center">Cassiere</th>
                                 <th class="text-center">Quantità</th>
-                                <th class="text-center">Prezzo</th>
+                                <th class="text-center">Prezzo Unit.</th>
                                 <th class="text-center">Sconto</th>
                                 <th class="text-center">Data</th>
                                 <th class="text-center">Numero Transazione</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($ledgers as $ledger)
+                            @foreach ($listaArticolo['transazioni'] as $transazione)
                             <tr>
-                                <td>{{$ledger->cassa}}</td>
-                                <td>{{$ledger->deposito}}</td>
-                                <td>{{$ledger->cliente}}</td>
-                                <td>{{$ledger->cassiere}}</td>
-                                <td class="text-end">{{$ledger->quantity}}</td>
-                                <td class="text-end">{{number_format($ledger->price, 2, ",", ".")}}</td>
-                                <td class="text-end">{{number_format($ledger->discounts, 2, ",", ".")}}</td>
-                                <td class="text-center">{{$ledger->data}}</td>
-                                <td class="text-end">{{$ledger->transaction_number}}</td>
+                                <td>{{$transazione->cassa}}</td>
+                                <td>{{$transazione->deposito}}</td>
+                                <td>{{$transazione->cliente}}</td>
+                                <td>{{$transazione->cassiere}}</td>
+                                <td class="text-end">{{$transazione->quantita}}</td>
+                                <td class="text-end">{{number_format($transazione->prezzo_lordo, 2, ",", ".")}}</td>
+                                <td class="text-end">{{number_format($transazione->sconto, 2, ",", ".")}}</td>
+                                <td class="text-center">{{$transazione->data}}</td>
+                                <td class="text-end">{{$transazione->numero_scontrino}}</td>
                             </tr>
                             @endforeach
                         </tbody>

@@ -22,8 +22,7 @@
                 <div class="table-responsive">
                     <table id="lista" class="table table-hover table-sm" style="width:100%">
                         <thead>
-                            <tr>
-                                <th>Codice</th>
+                            <tr>                                
                                 <th>Descrizione</th>
                                 <th>Profilo</th>
                                 <th></th>
@@ -31,8 +30,7 @@
                         </thead>
                         <tbody>
                             @foreach ($listacassieri['cassieri'] as $cassiere)
-                            <tr onclick="schedaCas({{$cassiere->id}})">
-                                <td>{{$cassiere->codice}}</td>
+                            <tr onclick="schedaCas({{$cassiere->id}})">                                
                                 <td>{{$cassiere->descrizione}}</td>
                                 <td>{{$cassiere->profilo}}</td>
                                 <td>
@@ -53,23 +51,17 @@
                         @if($listacassieri['cassieri']->count() > 0)
                             <form action="{{@url('/cassiereupdate/'.$listacassieri['cassieri'][0]->id)}}" enctype="multipart/form-data" id="cassiereform" method="post">
                                 <div class="card-body">                                
-                                    {{csrf_field()}}
-                                    <div class="row">                                    
-                                        <div class="col-4">
-                                            <h5 class="mb-1">Codice</h5>
-                                            <input class="form-control" type="text" maxlength="6" id="codice" name="codice" value="{{$listacassieri['cassieri'][0]->codice}}">
-                                        </div>
-                                        <div class="col-8 d-flex justify-content-end">
-                                            <h5 class="mb-1">Attivo</h5>
-                                            <div class="form-check form-switch mb-0">
-                                                <input class="form-check-input ms-auto" type="checkbox" name="attivo" role="switch" {{($listacassieri['cassieri'][0]->attivo == '1') ? 'checked' : ''}}  id="attivo">
-                                            </div>   
-                                        </div>
-                                    </div>
+                                    {{csrf_field()}}                                    
                                     <div class="row mt-4">
                                         <div class="col-8">
                                             <h5 class="mb-1">Descrizione</h5>
                                             <input class="form-control" type="text" maxlength="25" required name="descrizione" id="descrizione" value="{{$listacassieri['cassieri'][0]->descrizione}}">
+                                        </div>
+                                        <div class="col-4 d-flex justify-content-end">
+                                            <h5 class="mb-1">Attivo</h5>
+                                            <div class="form-check form-switch mb-0">
+                                                <input class="form-check-input ms-auto" type="checkbox" name="attivo" role="switch" {{($listacassieri['cassieri'][0]->attivo == '1') ? 'checked' : ''}}  id="attivo">
+                                            </div>   
                                         </div>
                                     </div>
                                     <div class="row mt-4">
@@ -97,7 +89,7 @@
                                         </div>
                                     </div>
                                     <div class="row mt-4">
-                                        <div>
+                                        <div class="col-6">
                                             <h5 class="mb-1">Profilo Operatore</h5>
                                             <select class="form-select mb-3" required name="id_profilo" id="id_profilo">
                                             <option value="">Seleziona un Profilo</option>
@@ -105,7 +97,16 @@
                                                 <option {{( $listacassieri['cassieri'][0]->id_profilo == $profilo->id) ? 'selected' : ''}} value="{{$profilo->id}}">{{$profilo->descrizione}}</option>
                                                 @endforeach
                                             </select>
-                                        </div>    
+                                        </div>
+                                        <div class="col-6">
+                                            <h5 class="mb-1">Deposito</h5>
+                                            <select class="form-select mb-3" required name="id_deposito" id="id_deposito">
+                                                <option value="0">Tutti i Depositi</option>
+                                                @foreach ($listacassieri['depositi'] as $deposito)
+                                                <option value="{{$deposito->id}}">{{$deposito->descrizione}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>     
                                     </div>                                                                         
                                 </div>    
                                 <div class="card-footer">
@@ -117,23 +118,17 @@
                         @else
                             <form action="{{@url('/cassiereinsert')}}" enctype="multipart/form-data" id="cassiereform" method="post">                            
                                 <div class="card-body">
-                                    {{csrf_field()}} 
-                                    <div class="row">                                    
-                                        <div class="col-4">
-                                            <h5 class="mb-1">Codice</h5>
-                                            <input class="form-control" type="text" maxlength="6" id="codice" name="codice" value="">
-                                        </div>
-                                        <div class="col-8 d-flex justify-content-end">
-                                            <h5 class="mb-1">Attivo</h5>
-                                            <div class="form-check form-switch mb-0">
-                                                <input class="form-check-input ms-auto" type="checkbox" name="attivo" checked role="switch" id="attivo">
-                                            </div>   
-                                        </div>
-                                    </div>
+                                    {{csrf_field()}}                                     
                                     <div class="row mt-4">
                                         <div class="col-8">
                                             <h5 class="mb-1">Descrizione</h5>
                                             <input class="form-control" type="text" maxlength="25" required name="descrizione" id="descrizione" value="">
+                                        </div>
+                                        <div class="col-4 d-flex justify-content-end">
+                                            <h5 class="mb-1">Attivo</h5>
+                                            <div class="form-check form-switch mb-0">
+                                                <input class="form-check-input ms-auto" type="checkbox" name="attivo" checked role="switch" id="attivo">
+                                            </div>   
                                         </div>
                                     </div>
                                     <div class="row mt-4">
@@ -161,15 +156,23 @@
                                         </div>
                                     </div>
                                     <div class="row mt-4">
-                                        <div>
+                                        <div class="col-6">
                                             <h5 class="mb-1">Profilo Operatore</h5>
                                             <select class="form-select mb-3" required name="id_profilo">
-                                            <option selected value="">Seleziona un Profilo</option>
-                                            @foreach ($listacassieri['profili'] as $profilo)
-                                            <option value="{{$profilo->id}}">{{$profilo->descrizione}}</option>
-                                            @endforeach
-                                        </select>
-                                        </div>    
+                                                <option selected value="">Seleziona un Profilo</option>
+                                                @foreach ($listacassieri['profili'] as $profilo)
+                                                <option value="{{$profilo->id}}">{{$profilo->descrizione}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-6">
+                                            <h5 class="mb-1">Deposito</h5>
+                                            <select class="form-select mb-3" required name="id_deposito">                                                
+                                                @foreach ($listacassieri['depositi'] as $deposito)
+                                                <option value="{{$deposito->id}}">{{$deposito->descrizione}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>        
                                     </div>  
                                 </div>                                                            
                                 <div class="card-footer">

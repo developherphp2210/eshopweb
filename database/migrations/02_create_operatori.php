@@ -13,8 +13,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('operatori', function (Blueprint $table) {
-            $table->id();            
-            $table->string('codice',10)->index('codoper');
+            $table->id();                        
             $table->string('descrizione',20)->index('desoper');
             $table->string('password');
             $table->string('barcode',13)->nullable();
@@ -22,12 +21,12 @@ return new class extends Migration
             $table->smallInteger('visibile_cassa')->default(0);
             $table->smallInteger('visibile_frontend')->default(0);
             $table->bigInteger('id_profilo')->index()->unsigned();
+            $table->bigInteger('id_deposito')->index()->unsigned();           
             $table->timestamps();
         });
 
         DB::table('operatori')->insert(
-            array(
-                'codice' => '01',
+            array(                
                 'descrizione' => 'admin',
                 'password' => 'admin',                
                 'id_profilo' => '1',

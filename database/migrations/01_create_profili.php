@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -12,8 +13,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('profili', function (Blueprint $table) {
-            $table->id();
-            $table->string('codice',6)->index()->unique();
+            $table->id();            
             $table->string('descrizione',25);
             /** PERMESSI CASSA */
             $table->smallInteger('versamenti')->default(0);
@@ -30,18 +30,17 @@ return new class extends Migration
             $table->smallInteger('scarico')->default(0);
             $table->smallInteger('fattura')->default(0);
             $table->smallInteger('scontrino')->default(0);
+            $table->smallInteger('stampa_addestramenti')->default(0);
 
             /** PERMESSI FRONTEND */
             $table->smallInteger('anagrafiche')->default(0);
             $table->smallInteger('dashboard')->default(0);
             $table->smallInteger('cassieri')->default(0);
             $table->timestamps();
-        });
+        });    
 
         DB::table('profili')->insert([
-            [ 
-            'codice' => 1,
-            'descrizione' => 'ADMINISTRATOR',
+            ['descrizione' => 'ADMINISTRATOR',
             'versamenti' => 1,
             'prelievi' => 1,
             'richiama_scontrino' => 1,
@@ -55,10 +54,10 @@ return new class extends Migration
             'rapporti' => 1,
             'scarico' => 1,
             'fattura' => 1,            
-            'scontrino' => 1
+            'scontrino' => 1,
+            'stampa_addestramenti' => 1
             ],
-            ['codice' => 2,
-            'descrizione' => 'CASSIERE',
+            ['descrizione' => 'CASSIERE',
             'versamenti' => 1,
             'prelievi' => 0,
             'richiama_scontrino' => 1,

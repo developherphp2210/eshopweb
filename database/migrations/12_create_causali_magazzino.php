@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('causali', function (Blueprint $table) {
+        Schema::create('causali_magazzino', function (Blueprint $table) {
             $table->bigInteger('id')->primary()->unsigned();
             $table->smallInteger('attivo')->default(1);           
             $table->string('codice',6)->index();

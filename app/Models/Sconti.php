@@ -13,8 +13,7 @@ class Sconti extends Model
     protected $table = 'sconti';
 
     protected $fillable = [
-        'id',
-        'codice',
+        'id',        
         'descrizione',
         'tipo',
         'valore',
@@ -23,7 +22,7 @@ class Sconti extends Model
 
     static function GetList()
     {
-        return Sconti::whereRaw('id > 2')->OrderBy('codice')->get();
+        return Sconti::whereRaw('id > 2')->OrderBy('id')->get();
     }
 
     static function Show($id)
@@ -35,8 +34,7 @@ class Sconti extends Model
     {
         $result = [];
         try {            
-            Sconti::create([                    
-                'codice' => $data->codice,
+            Sconti::create([                                 
                 'descrizione' => $data->descrizione,                               
                 'attivo' => ($data->attivo == 'on') ? '1' : '0',
                 'valore' => $data->valore,
@@ -57,8 +55,7 @@ class Sconti extends Model
     {
         $result = [];
         try {            
-            Sconti::where('id',$id)->update([                    
-                'codice' => $data->codice,
+            Sconti::where('id',$id)->update([                                    
                 'descrizione' => $data->descrizione,                               
                 'attivo' => ($data->attivo == 'on') ? '1' : '0',
                 'valore' => $data->valore,
@@ -99,7 +96,7 @@ class Sconti extends Model
             return Sconti::whereRaw("attivo = 1 and ( updated_at >= '".$lastupdate."' or updated_at is null)")->get();
         } else 
         {
-            return Sconti::where('attivo','1')->orderBy('codice')->get();
+            return Sconti::where('attivo','1')->orderBy('id')->get();
         }
     }
 }

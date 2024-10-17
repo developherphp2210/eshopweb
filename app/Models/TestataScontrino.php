@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\MyClass\Utility;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use DateTime;
@@ -27,26 +28,33 @@ class TestataScontrino extends Model
         'punti_jolly',
         'causale_documento',
         'numero_chiusura',
-        'matricola_fiscale'  
+        'matricola_fiscale',
+        'sconto_art',
+        'sconto_tra',
+        'numero_fattura',
+        'registro_fattura',
+        'riferimento_scontrino'
     ];
-
-    private function ConverTimestamp($data){        
-        return substr($data,6,4).'-'.substr($data,3,2).'-'.substr($data,0,2).' '.substr($data,11,8);
-    }
 
     static function MemorizzaTestata($data)
     {
+        $iddeposito = Depositi::GetId($data[5])['id'];
         $testata = TestataScontrino::create([
-            'id_deposito' => Depositi::GetId($data[5])['id'],
-            'id_cassa' => Casse::GetId($data[6])['id'],
+            'id_deposito' => $iddeposito,
+            'id_cassa' => Casse::GetId($data[6],$iddeposito)['id'],
             'id_cliente' => ($data[4] <> '') ? $data[4] : '0',
             'id_operatore' => $data[3],
-            'data' => (new self)->ConverTimestamp($data[2]),
+            'data' => Utility::ConverTimestamp($data[2]),
             'causale_documento' => $data[1],
             'importo' => str_replace(',','.',$data[7]),
-            'numero_scontrino' => $data[9],
-            'numero_chiusura' => $data[10],
-            'matricola_fiscale' => $data[11]
+            'sconto_art' => str_replace(',','.',$data[8]),
+            'sconto_tra' => str_replace(',','.',$data[9]),
+            'numero_scontrino' => $data[10],
+            'numero_chiusura' => $data[11],
+            'matricola_fiscale' => $data[12],
+            'numero_fattura' => ($data[13] <> '') ? $data[13] : 0,
+            'registro_fattura' => $data[14],
+            'riferimento_scontrino' => $data[15]              
         ]);
         return $testata['id'];
     }
@@ -208,6 +216,14 @@ class TestataScontrino extends Model
                                 ->groupByRaw('date(testata_scontrino.data)')
                                 ->orderByRaw('date(testata_scontrino.data)')
                                 ->limit(10)
+                                ->get();
+    }
+
+    static function ListaTransazioni($idcassa,$iddeposito,$data)
+    {
+        return TestataScontrino::where('id_deposito',$iddeposito)
+                                ->where('id_cassa',$idcassa)
+                                ->whereRaw(" DATE(data) = '".$data."'")
                                 ->get();
     }
 }

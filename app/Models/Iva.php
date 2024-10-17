@@ -90,14 +90,18 @@ class Iva extends Model
 
     static function GetListCasse($idcassa)
     {
-        $lastupdate = Casse::LastUpdate($idcassa);        
-        if ( $lastupdate <> null )
-        {
-            return Iva::whereRaw(" updated_at >= '".$lastupdate."' or updated_at is null")->get();
-        } else 
-        {
-            return Iva::orderBy('codice')->get();
-        }
+        if (Casse::AggiornaBackend($idcassa) == '1'){
+            $lastupdate = Casse::LastUpdate($idcassa);        
+            if ( $lastupdate <> null )
+            {
+                return Iva::whereRaw(" updated_at >= '".$lastupdate."' or updated_at is null")->get();
+            } else 
+            {
+                return Iva::orderBy('codice')->get();
+            }
+        } else {
+            return [];
+        }    
     }
 
 }

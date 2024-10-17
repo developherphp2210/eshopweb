@@ -10,7 +10,7 @@ class Causali extends Model
 {
     use HasFactory;
 
-    protected $table = 'causali';
+    protected $table = 'causali_verpre';
 
     protected $fillable = [
         'id',   
@@ -39,7 +39,8 @@ class Causali extends Model
                 'descrizione' => $data->descrizione,                
                 'attivo' => ($data->attivo == 'on') ? '1' : '0',                                
                 'type' => $data->type                
-            ]);              
+            ]);  
+            Casse::UpdateCasse();            
             $result['message'] = 'Causale Creata Correttamente';
             $result['error'] = 'false';             
         } catch (\Throwable $th) {
@@ -59,7 +60,8 @@ class Causali extends Model
                 'descrizione' => $data->descrizione,                
                 'attivo' => ($data->attivo == 'on') ? '1' : '0',                                
                 'type' => $data->type  
-            ]);               
+            ]);   
+            Casse::UpdateCasse();            
             $result['message'] = 'Causale Aggiornata Correttamente';
             $result['error'] = 'false';             
         } catch (\Throwable $th) {
@@ -77,6 +79,7 @@ class Causali extends Model
             Causali::where('id',$id)->delete();            
             $result['message'] = 'Causale Cancellata!!';
             $result['error'] = 'false';
+            Casse::UpdateCasse();
         } catch (\Throwable $th) {
             $result['message'] = $th->getMessage();
             $result['error'] = 'true';
@@ -87,6 +90,7 @@ class Causali extends Model
 
     static function GetListCasse($idcassa)
     {
+         
         $lastupdate = Casse::LastUpdate($idcassa);        
         if ( $lastupdate <> null )
         {
@@ -94,7 +98,13 @@ class Causali extends Model
         } else 
         {
             return Causali::where('attivo','1')->orderBy('codice')->get();
-        }
+        }           
     }
+
+    static function GetId($codice)
+    {
+        return Causali::where('codice',$codice)->select('id')->first();
+    }
+    
     
 }

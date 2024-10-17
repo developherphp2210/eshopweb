@@ -23,13 +23,19 @@ class EListino extends Model
 
     static function GetListCasse($idcassa)
     {
-        $lastupdate = Casse::LastUpdate($idcassa);        
-        if ( $lastupdate <> null )
-        {
-            return EListino::whereRaw("updated_at >= '".$lastupdate."' or updated_at is null")->get();
-        } else 
-        {
-            return EListino::orderBy('codice')->get();
-        }
+        if (Casse::AggiornaBackend($idcassa) == '1'){
+            $lastupdate = Casse::LastUpdate($idcassa);        
+            if ( $lastupdate <> null )
+            {
+                return EListino::whereRaw("updated_at >= '".$lastupdate."' or updated_at is null")->get();
+            } else 
+            {
+                return EListino::orderBy('codice')->get();
+            }
+        } else {
+            return [];
+        }    
     }
+
+    
 }

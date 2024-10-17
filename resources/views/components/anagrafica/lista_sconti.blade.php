@@ -23,15 +23,15 @@
                     <table id="lista" class="table table-hover table-sm" style="width:100%">
                         <thead>
                             <tr>
-                                <th>Codice</th>
+                                <th>Codice</th>                                
                                 <th>Descrizione</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($listasconti as $sconto)
-                            <tr onclick="schedaSco({{$sconto->id}})">
-                                <td>{{$sconto->codice}}</td>
+                            <tr onclick="schedaSco({{$sconto->id}})">                                
+                                <td>{{$sconto->id}}</td>
                                 <td>{{$sconto->descrizione}}</td>
                                 <td>
                                     <a title="Elimina" onclick="return confirm(`Sei sicuro di voler cancellare lo Sconto {{$sconto->descrizione}} ? `)" href="{{url('/scontodelete/'.$sconto->id)}}">
@@ -51,10 +51,10 @@
                             <form action="{{@url('/scontoupdate/'.$listasconti[0]->id)}}" enctype="multipart/form-data" id="scontoform" method="post">
                                 <div class="card-body">                                
                                     {{csrf_field()}}
-                                    <div class="row">                                    
+                                    <div class="row mt-4">
                                         <div class="col-4">
                                             <h5 class="mb-1">Codice</h5>
-                                            <input class="form-control" type="text" maxlength="6" id="codice" name="codice" value="{{$listasconti[0]->codice}}">
+                                            <input class="form-control" type="text" readonly id="id" name="id" value="{{$listasconti[0]->id}}">
                                         </div>
                                         <div class="col-8 d-flex justify-content-end">
                                             <h5 class="mb-1">Attivo</h5>
@@ -62,12 +62,12 @@
                                                 <input class="form-check-input ms-auto" type="checkbox" name="attivo" role="switch" {{($listasconti[0]->attivo == '1') ? 'checked' : ''}}  id="attivo">
                                             </div>   
                                         </div>
-                                    </div>
+                                    </div>                                    
                                     <div class="row mt-4">
                                         <div class="col-8">
                                             <h5 class="mb-1">Descrizione</h5>
                                             <input class="form-control" type="text" maxlength="25" required name="descrizione" id="descrizione" value="{{$listasconti[0]->descrizione}}">
-                                        </div>
+                                        </div>                                        
                                     </div>
                                     <div class="row mt-4">
                                         <div class="col-6">
@@ -93,23 +93,17 @@
                         @else
                             <form action="{{@url('/scontoinsert')}}" enctype="multipart/form-data" id="scontoform" method="post">                            
                                 <div class="card-body">
-                                    {{csrf_field()}} 
-                                    <div class="row">                                    
-                                        <div class="col-4">
-                                            <h5 class="mb-1">Codice</h5>
-                                            <input class="form-control" type="text" maxlength="6" id="codice" name="codice" value="">
-                                        </div>
-                                        <div class="col-8 d-flex justify-content-end">
-                                            <h5 class="mb-1">Attivo</h5>
-                                            <div class="form-check form-switch mb-0">
-                                                <input class="form-check-input ms-auto" type="checkbox" name="attivo" checked role="switch" id="attivo">
-                                            </div>   
-                                        </div>
-                                    </div>
+                                    {{csrf_field()}}                                     
                                     <div class="row mt-4">
                                         <div class="col-8">
                                             <h5 class="mb-1">Descrizione</h5>
                                             <input class="form-control" type="text" maxlength="25" required name="descrizione" id="descrizione" value="">
+                                        </div>
+                                        <div class="col-4 d-flex justify-content-end">
+                                            <h5 class="mb-1">Attivo</h5>
+                                            <div class="form-check form-switch mb-0">
+                                                <input class="form-check-input ms-auto" type="checkbox" name="attivo" checked role="switch" id="attivo">
+                                            </div>   
                                         </div>
                                     </div>                                     
                                     <div class="row mt-4">

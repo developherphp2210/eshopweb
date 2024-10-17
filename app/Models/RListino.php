@@ -23,13 +23,25 @@ class RListino extends Model
 
     static function GetListCasse($idcassa)
     {
-        $lastupdate = Casse::LastUpdate($idcassa);        
-        if ( $lastupdate <> null )
-        {
-            return RListino::whereRaw("updated_at >= '".$lastupdate."' or updated_at is null")->get();
-        } else 
-        {
-            return RListino::orderBy('codice')->get();
-        }
+        if (Casse::AggiornaBackend($idcassa) == '1'){
+            $lastupdate = Casse::LastUpdate($idcassa);        
+            if ( $lastupdate <> null )
+            {
+                return RListino::whereRaw("updated_at >= '".$lastupdate."' or updated_at is null")->get();
+            } else 
+            {
+                return RListino::orderBy('codice')->get();
+            }
+        } else {
+            return [];
+        }    
+    }
+
+    static function GetPrezzi(string $id_articolo)
+    {
+        return RListino::where('r_listino.id_articolo',$id_articolo)
+                        ->join('t_listino','t_listino.id','=','r_listino.id_listino')
+                        ->selectRaw('r_listino.przlor as prezzo,t_listino.descrizione,t_listino.codice')
+                        ->get();
     }
 }

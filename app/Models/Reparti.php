@@ -86,13 +86,17 @@ class Reparti extends Model
 
     static function GetListCasse($idcassa)
     {
-        $lastupdate = Casse::LastUpdate($idcassa);        
-        if ( $lastupdate <> null )
-        {
-            return Reparti::whereRaw(" updated_at >= '".$lastupdate."' or updated_at is null")->get();
-        } else 
-        {
-            return Reparti::orderBy('codice')->get();
-        }
+        if (Casse::AggiornaBackend($idcassa) == '1'){
+            $lastupdate = Casse::LastUpdate($idcassa);        
+            if ( $lastupdate <> null )
+            {
+                return Reparti::whereRaw(" updated_at >= '".$lastupdate."' or updated_at is null")->get();
+            } else 
+            {
+                return Reparti::orderBy('codice')->get();
+            }
+        } else {
+            return [];
+        }    
     }
 }

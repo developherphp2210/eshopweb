@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Cassieri;
+use App\Models\Depositi;
 use App\Models\Profili;
 
 class CassieriController extends Controller
@@ -15,6 +16,7 @@ class CassieriController extends Controller
     {
         $listacassieri['cassieri'] = Cassieri::GetList();
         $listacassieri['profili'] = Profili::GetNameList();
+        $listacassieri['depositi'] = Depositi::GetList();
         return view('users.anagrafica.lista_operatori')->with(['title' => 'Lista Cassieri','index' => '6', 'listacassieri' => $listacassieri]);
     }
 

@@ -134,8 +134,8 @@ function AddListPayment(payment){
     div1.appendChild(div2);
     let div3 = document.createElement('div');
     div3.classList.add('fw-500');
-    div3.classList.add('text-dark');
-    let imp = ((100 * parseFloat(payment['totale'])) / parseFloat(totalday.innerHTML)) ;    
+    div3.classList.add('text-dark');    
+    let imp = ((100 * parseFloat(payment['totale'])) / parseFloat(totalday.innerHTML.replace(',','.'))) ;    
     div3.innerHTML = imp.toFixed(2) + ' %';
     div1.appendChild(div3);
     divList.appendChild(div1);

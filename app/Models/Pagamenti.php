@@ -13,8 +13,7 @@ class Pagamenti extends Model
     protected $table = 'pagamenti';
 
     protected $fillable = [
-        'id',        
-        'codice',
+        'id',                
         'descrizione',
         'tipologia',
         'codice_sdi',
@@ -24,7 +23,7 @@ class Pagamenti extends Model
 
     static function GetList()
     {
-        return Pagamenti::OrderBy('codice')->get();
+        return Pagamenti::orderby('id')->get();
     }
 
     static function Show($id)
@@ -36,15 +35,15 @@ class Pagamenti extends Model
     {
         $result = [];
         try {            
-            Pagamenti::create([                    
-                'codice' => $data->codice,
+            Pagamenti::create([                                    
                 'descrizione' => $data->descrizione,                               
                 'attivo' => ($data->attivo == 'on') ? '1' : '0',
                 'tipologia' => $data->tipologia,
                 'tipo_rt' => $data->tipo_rt,
                 'codice_sdi' => $data->codice_sdi
                 
-            ]);   
+            ]); 
+            Casse::UpdateCasse();  
             $result['message'] = 'Pagamento Inserito Correttamente';
             $result['error'] = 'false';             
         } catch (\Throwable $th) {
@@ -59,8 +58,7 @@ class Pagamenti extends Model
     {
         $result = [];
         try {            
-            Pagamenti::where('id',$id)->update([                    
-                'codice' => $data->codice,
+            Pagamenti::where('id',$id)->update([                                    
                 'descrizione' => $data->descrizione,                               
                 'attivo' => ($data->attivo == 'on') ? '1' : '0',
                 'tipologia' => $data->tipologia,
@@ -68,7 +66,8 @@ class Pagamenti extends Model
                 'codice_sdi' => $data->codice_sdi                
             ]);   
             $result['message'] = 'Pagamento Modificato Correttamente';
-            $result['error'] = 'false';             
+            $result['error'] = 'false'; 
+            Casse::UpdateCasse();            
         } catch (\Throwable $th) {
             $result['message'] = $th->getMessage();
             $result['error'] = 'true';
@@ -84,6 +83,7 @@ class Pagamenti extends Model
             Pagamenti::where('id',$id)->delete();            
             $result['message'] = 'Pagamento Cancellato!!';
             $result['error'] = 'false';
+            Casse::UpdateCasse();
         } catch (\Throwable $th) {
             $result['message'] = $th->getMessage();
             $result['error'] = 'true';
@@ -100,7 +100,7 @@ class Pagamenti extends Model
             return Pagamenti::whereRaw("attivo = 1 and ( updated_at >= '".$lastupdate."' or updated_at is null)")->get();
         } else 
         {
-            return Pagamenti::where('attivo','1')->orderBy('codice')->get();
+            return Pagamenti::where('attivo','1')->orderBy('id')->get();
         }
     }
 }

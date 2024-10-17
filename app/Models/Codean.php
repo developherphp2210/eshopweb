@@ -21,13 +21,22 @@ class Codean extends Model
 
     static function GetListCasse($idcassa)
     {
-        $lastupdate = Casse::LastUpdate($idcassa);        
-        if ( $lastupdate <> null )
-        {
-            return Codean::whereRaw("updated_at >= '".$lastupdate."' or updated_at is null")->get();
-        } else 
-        {
-            return Codean::orderBy('codice')->get();
-        }
+        if (Casse::AggiornaBackend($idcassa) == '1'){
+            $lastupdate = Casse::LastUpdate($idcassa);        
+            if ( $lastupdate <> null )
+            {
+                return Codean::whereRaw("updated_at >= '".$lastupdate."' or updated_at is null")->get();
+            } else 
+            {
+                return Codean::orderBy('codice')->get();
+            }
+        } else {
+            return [];
+        }    
+    }
+
+    static function GetListEan(string $id_articolo)
+    {
+        return Codean::where('id_articolo',$id_articolo)->get();
     }
 }
