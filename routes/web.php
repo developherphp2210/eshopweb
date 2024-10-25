@@ -81,6 +81,15 @@ Route::post('/cassainsert',[CasseController::class,'store']);
 Route::post('/cassaupdate/{id}',[CasseController::class,'update']);
 Route::get('/cassadelete/{id}',[CasseController::class,'destroy']);
 
+Route::get('/lineafidelity',[FidelityController::class,'showlinea']);
+Route::post('/lineafidinsert',[FidelityController::class,'store']);
+Route::post('/lineafidupdate/{id}',[FidelityController::class,'update']);
+Route::get('/lineafiddelete/{id}',[FidelityController::class,'destroy']);
+Route::post('generazionefidelity/{id}',[FidelityController::class,'generazione']);
+
+Route::get('/fidelitycard',[FidelityController::class,'index']);
+
+
 Route::post('/add_fidelity',[FidelityController::class,'store']);
 Route::any('/fidelity/{id}',[FidelityController::class,'changeCard']);
 

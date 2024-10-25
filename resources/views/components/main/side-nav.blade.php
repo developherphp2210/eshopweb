@@ -38,7 +38,20 @@
                         <a class="nav-link {{($index == '9') ? 'active' : ''}}" href="{{url('/pagamenti')}}">Forme di Pagamento</a>
                         <a class="nav-link {{($index == '10') ? 'active' : ''}}" href="{{url('/causali')}}">Versamenti / Prelievi</a>
                     </nav>
-                </div> 
+                </div>
+
+                <a class="nav-link {{( ($index > '29') && ($index < '35') ) ? 'active' : 'collapsed'}}" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapseFidelity" aria-expanded="false" aria-controls="collapseFidelity">
+                    <div class="nav-link-icon"><i data-feather="credit-card"></i></div>
+                    Tessere Fidelity
+                    <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                </a>
+                <div class="collapse {{( ($index > '29') && ($index < '35') ) ? 'show' : ''}}" id="collapseFidelity" data-bs-parent="#accordionSidenav">
+                    <nav class="sidenav-menu-nested nav accordion">                        
+                        <a class="nav-link {{($index == '30') ? 'active' : ''}}" href="{{url('/lineafidelity')}}">Linea Fidelity</a>
+                        <a class="nav-link {{($index == '31') ? 'active' : ''}}" href="{{url('/fidelitycard')}}">Fidelity Card</a>                        
+                    </nav>
+                </div>
+
                 <a class="nav-link {{( ($index > '20') && ($index < '29') ) ? 'active' : 'collapsed'}}" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapseBarriera" aria-expanded="false" aria-controls="collapseBarriera">
                     <div class="nav-link-icon"><i data-feather="monitor"></i></div>
                     Barriera Casse

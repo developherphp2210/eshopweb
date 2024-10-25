@@ -5,9 +5,9 @@
         <x-side-nav :us="$user"></x-side-nav> 
         <div id="layoutSidenav_content">           
             <x-setting-page :setting='$setting' :notification='$notification'></x-setting-page>
-            <x-main.footer_mainpage></x-main.footer_mainpage>
+            <x-Footermainpage></x-Footermainpage>
         </div>    
     </div>
-    <x-footer></x-footer>        
+    <x-Footer></x-Footer>
 </body>
 </html>

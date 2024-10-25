@@ -1,8 +1,8 @@
 <x-header :$title></x-header>
 <body class="nav-fixed">
-    <x-nav-bar ></x-nav-bar>
+    <x-NavBar></x-NavBar>
     <div id="layoutSidenav">
-        <x-side-nav :$index></x-side-nav>  
+        <x-SideNav :$index></x-SideNav>  
         <div id="layoutSidenav_content">         
         @switch($page)
             @case(1)                
@@ -12,9 +12,9 @@
             <x-partitario-articolo :$listaArticolo></x-partitario-articolo>        
                 @break                    
         @endswitch 
-            <x-main.footer_mainpage></x-main.footer_mainpage>
+        <x-Footermainpage></x-Footermainpage>
         </div>
     </div>
-    <x-footer></x-footer>
+    <x-Footer></x-Footer>
 </body>
 </html>

@@ -2,21 +2,23 @@
 
 namespace App\View\Components;
 
+use App\Models\LineaFidelity;
+use App\Models\TListino;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class NavBarAdmin extends Component
+class FidelityLine extends Component
 {
     /**
      * Create a new component instance.
-     * @var array
      */
-
-    
+    public $lineafidelity = [];  
+    public $listino = [];
     public function __construct()
-    {
-        
+    {      
+        $this->lineafidelity = LineaFidelity::GetList();
+        $this->listino = TListino::GetList();
     }
 
     /**
@@ -24,6 +26,6 @@ class NavBarAdmin extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.admin.nav-bar-admin');
+        return view('components.fidelity.lineafidelity');
     }
 }

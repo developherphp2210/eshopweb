@@ -30,10 +30,7 @@ return new class extends Migration
             $table->string('matricola_fiscale',12)->nullable();
             $table->decimal('sconto_art',8,3)->default(0);
             $table->decimal('sconto_tra',8,3)->default(0);
-            $table->smallInteger('rileva_venduto')->default(0)->index();
-            $table->integer('numero_fattura')->default(0);
-            $table->string('registro_fattura',5)->nullable();
-            $table->integer('riferimento_scontrino')->default(0);
+            $table->smallInteger('rileva_venduto')->default(0)->index();            
         });
     }
 

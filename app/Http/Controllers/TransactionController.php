@@ -36,6 +36,12 @@ class TransactionController extends Controller
         
     }
 
+    public function annulloScontrino(string $id,$operid)
+    {
+        return TestataScontrino::AnnulloScontrino($id,$operid);
+    }
+
+
     /**
      * Display the specified resource.
      */

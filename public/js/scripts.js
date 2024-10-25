@@ -533,23 +533,57 @@ console.log('qui');
     }
 }
 
-let imp_vol = document.querySelector('#importa_volantino');
-let del_vol = document.querySelector('#elimina_volantino');
-let del = document.querySelector('#delete');
-imp_vol.addEventListener('click',() => {
-    del.value = '0';    
-   document.querySelector('#myform').submit();
-});
+// let imp_vol = document.querySelector('#importa_volantino');
+// let del_vol = document.querySelector('#elimina_volantino');
+// let del = document.querySelector('#delete');
+// imp_vol.addEventListener('click',() => {
+//     del.value = '0';    
+//    document.querySelector('#myform').submit();
+// });
 
-del_vol.addEventListener('click',() => {
-    del.value = '1';    
-   document.querySelector('#myform').submit();
-});
+// del_vol.addEventListener('click',() => {
+//     del.value = '1';    
+//    document.querySelector('#myform').submit();
+// });
 
 $(document).ready(function() {
     $('#alert').fadeOut(3000);
 });
 
+/**  GESTIONE LINEA FIDELITY  */
+
+const savelineafid = document.querySelector('#savelineafid');
+
+if (savelineafid){    
+    const addlineafid = document.querySelector('#addlineafid');    
+    const lineafidform = document.querySelector('#lineafidform');
+    const generafidelity = document.querySelector('#generafidelity');
+    console.log('qui');
+
+    addlineafid.addEventListener('click',( ) => {                
+        document.querySelector('#codice').value = '';         
+        document.querySelector('#descrizione').value = '';        
+        document.querySelector('#attivo').checked = true;        
+        lineafidform.action = '/lineafidinsert';
+        savelineafid.innerHTML = 'Inserisci';
+        document.querySelector('#codice').focus();  
+    });
+
+    function schedaLinea(id)
+    {
+        fetch('/api/lineafidelity/'+id)
+        .then((response) => {
+            return response.json();
+        }).then((resp) => {            
+            document.querySelector('#codice').value = resp['codice'];             
+            document.querySelector('#descrizione').value = resp['descrizione'];             
+            (resp['attivo'] == '1') ? document.getElementById('attivo').checked = true :     document.getElementById('attivo').checked =  false ;                                               
+            lineafidform.action = '/lineafidupdate/'+id;
+            generafidelity.action = '/generazionefidelity/'+id;
+            savelineafid.innerHTML = 'Salva';
+        });
+    }
+}
 
 
 

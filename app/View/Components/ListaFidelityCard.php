@@ -2,20 +2,21 @@
 
 namespace App\View\Components;
 
+use App\Models\FidelityCard;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class mainpagefidelity extends Component
+class ListaFidelityCard extends Component
 {
     /**
      * Create a new component instance.
      */
-    public $user = '';    
 
-    public function __construct($user)
+    public $lista = [];
+    public function __construct()
     {
-        $this->user = $user;        
+        $this->lista = FidelityCard::GetListNoClient();
     }
 
     /**
@@ -23,6 +24,6 @@ class mainpagefidelity extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.fidelity.mainpagefidelity');
+        return view('components.fidelity.listafidelitycard');
     }
 }

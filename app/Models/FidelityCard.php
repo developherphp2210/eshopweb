@@ -2,8 +2,11 @@
 
 namespace App\Models;
 
+use App\MyClass\MyLog;
+use App\MyClass\Utility;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class FidelityCard extends Model
 {
@@ -12,49 +15,85 @@ class FidelityCard extends Model
     protected $table = 'fidelity_card';
 
     protected $fillable=[
-         'customer_id',
-         'user_id'         
+        'id',
+        'id_linea',
+        'codice',
+        'descrizione',
+        'livello',
+        'punti',
+        'saldo',
+        'id_listino'
     ];
 
-    public $timestamps = false;
-
-    /**    
-    * @return collection
-    */
-    static function GetFidelityList($id){
-        return FidelityCard::where('fidelity_card.user_id',$id)
-                           ->join('customers','customers.id','=','fidelity_card.customer_id')
-                           ->join('users','users.id','=','customers.user_id')
-                           ->join('settings','users.id','=','settings.user_id')
-                           ->selectRaw('customers.codice_fidelity, users.user_name, users.id as user_id, customers.id as customer_id, customers.punti, settings.testata, settings.corpo, settings.filepdf')
-                           ->get();                           
-
+    static function GetList()
+    {
+        return FidelityCard::all();
     }
-    /**    
-    * @return boolean
-    */
-    static function AddFidelity($id,$card){
 
-        $customerid = FidelityCard::where('codice_fidelity',$card)->first();
-        
-        if ($customerid){
-            FidelityCard::create([
-                'customer_id' => $customerid->id,
-                'user_id' => $id
-            ]);
-            return true;
-        } else {
-            return false;
+    static function GenrazioneFidelity($data,$id)
+    {
+        $result = [];        
+        try {            
+            $linea = LineaFidelity::LineaSingola($id);              
+            for ($i=$data->codini; $i <= $data->codfin; $i++) { 
+                $fid = FidelityCard::create([
+                    'id_linea' => $id,
+                    'codice' => (new self)->CreaTessera($linea->codice,$i),
+                    'descrizione' => $data->descrizione,
+                    'livello' => $data->livello,
+                    'id_listino' => $data->idlistino
+                ]);
+                if ($data->gencli == 'on'){
+                    $cli = Clienti::create([
+                        'ragsoc' => 'CLIENTE FIDELITY',
+                        'codice' => $i
+                    ]);
+                    FidelityClienti::create([
+                        'id_cliente' => $cli->id,
+                        'id_fidelity' => $fid->id
+                    ]);
+                }
+            } 
+            Casse::UpdateCasse();                        
+            $result['message'] = 'Codici Fidelity Generati Correttamente';
+            $result['error'] = 'false';             
+        } catch (\Throwable $th) {
+            $result['message'] = $th->getMessage();
+            $result['error'] = 'true';
+            MyLog::WriteLog($th->getMessage(),0);
         }
+        return $result;
     }
+
+    private function CreaTessera($codicefisso,$codice)
+    {
+        if ($codice < 10){            
+            $prog = '0000'.$codice;                        
+            return Utility::ean13_check_digit($codicefisso.$prog);            
+        }
+        if ($codice < 100){
+            $prog = '000'.$codice;
+            return Utility::ean13_check_digit($codicefisso . $prog);            
+        }
+        if ($codice < 1000){
+            $prog = '00'.$codice;
+            return Utility::ean13_check_digit($codicefisso . $prog);            
+        }
+        if ($codice < 10000){
+            $prog = '0'.$codice;
+            return Utility::ean13_check_digit($codicefisso . $prog);            
+        }    
+    }
+
+    static function GetListNoClient()    
+    {
+        $lista = DB::table('fidelity_clienti')->select('id_fidelity')->get();
+        foreach($lista as $lis)
+        {
+            $data[] = $lis->id_fidelity;
+        }                
+        return FidelityCard::select('codice','punti')->whereNotIn('id', $data )->get();               
+    }
+
     
-    static function TransactionFidelityList($customerid){
-        return TransactionHeader::where('transaction_header.customer_id',$customerid)
-                               ->join('tills','tills.id','=','transaction_header.till_id')
-                               ->join('shops','shops.id','=','transaction_header.shop_id')
-                               ->join('cashiers','cashiers.id','=','transaction_header.cashier_id')
-                               ->selectRaw('transaction_header.id,transaction_header.data,transaction_header.amount,transaction_header.discount,transaction_header.points,transaction_header.points_jolly,tills.description AS cassa,shops.description AS negozio,cashiers.description AS cassiere')
-                               ->orderbyRaw(' transaction_header.data desc,transaction_header.shop_id')
-                               ->get();
-    }
 }

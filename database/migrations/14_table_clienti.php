@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('clienti', function (Blueprint $table) {
-            $table->bigInteger('id')->primary()->unsigned();            
+            $table->id();
+            $table->bigInteger('ideshop')->index()->unsigned();            
             $table->string('codice',13)->index('cod_fid');
             $table->string('ragsoc',40)->nullable();
             $table->string('ragsoc1',40)->nullable();

@@ -4,10 +4,10 @@
     <div id="layoutSidenav">
         <x-SideNav :$index></x-SideNav>  
         <div id="layoutSidenav_content">         
-            <x-ListaSconti :$listasconti></x-ListaSconti>
+            <x-ListaFidelityCard></x-ListaFidelityCard>
             <x-Footermainpage></x-Footermainpage>
-        </div>    
-    </div>        
+        </div>
+    </div>
     <x-Footer></x-Footer>
 </body>
 </html>

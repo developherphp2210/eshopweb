@@ -43,7 +43,8 @@ class Clienti extends Model
     
     static function GetList()
     {
-        return Clienti::get();
+        return Clienti::leftjoin('fidelity_clienti','fidelity_clienti.id_cliente','=','clienti.id')
+                        ->leftjoin('fidelity_card','fidelity_card.id','=','fidelity_clienti.id_fidelity')->get();
     }
 
     // static function GetCustomerId($request):string

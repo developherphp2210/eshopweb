@@ -13,7 +13,7 @@
                 <x-account.page2 :user="$user" :notification="$notification"></x-account.page2>
                 @break           
         @endswitch  
-                <x-main.footer_mainpage></x-main.footer_mainpage>
+        <x-Footermainpage></x-Footermainpage>
         </div>        
     </div>    
     <x-footer></x-footer>

@@ -16,7 +16,7 @@
                 <x-account.fidelitylist :user="$user" :cards="$cards"></x-account.fidelitylist>
                 @break                         
         @endswitch  
-                <x-main.footer_mainpage></x-main.footer_mainpage> 
+        <x-Footermainpage></x-Footermainpage>
         </div>           
     </div>    
     <x-footer></x-footer>

@@ -1,13 +1,13 @@
-<x-header :title="$title"></x-header>
+<x-header :$title></x-header>
 <body class="nav-fixed">
-    <x-nav-bar :us="$user"></x-nav-bar>
+    <x-NavBar></x-NavBar>
     <div id="layoutSidenav">
-        <x-SideNav :user="$user" :index="$index"></x-SideNav> 
+        <x-SideNav :$index></x-SideNav> 
         <div id="layoutSidenav_content">           
             <x-main-page-dashboard :user="$user" :total="$total"></x-main-page-dashboard>
-            <x-main.footer_mainpage></x-main.footer_mainpage>
+            <x-Footermainpage></x-Footermainpage>
         </div>    
     </div>
-    <x-footer></x-footer>        
+    <x-Footer></x-Footer>
 </body>
 </html>

@@ -6,7 +6,7 @@
                     <div class="col-auto mb-3">
                         <h1 class="page-header-title">
                             <div class="page-header-icon"><i data-feather="user"></i></div>
-                            Anagrafiche - Clienti / Fidelity Card
+                            Fidelity Card non Associate
                         </h1>
                     </div>
                 </div>
@@ -20,22 +20,18 @@
                     <table id="lista" class="table table-striped table-sm" style="width:100%">
                         <thead>
                             <tr>
-                                <th>Tessera</th>
-                                <th>Nominativo</th>
-                                <th>Punti</th>
-                                <th>Vendita</th>
+                                <th>Tessera</th>                                
+                                <th>Punti</th>                                
                                 <th></th>
                             </tr>
                         </thead>
-                        <tbody>
-                            @foreach ($clienti as $cliente)
+                        <tbody>                           
+                            @foreach ($lista as $card)
                             <tr>
-                                <td>{{$cliente->codice}}</td>
-                                <td>{{$cliente->ragsoc}}</td>
-                                <td class="text-center">{{$cliente->punti}}</td>
-                                <td class="text-end">{{number_format($cliente->totale_vendita, 2, ",", ".")}}</td>
-                                <td>
-                                    <a title="Visualizza" href="{{url('/clienti/'.$cliente->id.'/1')}}"><button class="btn btn-datatable btn-icon btn-transparent-dark"><i data-feather="eye"></i></button></a>
+                                <td>{{$card->codice}}</td>                                
+                                <td class="text-center">{{$card->punti}}</td>                                
+                                <td class="text-end">
+                                    <a title="Visualizza" href="{{url('/fidelityshow/'.$card->id.'/1')}}"><button class="btn btn-datatable btn-icon btn-transparent-dark"><i data-feather="eye"></i></button></a>
                                 </td>
                             </tr>
                             @endforeach
@@ -59,10 +55,10 @@
                     "next": "Prossima",
                     "previous": "Precedente"
                 },
-                "infoFiltered": "(filtro su _MAX_ Clienti totali)",
-                "emptyTable": "Nessun Cliente trovato",
-                "info": "Mostra da _START_ a _END_ su _TOTAL_ Clienti",
-                "infoEmpty": "Mostra 0 di 0 su 0 Clienti",
+                "infoFiltered": "(filtro su _MAX_ Fidelity totali)",
+                "emptyTable": "Nessuna Fidelity trovata",
+                "info": "Mostra da _START_ a _END_ su _TOTAL_ Fidelity",
+                "infoEmpty": "Mostra 0 di 0 su 0 Fidelity",
             }
         });
     });

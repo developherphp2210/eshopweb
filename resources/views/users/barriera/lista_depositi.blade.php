@@ -5,9 +5,9 @@
         <x-side-nav :$index></x-side-nav>  
         <div id="layoutSidenav_content">         
             <x-ListaDepositi :$listadepositi></x-ListaDepositi>
-            <x-main.footer_mainpage></x-main.footer_mainpage>
+            <x-Footermainpage></x-Footermainpage>
         </div>    
     </div>        
-    <x-footer></x-footer>
+    <x-Footer></x-Footer>
 </body>
 </html>

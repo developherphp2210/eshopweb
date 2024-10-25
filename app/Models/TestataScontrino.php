@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\MyClass\MyLog;
 use App\MyClass\Utility;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -33,7 +34,11 @@ class TestataScontrino extends Model
         'sconto_tra',
         'numero_fattura',
         'registro_fattura',
-        'riferimento_scontrino'
+        'riferimento_scontrino',
+        'scontrino_annullato',
+        'data_annullo',
+        'operatore_annullo',
+        'rileva_venduto'
     ];
 
     static function MemorizzaTestata($data)
@@ -54,7 +59,7 @@ class TestataScontrino extends Model
             'matricola_fiscale' => $data[12],
             'numero_fattura' => ($data[13] <> '') ? $data[13] : 0,
             'registro_fattura' => $data[14],
-            'riferimento_scontrino' => $data[15]              
+            'riferimento_scontrino' => ($data[15] <> '') ? $data[15] : 0              
         ]);
         return $testata['id'];
     }
@@ -225,5 +230,26 @@ class TestataScontrino extends Model
                                 ->where('id_cassa',$idcassa)
                                 ->whereRaw(" DATE(data) = '".$data."'")
                                 ->get();
+    }
+
+    static function AnnulloScontrino($id,$idoper)
+    {
+        $result = [];
+        $result['status'] = '200';
+        try 
+        {
+            TestataScontrino::where('id',$id)->update([
+                'scontrino_annullato' => 1,
+                'data_annullo' => now(),
+                'operatore_annullo' => $idoper,
+                'rileva_venduto' => 0
+            ]);            
+            $result['result'] = 'true';            
+        } catch (\Throwable $th) {
+            $result['message'] = $th->getMessage();
+            $result['result'] = 'false';
+            MyLog::WriteLog($th->getMessage(),'0');        
+        }
+        return $result;
     }
 }

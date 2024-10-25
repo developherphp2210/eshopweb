@@ -9,6 +9,7 @@ use App\Http\Controllers\CassieriController;
 use App\Http\Controllers\CausaliController;
 use App\Http\Controllers\ClientiController;
 use App\Http\Controllers\DepositoController;
+use App\Http\Controllers\FidelityController;
 use App\Http\Controllers\ProfiloController;
 use App\Http\Controllers\ScontiController;
 use App\Http\Controllers\PagamentiController;
@@ -40,6 +41,7 @@ Route::get('profilo/{id}',[ProfiloController::class,'show']);
 Route::get('sconto/{id}',[ScontiController::class,'show']);
 Route::get('pagamento/{id}',[PagamentiController::class,'show']);
 Route::get('causale/{id}',[CausaliController::class,'show']);
+Route::get('lineafidelity/{id}',[FidelityController::class,'show']);
 Route::get('deposito/{id}',[DepositoController::class,'show']);
 Route::get('cassa/{id}',[CasseController::class,'show']);
 
@@ -111,5 +113,6 @@ Route::get('closecheck/{idcassa}',[CasseController::class,'closeRequest']);
 Route::post('venduto',[VendutoController::class,'store']);
 
 Route::get('/chart/{type}/{date}/{shoptill}',[TransactionController::class,'show']);
+Route::post('/annulloscontrino/{id}/{operid}',[TransactionController::class,'annulloScontrino']);
 
 Route::get('/listatransazione/{cassa}/{deposito}/{data}',[VendutoController::class,'show']);
