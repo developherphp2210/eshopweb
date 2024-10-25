@@ -16,6 +16,36 @@ class FidelityController extends Controller
         return view('fidelity.fidelitycard')->with(['title' => 'Lista Tessere Fidelity','index' => '31']);
     }
 
+    public function indexCasse(string $idcassa)
+    {
+        $result = [];
+        try {
+            $result['status'] = '200';
+            $result['result'] = 'true';
+            $result['items'] = FidelityCard::GetListCasse($idcassa);    
+        } catch (\Throwable $th) {
+            $result['status'] = '400';
+            $result['result'] = 'false';
+            $result['error'] = $th->getMessage();
+        }                
+        return $result;
+    }
+
+    public function indexLineaCasse(string $idcassa)
+    {
+        $result = [];
+        try {
+            $result['status'] = '200';
+            $result['result'] = 'true';
+            $result['items'] = LineaFidelity::GetListCasse($idcassa);    
+        } catch (\Throwable $th) {
+            $result['status'] = '400';
+            $result['result'] = 'false';
+            $result['error'] = $th->getMessage();
+        }                
+        return $result;
+    }
+
     public function showlinea()
     {          
         return view('fidelity.lineafidelity')->with(['title' => 'Linea Fidelity','index' => '30']);

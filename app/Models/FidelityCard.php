@@ -95,5 +95,21 @@ class FidelityCard extends Model
         return FidelityCard::select('codice','punti')->whereNotIn('id', $data )->get();               
     }
 
+    static function GetListCasse($idcassa)
+    {
+        if (Casse::AggiornaBackend($idcassa) == '1'){
+            $lastupdate = Casse::LastUpdate($idcassa);        
+            if ( $lastupdate <> null )
+            {
+                return FidelityCard::whereRaw("updated_at >= '".$lastupdate."' or updated_at is null")->get();
+            } else 
+            {
+                return FidelityCard::orderBy('codice')->get();
+            }
+        } else {
+            return [];
+        }    
+    }
+
     
 }

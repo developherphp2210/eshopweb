@@ -108,6 +108,8 @@ Route::get('elistini/{idcassa}',function($idcassa){
     return $result;
 });
 Route::get('clienti/{idcassa}',[ClientiController::class,'indexCasse']);
+Route::get('fidelity/{idcassa}',[FidelityController::class,'indexCasse']);
+Route::get('lineafidelity/{idcassa}',[FidelityController::class,'indexLineaCasse']);
 Route::get('closecheck/{idcassa}',[CasseController::class,'closeRequest']);
 
 Route::post('venduto',[VendutoController::class,'store']);

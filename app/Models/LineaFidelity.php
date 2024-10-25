@@ -87,4 +87,20 @@ class LineaFidelity extends Model
         }
         return $result;
     }
+
+    static function GetListCasse($idcassa)
+    {
+        if (Casse::AggiornaBackend($idcassa) == '1'){
+            $lastupdate = Casse::LastUpdate($idcassa);        
+            if ( $lastupdate <> null )
+            {
+                return LineaFidelity::whereRaw("updated_at >= '".$lastupdate."' or updated_at is null")->get();
+            } else 
+            {
+                return LineaFidelity::orderBy('codice')->get();
+            }
+        } else {
+            return [];
+        }    
+    }
 }
