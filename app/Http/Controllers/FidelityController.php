@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\FidelityCard;
 use App\Models\LineaFidelity;
+use App\Models\Puntipromo;
+use App\MyClass\MyLog;
+use App\MyClass\Utility;
 use Illuminate\Http\Request;
 
 class FidelityController extends Controller
@@ -14,6 +17,21 @@ class FidelityController extends Controller
     public function index()
     {
         return view('fidelity.fidelitycard')->with(['title' => 'Lista Tessere Fidelity','index' => '31']);
+    }
+
+    public function RichiestaPunti($id)
+    {                                
+        $result = [];
+        try {
+            $result['status'] = '200';
+            $result['result'] = 'true';
+            $result['items'] = Puntipromo::RichiestaPunti($id);    
+        } catch (\Throwable $th) {
+            $result['status'] = '400';
+            $result['result'] = 'false';
+            $result['error'] = $th->getMessage();
+        }                
+        return $result;
     }
 
     public function indexCasse(string $idcassa)
@@ -36,7 +54,7 @@ class FidelityController extends Controller
         $result = [];
         try {
             $result['status'] = '200';
-            $result['result'] = 'true';
+            $result['result'] = 'true';            
             $result['items'] = LineaFidelity::GetListCasse($idcassa);    
         } catch (\Throwable $th) {
             $result['status'] = '400';
@@ -89,6 +107,16 @@ class FidelityController extends Controller
     {          
         return LineaFidelity::Show($id);
     }
+
+    public function CollegaFidelityCliente(Request $request)
+    {
+        $result['title'] = 'Gestione Fidelity';
+        $tmp = FidelityCard::FidelityClienti($request);
+        $result['message'] = $tmp['message'];
+        $result['error'] = $tmp['error'];
+        session()->flash('result',$result);        
+        return redirect()->back();
+    }
    
 
     /**
@@ -104,7 +132,7 @@ class FidelityController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $result['title'] = 'Gestione Causali';
+        $result['title'] = 'Gestione Fidelity';
         $tmp = LineaFidelity::LineaFidUpdate($request,$id);
         $result['message'] = $tmp['message'];
         $result['error'] = $tmp['error'];
@@ -117,7 +145,7 @@ class FidelityController extends Controller
      */
     public function destroy(string $id)
     {
-        $result['title'] = 'Gestione Causali';
+        $result['title'] = 'Gestione Fidelity';
         $tmp = LineaFidelity::LineaFidDelete($id);
         $result['message'] = $tmp['message'];
         $result['error'] = $tmp['error'];

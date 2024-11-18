@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\MyClass\MyLog;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -38,13 +39,17 @@ class Clienti extends Model
         'sdi',
         'ipa',
         'split',
-        'id_listino'
+        'id_listino',
+        'ideshop'
     ];
     
     static function GetList()
     {
         return Clienti::leftjoin('fidelity_clienti','fidelity_clienti.id_cliente','=','clienti.id')
-                        ->leftjoin('fidelity_card','fidelity_card.id','=','fidelity_clienti.id_fidelity')->get();
+                        ->leftjoin('fidelity_card','fidelity_card.id','=','fidelity_clienti.id_fidelity')
+                        ->leftjoin('puntipromo','puntipromo.id_fidelity','=','fidelity_card.id')
+                        ->selectRaw('clienti.id,clienti.ragsoc,puntipromo.punti,fidelity_card.saldo,clienti.totale_vendita,fidelity_card.codice')
+                        ->get();
     }
 
     // static function GetCustomerId($request):string
@@ -53,10 +58,10 @@ class Clienti extends Model
     //     return $Clienti <> null ? $Clienti->id : '0';
     // }
 
-    // static function GetSingleCustomer($id)
-    // {
-    //     return Clienti::where('id',$id)->first();
-    // }
+    static function GetCliente($id)
+    {
+        return Clienti::where('id',$id)->first();
+    }
 
     // static function GetCustomerTransaction($id)
     // {
@@ -71,20 +76,39 @@ class Clienti extends Model
     // }
 
     static function GetListCasse($idcassa)
-    {
-        if (Casse::AggiornaBackend($idcassa) == '1'){
-            $lastupdate = Casse::LastUpdate($idcassa);        
-            if ( $lastupdate <> null )
-            {
-                return Clienti::whereRaw("updated_at >= '".$lastupdate."' or updated_at is null")->get();
-            } else 
-            {
-                return Clienti::orderBy('codice')->get();
-            }
-        } else {
-            return [];
-        }    
+    {        
+        $lastupdate = Casse::LastUpdate($idcassa);        
+        if ( $lastupdate <> null )
+        {
+            return Clienti::whereRaw("updated_at >= '".$lastupdate."' or updated_at is null")->get();
+        } else 
+        {
+            return Clienti::orderBy('codice')->get();
+        }        
     }
 
-    
+    static function ClienteUpdate($data,$id)
+    {
+        $result = [];
+        try {            
+            Clienti::where('id',$id)->update([                    
+                'ragsoc' => $data->ragsoc,        
+                'indirizzo' => $data->indirizzo,
+                'cap' => $data->cap,
+                'citta' => $data->citta,
+                'prov' => $data->prov,
+                'tel' => $data->tel,
+                'cel' => $data->cel,
+                'codfisc' => $data->codfisc,        
+                'email' => $data->email
+            ]);   
+            $result['message'] = 'Cliente Fidelity Aggiornato Correttamente';
+            $result['error'] = 'false';             
+        } catch (\Throwable $th) {
+            $result['message'] = $th->getMessage();
+            $result['error'] = 'true';
+            MyLog::WriteLog($th->getMessage(),0);
+        }
+        return $result;
+    }
 }

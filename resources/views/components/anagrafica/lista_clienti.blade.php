@@ -21,9 +21,10 @@
                         <thead>
                             <tr>
                                 <th>Tessera</th>
-                                <th>Nominativo</th>
-                                <th>Punti</th>
-                                <th>Vendita</th>
+                                <th class="text-center">Nominativo</th>
+                                <th class="text-center">Punti</th>
+                                <th class="text-center">Prepagata</th>
+                                <th class="text-center">Vendita</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -33,9 +34,10 @@
                                 <td>{{$cliente->codice}}</td>
                                 <td>{{$cliente->ragsoc}}</td>
                                 <td class="text-center">{{$cliente->punti}}</td>
+                                <td class="text-end">{{number_format($cliente->saldo, 2, ",", ".")}}</td>
                                 <td class="text-end">{{number_format($cliente->totale_vendita, 2, ",", ".")}}</td>
-                                <td>
-                                    <a title="Visualizza" href="{{url('/clienti/'.$cliente->id.'/1')}}"><button class="btn btn-datatable btn-icon btn-transparent-dark"><i data-feather="eye"></i></button></a>
+                                <td class="text-center">
+                                    <a title="Visualizza" href="{{url('/cliente/'.$cliente->id.'/1')}}"><button class="btn btn-datatable btn-icon btn-transparent-dark"><i data-feather="eye"></i></button></a>
                                 </td>
                             </tr>
                             @endforeach
@@ -50,6 +52,8 @@
     $(document).ready(function() {
         $('#lista').DataTable({
             "lengthMenu": [25, 50, 75, 100],
+            "columnDefs":[{orderable: false,
+                targets: 5}],
             "language": {
                 "search": "Ricerca:",
                 "lengthMenu": "_MENU_",

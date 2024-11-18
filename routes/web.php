@@ -14,6 +14,7 @@ use App\Http\Controllers\CausaliController;
 use App\Http\Controllers\DepositoController;
 use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\IvaController;
+use App\Http\Controllers\PromoController;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Route;
 
@@ -33,7 +34,8 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::get('/clienti',[ClientiController::class,'index']);
-Route::get('/clienti/{id}/{page}',[ClientiController::class,'show']);
+Route::get('/cliente/{id}/{page}',[ClientiController::class,'show']);
+Route::post('/clientiupdate/{id}',[ClientiController::class,'update']);
 
 Route::get('/articoli',[ArticoliController::class,'index']);
 Route::get('/articolo/{id}/{page}',[ArticoliController::class,'show']);
@@ -88,6 +90,7 @@ Route::get('/lineafiddelete/{id}',[FidelityController::class,'destroy']);
 Route::post('generazionefidelity/{id}',[FidelityController::class,'generazione']);
 
 Route::get('/fidelitycard',[FidelityController::class,'index']);
+Route::post('/associafidelity',[FidelityController::class,'CollegaFidelityCliente']);
 
 
 Route::post('/add_fidelity',[FidelityController::class,'store']);
@@ -99,6 +102,11 @@ Route::get('receipt/{id}',[FidelityController::class,'show']);
 
 Route::get('/promotions',[PromotionController::class,'index']);
 Route::post('promotion/filepdf',[PromotionController::class,'upload']);
+
+Route::get('/promozioni',[PromoController::class,'index']);
+Route::post('/promoupdate/{id}',[PromoController::class,'update']);
+Route::post('/promoinsert',[PromoController::class,'store']);
+Route::get('/promodelete/{id}',[PromoController::class,'destroy']);
 
 Route::get('/print',function()
 {

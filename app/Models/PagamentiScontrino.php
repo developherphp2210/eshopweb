@@ -87,4 +87,12 @@ class PagamentiScontrino extends Model
                                 ->selectRaw('pagamenti_scontrino.id_testata,pagamenti_scontrino.id_pagamenti,pagamenti_scontrino.importo')
                                 ->get();
     }
+
+    static function SingolaTransazione($id)
+    {
+        return PagamentiScontrino::where('pagamenti_scontrino.id_testata',$id)
+                                    ->join('pagamenti','pagamenti.id','=','pagamenti_scontrino.id_pagamenti')
+                                    ->selectRaw('pagamenti_scontrino.importo,pagamenti.descrizione')
+                                    ->get();
+    }
 }

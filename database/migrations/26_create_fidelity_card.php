@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('fidelity_card', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('id_linea')->index()->unsigned();
-            $table->foreign('id_linea')->references('id')->on('lineafidelity')->onUpdate('restrict')->onDelete('restrict');
+            $table->foreign('id_linea')->references('id')->on('lineafidelity')->onUpdate('restrict')->onDelete('restrict');            
             $table->string('codice',13)->nullable()->unique();
             $table->string('descrizione',30);
             $table->smallInteger('livello');

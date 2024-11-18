@@ -110,7 +110,26 @@ class CorpoScontrino extends Model
                                 ->where('testata_scontrino.id_cassa',$idcassa)
                                 ->whereRaw(" DATE(testata_scontrino.data) = '".$data."'")
                                 ->join('testata_scontrino','testata_scontrino.id','=','corpo_scontrino.id_testata')
-                                ->selectRaw('corpo_scontrino.id,corpo_scontrino.id_testata,corpo_scontrino.id_articolo,corpo_scontrino.id_reparto,corpo_scontrino.id_iva,corpo_scontrino.id_codean,corpo_scontrino.prezzo_lordo,corpo_scontrino.presenza_sconto,corpo_scontrino.quantita,corpo_scontrino.causale  ')
+                                ->selectRaw('corpo_scontrino.id,corpo_scontrino.id_testata,corpo_scontrino.id_articolo,corpo_scontrino.id_reparto,corpo_scontrino.id_iva,corpo_scontrino.id_codean,corpo_scontrino.prezzo_lordo,corpo_scontrino.presenza_sconto,corpo_scontrino.quantita,corpo_scontrino.causale,(corpo_scontrino.sconto_art + corpo_scontrino.sconto_tra) as totsconti  ')
                                 ->get();
+    }
+
+    static function SingolaTransazione($id)
+    {
+        return CorpoScontrino::where('corpo_scontrino.id_testata',$id)
+                                ->join('articoli','articoli.id','=','corpo_scontrino.id_articolo')
+                                ->join('iva','iva.id','=','corpo_scontrino.id_iva')
+                                ->selectRaw('articoli.descrizione,corpo_scontrino.prezzo_lordo,corpo_scontrino.presenza_sconto,corpo_scontrino.quantita,corpo_scontrino.causale,corpo_scontrino.id')
+                                ->get();
+    }
+
+    static function DettaglioIva($id)
+    {
+        return CorpoScontrino::where('corpo_scontrino.id_testata',$id)
+                            ->join('articoli','articoli.id','=','corpo_scontrino.id_articolo')
+                            ->join('iva','iva.id','=','corpo_scontrino.id_iva')
+                            ->selectRaw(' sum(corpo_scontrino.prezzo_lordo * corpo_scontrino.quantita) - sum(corpo_scontrino.sconto_art + corpo_scontrino.sconto_tra) as importo,corpo_scontrino.id_iva,iva.aliquota,iva.descrizione ')
+                            ->groupByRaw('corpo_scontrino.id_iva,iva.aliquota,iva.descrizione')
+                            ->get();
     }
 }

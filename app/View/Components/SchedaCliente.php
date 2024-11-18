@@ -3,22 +3,20 @@
 namespace App\View\Components;
 
 use App\Models\Clienti;
-use App\Models\FidelityCard;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class ListaFidelityCard extends Component
+class SchedaCliente extends Component
 {
     /**
      * Create a new component instance.
      */
 
-    public $lista = [];
-    public function __construct()
+    public $cliente = '';
+    public function __construct($cliente)
     {
-        $this->lista['fidelity'] = FidelityCard::GetListNoClient();
-        $this->lista['clienti'] = Clienti::GetList();
+        $this->cliente = $cliente;
     }
 
     /**
@@ -26,6 +24,6 @@ class ListaFidelityCard extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.fidelity.listafidelitycard');
+        return view('components.anagrafica.scheda-cliente');
     }
 }

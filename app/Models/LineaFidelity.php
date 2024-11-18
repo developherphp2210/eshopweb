@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\MyClass\MyLog;
+use App\Models\Casse;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -89,18 +90,13 @@ class LineaFidelity extends Model
     }
 
     static function GetListCasse($idcassa)
-    {
-        if (Casse::AggiornaBackend($idcassa) == '1'){
-            $lastupdate = Casse::LastUpdate($idcassa);        
-            if ( $lastupdate <> null )
-            {
-                return LineaFidelity::whereRaw("updated_at >= '".$lastupdate."' or updated_at is null")->get();
-            } else 
-            {
-                return LineaFidelity::orderBy('codice')->get();
-            }
+    {        
+        $lastupdate = Casse::LastUpdate($idcassa);        
+        if ( $lastupdate <> null )
+        {
+            return LineaFidelity::whereRaw("updated_at >= '".$lastupdate."' or updated_at is null")->where('attivo','1')->orderBy('codice')->get();
         } else {
-            return [];
-        }    
+            return LineaFidelity::orderBy('codice')->where('attivo','1')->get();
+        }        
     }
 }

@@ -68,6 +68,10 @@
                                             <h5 class="mb-1">Descrizione</h5>
                                             <input class="form-control" type="text" maxlength="30" required name="descrizione" id="descrizione" value="{{$lineafidelity[0]->descrizione}}">
                                         </div>
+                                        <div class="col-4">
+                                            <label for="generati">N° Tessere</label>
+                                            <input type="number" readonly class="form-control" id="generati" name="generati" value="{{$lineafidelity[0]->generati}}">
+                                        </div>
                                     </div>                                                                         
                                     <div class=" row mt-4">
                                         <div class="col-12 d-flex justify-content-center">
@@ -102,6 +106,10 @@
                                             <h5 class="mb-1">Descrizione</h5>
                                             <input class="form-control" type="text" maxlength="30" required name="descrizione" id="descrizione" value="">
                                         </div>
+                                        <div class="col-4">
+                                            <label for="generati">N° Tessere</label>
+                                            <input type="number" readonly class="form-control" id="generati" name="generati" value="">
+                                        </div>
                                     </div>                                                                           
                                 </div>                                                            
                                 <div class="card-footer">
@@ -122,6 +130,7 @@
                     <h1 class="modal-title fs-5" id="exampleModalLabel">Generazione Tessere Fidelity</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
+                @if($lineafidelity->count() > 0)
                 <form action="/generazionefidelity/{{$lineafidelity[0]->id}}" method="post" id="generafidelity">
                 {{csrf_field()}} 
                     <div class="modal-body">
@@ -146,17 +155,6 @@
                             </div>
                         </div>
                         <div class="row mt-4">
-                            <div class="col-8">
-                                <label for="listino">Listino di Vendita</label>
-                                <select name="idlistino" required id="listino" class="form-control">
-                                    <option value="">Seleziona un Listino</option>
-                                    @foreach($listino as $list)
-                                    <option value="{{$list->id}}">{{$list->codice.' - '.$list->descrizione}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row mt-4">
                             <div class="col-12">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="gencli" id="gencli">
@@ -166,12 +164,24 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row mt-4 d-none" id="mostralistino">
+                            <div class="col-8">
+                                <label for="listino">Listino di Vendita</label>
+                                <select name="idlistino" id="listino" class="form-control">
+                                    <option value="">Seleziona un Listino</option>
+                                    @foreach($listino as $list)
+                                    <option value="{{$list->id}}">{{$list->codice.' - '.$list->descrizione}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>                        
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
                         <button type="submit" class="btn btn-primary">Genera</button>
                     </div>
                 </form>
+                @endif
             </div>
         </div>
     </div>

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('clienti', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('ideshop')->index()->unsigned();            
+            $table->bigInteger('ideshop')->index()->unsigned()->default(0);            
             $table->string('codice',13)->index('cod_fid');
             $table->string('ragsoc',40)->nullable();
             $table->string('ragsoc1',40)->nullable();

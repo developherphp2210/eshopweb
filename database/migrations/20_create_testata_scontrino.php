@@ -17,14 +17,12 @@ return new class extends Migration
             $table->foreign('id_deposito')->references('id')->on('deposito')->onUpdate('restrict')->onDelete('restrict');
             $table->bigInteger('id_cassa')->index()->unsigned();
             $table->foreign('id_cassa')->references('id')->on('casse')->onUpdate('restrict')->onDelete('restrict');
-            $table->bigInteger('id_cliente')->index()->unsigned()->default(0);            
+            $table->bigInteger('id_cliente')->index()->unsigned()->default(0);                        
             $table->bigInteger('id_operatore')->index()->unsigned();
             $table->foreign('id_operatore')->references('id')->on('operatori')->onUpdate('restrict')->onDelete('restrict');
             $table->decimal('importo')->default(0);
             $table->timestamp('data')->index();            
-            $table->integer('numero_scontrino')->nullable();
-            $table->smallinteger('punti')->default(0);
-            $table->smallinteger('punti_jolly')->default(0);
+            $table->integer('numero_scontrino')->nullable();            
             $table->string('causale_documento',2)->index();
             $table->integer('numero_chiusura')->nullable();
             $table->string('matricola_fiscale',12)->nullable();

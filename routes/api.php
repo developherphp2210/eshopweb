@@ -10,9 +10,11 @@ use App\Http\Controllers\CausaliController;
 use App\Http\Controllers\ClientiController;
 use App\Http\Controllers\DepositoController;
 use App\Http\Controllers\FidelityController;
+use App\Http\Controllers\OfferteController;
 use App\Http\Controllers\ProfiloController;
 use App\Http\Controllers\ScontiController;
 use App\Http\Controllers\PagamentiController;
+use App\Http\Controllers\PromoController;
 use App\Http\Controllers\VendutoController;
 use App\Http\Middleware\AccessToApi;
 use App\Models\Codean;
@@ -44,6 +46,7 @@ Route::get('causale/{id}',[CausaliController::class,'show']);
 Route::get('lineafidelity/{id}',[FidelityController::class,'show']);
 Route::get('deposito/{id}',[DepositoController::class,'show']);
 Route::get('cassa/{id}',[CasseController::class,'show']);
+Route::get('promo/{id}',[PromoController::class,'show']);
 
 Route::get('check/{cassa}/{deposito}',[CasseController::class,'check']);
 Route::get('casse/{idcassa}',[CasseController::class,'indexCasse']);
@@ -109,7 +112,9 @@ Route::get('elistini/{idcassa}',function($idcassa){
 });
 Route::get('clienti/{idcassa}',[ClientiController::class,'indexCasse']);
 Route::get('fidelity/{idcassa}',[FidelityController::class,'indexCasse']);
-Route::get('lineafidelity/{idcassa}',[FidelityController::class,'indexLineaCasse']);
+Route::get('linea_fidelity/{idcassa}',[FidelityController::class,'indexLineaCasse']);
+Route::get('tipioff/{idcassa}',[OfferteController::class,'tipiOfferte']);
+Route::get('promozioni/{idcassa}',[PromoController::class,'IndexCasse']);
 Route::get('closecheck/{idcassa}',[CasseController::class,'closeRequest']);
 
 Route::post('venduto',[VendutoController::class,'store']);
@@ -118,3 +123,6 @@ Route::get('/chart/{type}/{date}/{shoptill}',[TransactionController::class,'show
 Route::post('/annulloscontrino/{id}/{operid}',[TransactionController::class,'annulloScontrino']);
 
 Route::get('/listatransazione/{cassa}/{deposito}/{data}',[VendutoController::class,'show']);
+Route::get('/puntiFidelity/{id}',[FidelityController::class,'RichiestaPunti']);
+Route::get('/singolatransazione/{id}',[VendutoController::class,'showsingle']);
+Route::get('/singolafattura/{id}',[VendutoController::class,'showsingleFat']);

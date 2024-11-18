@@ -9,7 +9,7 @@
                 <x-scheda-articolo :$listaArticolo></x-scheda-articolo>        
                 @break        
             @case(2)
-            <x-partitario-articolo :$listaArticolo></x-partitario-articolo>        
+                <x-partitario-articolo :$listaArticolo></x-partitario-articolo>        
                 @break                    
         @endswitch 
         <x-Footermainpage></x-Footermainpage>

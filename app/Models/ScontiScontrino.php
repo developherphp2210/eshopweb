@@ -49,4 +49,12 @@ class ScontiScontrino extends Model
                                 ->selectRaw('sconti_scontrino.id_testata,sconti_scontrino.id_sconti,sconti_scontrino.importo,sconti_scontrino.id_corpo')
                                 ->get();
     }
+
+    static function SingolaTransazione($id)
+    {
+        return ScontiScontrino::where('sconti_scontrino.id_testata',$id)
+                                ->join('sconti','sconti.id','=','sconti_scontrino.id_sconti')
+                                ->selectRaw('sconti_scontrino.importo,sconti.descrizione,sconti_scontrino.id_corpo')
+                                ->get();
+    }
 }

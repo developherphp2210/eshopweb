@@ -49,6 +49,7 @@
                     <nav class="sidenav-menu-nested nav accordion">                        
                         <a class="nav-link {{($index == '30') ? 'active' : ''}}" href="{{url('/lineafidelity')}}">Linea Fidelity</a>
                         <a class="nav-link {{($index == '31') ? 'active' : ''}}" href="{{url('/fidelitycard')}}">Fidelity Card</a>                        
+                        <a class="nav-link {{($index == '32') ? 'active' : ''}}" href="{{url('/promozioni')}}">Raccolta Punti</a>
                     </nav>
                 </div>
 

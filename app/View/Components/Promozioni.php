@@ -2,23 +2,24 @@
 
 namespace App\View\Components;
 
-use App\Models\Clienti;
-use App\Models\FidelityCard;
+use App\Models\Depositi;
+use App\Models\Promo;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class ListaFidelityCard extends Component
+class Promozioni extends Component
 {
     /**
      * Create a new component instance.
      */
 
-    public $lista = [];
+    public $promozioni = ''; 
+    public $depositi = '';
     public function __construct()
     {
-        $this->lista['fidelity'] = FidelityCard::GetListNoClient();
-        $this->lista['clienti'] = Clienti::GetList();
+        $this->promozioni = Promo::GetList();
+        $this->depositi = Depositi::GetList();
     }
 
     /**
@@ -26,6 +27,6 @@ class ListaFidelityCard extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.fidelity.listafidelitycard');
+        return view('components.fidelity.promozioni');
     }
 }

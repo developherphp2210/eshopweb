@@ -558,12 +558,16 @@ if (savelineafid){
     const addlineafid = document.querySelector('#addlineafid');    
     const lineafidform = document.querySelector('#lineafidform');
     const generafidelity = document.querySelector('#generafidelity');
-    console.log('qui');
+    const gencli = document.querySelector('#gencli');
+    const mostralistino = document.querySelector('#mostralistino');
+    const listino = document.querySelector('#listino');    
 
     addlineafid.addEventListener('click',( ) => {                
         document.querySelector('#codice').value = '';         
         document.querySelector('#descrizione').value = '';        
-        document.querySelector('#attivo').checked = true;        
+        document.querySelector('#attivo').checked = true;
+        document.querySelector('#generati').value = '';        
+        
         lineafidform.action = '/lineafidinsert';
         savelineafid.innerHTML = 'Inserisci';
         document.querySelector('#codice').focus();  
@@ -577,12 +581,380 @@ if (savelineafid){
         }).then((resp) => {            
             document.querySelector('#codice').value = resp['codice'];             
             document.querySelector('#descrizione').value = resp['descrizione'];             
+            document.querySelector('#generati').value = resp['generati'];
             (resp['attivo'] == '1') ? document.getElementById('attivo').checked = true :     document.getElementById('attivo').checked =  false ;                                               
             lineafidform.action = '/lineafidupdate/'+id;
             generafidelity.action = '/generazionefidelity/'+id;
             savelineafid.innerHTML = 'Salva';
         });
     }
+    
+    gencli.addEventListener('click', (event) => {
+        if(gencli.checked){
+            mostralistino.classList.remove('d-none');
+            listino.setAttribute('required','');
+        }else{
+            mostralistino.classList.add('d-none');
+            listino.removeAttribute('required');
+        }
+    })
+}
+
+const savepromo = document.querySelector('#savepromo');
+
+if (savepromo){    
+    const addpromo = document.querySelector('#addpromo');    
+    const promoform = document.querySelector('#promoform');    
+
+    addpromo.addEventListener('click',( ) => { 
+        data = new Date();        
+        document.querySelector('#id').value = '';         
+        document.querySelector('#descrizione').value = '';        
+        document.querySelector('#id_deposito').value = 0;
+        document.querySelector('#data_inizio').value = '';
+        document.querySelector('#data_fine').value = '';
+        
+        promoform.action = '/promoinsert';
+        savepromo.innerHTML = 'Inserisci';
+        document.querySelector('#descrizione').focus();  
+    });
+
+    function schedaPromo(id)
+    {
+        fetch('/api/promo/'+id)
+        .then((response) => {
+            return response.json();
+        }).then((resp) => {            
+            document.querySelector('#id').value = resp['id'];             
+            document.querySelector('#descrizione').value = resp['descrizione'];                         
+            document.querySelector('#id_deposito').value = resp['id_deposito'];
+            document.querySelector('#data_inizio').value = resp['data_inizio'];
+            document.querySelector('#data_fine').value = resp['data_fine'];
+            promoform.action = '/promoupdate/'+id;            
+            savepromo.innerHTML = 'Salva';
+        });
+    }
+    
+    gencli.addEventListener('click', (event) => {
+        if(gencli.checked){
+            mostralistino.classList.remove('d-none');
+            listino.setAttribute('required','');
+        }else{
+            mostralistino.classList.add('d-none');
+            listino.removeAttribute('required');
+        }
+    })
+}
+
+function openfidelitymodal(id){
+    const fidelityID = document.querySelector('#fidelityID');
+    fidelityID.value = id;
+}
+
+function associaclientefidelity(id){
+    const formfidelity = document.querySelector('#formfidelity');
+    const clienteID = document.querySelector('#clienteID');
+    clienteID.value = id;
+    formfidelity.submit();
+}
+
+function visualizzaSco(id){
+    fetch('/api/singolatransazione/'+id)
+        .then((response) => {
+            return response.json();
+        }).then((resp) => {            
+            totale = 0; 
+            const corposcontrino = document.querySelector('#corposcontrino');
+            corposcontrino.innerHTML = '';
+            document.querySelector('#ModalLabel').innerHTML = 'Scontrino n° '+resp['testata']['numero_scontrino'];
+            if (resp['fidelity'].length > 0 )
+            {
+                div = document.createElement('div');
+                resp['fidelity'].forEach( element => {
+                    div.innerHTML = '<h6>'+element['descrizione']+'</h6>'+
+                                    '<h6>'+element['promo']+'</h6>'+
+                                    '<h6>Punti Precedenti: '+element['punti_precedenti']+'</h6>'+
+                                    '<h6>Punti Maturati: '+element['punti_accumulati']+'</h6>'+
+                                    '<h6>Punti Jolly: '+element['punti_jolly']+'</h6>'+
+                                    '<h6>Totale Punti :'+element['totpunti']+'</h6>'+
+                                    '<br></br>';
+                corposcontrino.append(div);                    
+                });
+            }
+            resp['corpo'].forEach( value => {                                
+                if (value['causale'] == 'R'){
+                    h5r = document.createElement('h5');                
+                    h5r.innerHTML = '*****RESO****';
+                    corposcontrino.append(h5r);
+                }
+                if (value['quantita'] > 1){
+                    h6 = document.createElement('h6');
+                    h6.innerHTML = value['quantita']+' X '+parseFloat(value['prezzo_lordo']).toFixed(2).replace('.',',');                
+                    corposcontrino.append(h6);
+                }
+                div = document.createElement('div');                    
+                div.classList.add('d-flex');
+                div.classList.add('justify-content-between');                
+                h51 = document.createElement('h5');                
+                h51.innerHTML = value['descrizione'];                
+                h52 = document.createElement('h5');
+                h52.innerHTML = parseFloat((value['prezzo_lordo'] * value['quantita'])).toFixed(2).replace('.',',');
+                if (value['causale'] == 'R'){
+                    totale = totale - (value['prezzo_lordo'] * value['quantita']);
+                } else {
+                    totale = totale + (value['prezzo_lordo'] * value['quantita']);
+                }
+                div.append(h51);
+                div.append(h52);
+                corposcontrino.append(div);
+                if (value['presenza_sconto'] = 1){
+                    sconto = resp['sconti'].filter(({id_corpo})  => 
+                        id_corpo === value['id']
+                    );
+                    sconto.forEach( element => {
+                        div2 = document.createElement('div');                    
+                        div2.classList.add('d-flex');
+                        div2.classList.add('justify-content-between');                
+                        h5s1 = document.createElement('h5');
+                        h5s1.innerHTML = element['descrizione'];
+                        h5s2 = document.createElement('h5');
+                        h5s2.innerHTML = '- '+parseFloat(element['importo']).toFixed(2).replace('.',',');
+                        totale = totale - element['importo'];
+                        div2.append(h5s1);
+                        div2.append(h5s2);
+                        corposcontrino.append(div2);
+                    });                    
+                }                                                    
+            });
+            br = document.createElement('br');            
+            corposcontrino.append(br);
+            divsb = document.createElement('div');                    
+            divsb.classList.add('d-flex');
+            divsb.classList.add('justify-content-between');
+            h3 = document.createElement('h3');
+            h3.innerHTML = 'SUBTOTALE';
+            h31 = document.createElement('h3');
+            h31.innerHTML = parseFloat(totale).toFixed(2).replace('.',',');
+            divsb.append(h3);
+            divsb.append(h31);
+            corposcontrino.append(divsb);
+            sconto = resp['sconti'].filter(({id_corpo})  => 
+                id_corpo === 0
+            );
+            if (sconto){
+                sconto.forEach( element => {
+                    div2 = document.createElement('div');                    
+                    div2.classList.add('d-flex');
+                    div2.classList.add('justify-content-between');                
+                    h5s1 = document.createElement('h5');
+                    h5s1.innerHTML = element['descrizione'];
+                    h5s2 = document.createElement('h5');
+                    h5s2.innerHTML = '- '+parseFloat(element['importo']).toFixed(2).replace('.',',');
+                    div2.append(h5s1);
+                    div2.append(h5s2);
+                    corposcontrino.append(div2);
+                }); 
+            }
+            br = document.createElement('br');            
+            corposcontrino.append(br);
+            divt = document.createElement('div');                    
+            divt.classList.add('d-flex');
+            divt.classList.add('justify-content-between');
+            h21 = document.createElement('h2');
+            h21.innerHTML = 'TOTALE';
+            h22 = document.createElement('h2');
+            h22.innerHTML = parseFloat(resp['testata']['importo']).toFixed(2).replace('.',',');
+            divt.append(h21);
+            divt.append(h22);
+            corposcontrino.append(divt);            
+            resp['pagamenti'].forEach( element => {
+                divp = document.createElement('div');                    
+                divp.classList.add('d-flex');
+                divp.classList.add('justify-content-between');                
+                h5p1 = document.createElement('h5');
+                h5p1.innerHTML = element['descrizione'];
+                h5p2 = document.createElement('h5');
+                h5p2.innerHTML = parseFloat(element['importo']).toFixed(2).replace('.',',');
+                divp.append(h5p1);
+                divp.append(h5p2);
+                corposcontrino.append(divp);
+            });
+            br = document.createElement('br');            
+            corposcontrino.append(br);
+            div = document.createElement('div');                    
+            div.classList.add('d-flex');
+            div.classList.add('justify-content-between');
+            h61 = document.createElement('h6');
+            data = new Date(resp['testata']['data']);
+            h61.innerHTML = data.getDate()+'/'+(data.getMonth() + 1) +'/'+data.getFullYear()+' '+data.getHours()+':'+data.getMinutes();
+            h62 = document.createElement('h6');
+            h62.innerHTML = resp['testata']['numero_chiusura']+' - '+resp['testata']['numero_scontrino'];            
+            div.append(h61);
+            div.append(h62);
+            corposcontrino.append(div);
+            br = document.createElement('br');            
+            corposcontrino.append(br);
+            h6 = document.createElement('h6');
+            h6.classList.add('text-center');
+            h6.innerHTML = resp['testata']['matricola_fiscale'];
+            corposcontrino.append(h6);
+            h6 = document.createElement('h6');
+            h6.innerHTML = resp['testata']['cassa']+' - Cassiere: '+resp['testata']['operatore']
+            corposcontrino.append(h6);
+        });   
+}
+
+function visualizzaFat(id){
+    fetch('/api/singolafattura/'+id)
+        .then((response) => {
+            return response.json();
+        }).then((resp) => {
+            totale = 0; 
+            const corposcontrino = document.querySelector('#corposcontrino');
+            corposcontrino.innerHTML = '';
+            document.querySelector('#ModalLabel').innerHTML = 'Fattura n° '+resp['testata']['numero_fattura']+'/'+resp['testata']['registro_fattura'];
+            br = document.createElement('br');            
+            corposcontrino.append(br);
+            div = document.createElement('div');                                
+            div.innerHTML = '<div><h6 class="text-center">'+resp['cliente']['ragsoc']+'</h6></div>'
+                            +'<div><h6 class="text-center">'+resp['cliente']['indirizzo']+'</h6></div>'
+                            +'<div><h6 class="text-center">'+resp['cliente']['cap']+' '+resp['cliente']['citta']+'  ('+resp['cliente']['prov']+')</h6></div>'
+                            +'<div><h6 class="text-center">'+resp['cliente']['piva']+'</h6></div>'
+                            +'<div><h6 class="text-center">'+resp['cliente']['codfisc']+'</h6></div>'
+                            +'<div><h6 class="text-center">'+resp['cliente']['sdi']+'</h6></div>'
+                            +'<div><h6 class="text-center">'+resp['cliente']['pec']+'</h6></div>';            
+            corposcontrino.append(div);
+            br = document.createElement('br');            
+            corposcontrino.append(br);
+            data = new Date(resp['testata']['data']);
+            div = document.createElement('div');                                
+            div.innerHTML = '<div><h6>Fattura numero : '+resp['testata']['numero_fattura']+'/'+resp['testata']['registro_fattura']+'</h6></div>'
+                            +'<div><h6>Data Fattura : '+data.getDate()+'/'+(data.getMonth() + 1) +'/'+data.getFullYear()+'</h6></div>';
+            corposcontrino.append(div);
+            br = document.createElement('br');            
+            corposcontrino.append(br);
+            resp['corpo'].forEach( value => {                                
+                if (value['causale'] == 'R'){
+                    h5r = document.createElement('h5');                
+                    h5r.innerHTML = '*****RESO****';
+                    corposcontrino.append(h5r);
+                }
+                if (value['quantita'] > 1){
+                    h6 = document.createElement('h6');
+                    h6.innerHTML = value['quantita']+' X '+parseFloat(value['prezzo_lordo']).toFixed(2).replace('.',',');                
+                    corposcontrino.append(h6);
+                }
+                div = document.createElement('div');                    
+                div.classList.add('d-flex');
+                div.classList.add('justify-content-between');                
+                h51 = document.createElement('h5');                
+                h51.innerHTML = value['descrizione'];                
+                h52 = document.createElement('h5');
+                h52.innerHTML = parseFloat((value['prezzo_lordo'] * value['quantita'])).toFixed(2).replace('.',',');
+                if (value['causale'] == 'R'){
+                    totale = totale - (value['prezzo_lordo'] * value['quantita']);
+                } else {
+                    totale = totale + (value['prezzo_lordo'] * value['quantita']);
+                }
+                div.append(h51);
+                div.append(h52);
+                corposcontrino.append(div);
+                if (value['presenza_sconto'] = 1){
+                    sconto = resp['sconti'].filter(({id_corpo})  => 
+                        id_corpo === value['id']
+                    );
+                    sconto.forEach( element => {
+                        div2 = document.createElement('div');                    
+                        div2.classList.add('d-flex');
+                        div2.classList.add('justify-content-between');                
+                        h5s1 = document.createElement('h5');
+                        h5s1.innerHTML = element['descrizione'];
+                        h5s2 = document.createElement('h5');
+                        h5s2.innerHTML = '- '+parseFloat(element['importo']).toFixed(2).replace('.',',');
+                        totale = totale - element['importo'];
+                        div2.append(h5s1);
+                        div2.append(h5s2);
+                        corposcontrino.append(div2);
+                    });                    
+                }                                                    
+            });
+            br = document.createElement('br');            
+            corposcontrino.append(br);
+            divsb = document.createElement('div');                    
+            divsb.classList.add('d-flex');
+            divsb.classList.add('justify-content-between');
+            h3 = document.createElement('h3');
+            h3.innerHTML = 'SUBTOTALE';
+            h31 = document.createElement('h3');
+            h31.innerHTML = parseFloat(totale).toFixed(2).replace('.',',');
+            divsb.append(h3);
+            divsb.append(h31);
+            corposcontrino.append(divsb);
+            sconto = resp['sconti'].filter(({id_corpo})  => 
+                id_corpo === 0
+            );
+            if (sconto){
+                sconto.forEach( element => {
+                    div2 = document.createElement('div');                    
+                    div2.classList.add('d-flex');
+                    div2.classList.add('justify-content-between');                
+                    h5s1 = document.createElement('h5');
+                    h5s1.innerHTML = element['descrizione'];
+                    h5s2 = document.createElement('h5');
+                    h5s2.innerHTML = '- '+parseFloat(element['importo']).toFixed(2).replace('.',',');
+                    div2.append(h5s1);
+                    div2.append(h5s2);
+                    corposcontrino.append(div2);
+                }); 
+            }
+            br = document.createElement('br');            
+            corposcontrino.append(br);
+            divt = document.createElement('div');                    
+            divt.classList.add('d-flex');
+            divt.classList.add('justify-content-between');
+            h21 = document.createElement('h2');
+            h21.innerHTML = 'TOTALE';
+            h22 = document.createElement('h2');
+            h22.innerHTML = parseFloat(resp['testata']['importo']).toFixed(2).replace('.',',');
+            divt.append(h21);
+            divt.append(h22);
+            corposcontrino.append(divt);            
+            resp['pagamenti'].forEach( element => {
+                divp = document.createElement('div');                    
+                divp.classList.add('d-flex');
+                divp.classList.add('justify-content-between');                
+                h5p1 = document.createElement('h5');
+                h5p1.innerHTML = element['descrizione'];
+                h5p2 = document.createElement('h5');
+                h5p2.innerHTML = parseFloat(element['importo']).toFixed(2).replace('.',',');
+                divp.append(h5p1);
+                divp.append(h5p2);
+                corposcontrino.append(divp);
+            });
+            br = document.createElement('br');            
+            corposcontrino.append(br);
+            div = document.createElement('div');
+            div.innerHTML = '<h6>--------------------------------------------------------------</h6>'+         
+                            '<h6 class="text-center">                      DETTAGLIO IVA</h6>'+
+                            '<div class="d-flex justify-content-between">'+
+                            '<h6>Descrizione</h6><h6>Imponibile</h6><h6>Aliquota</h6><h6>Iva</h6></div>'+
+                            '<h6>--------------------------------------------------------------</h6>';
+            corposcontrino.append(div);
+            resp['iva'].forEach( value => {
+                var aliquota = value['importo'] - (value['importo'] / (1 + (value['aliquota'] / 100) ) );
+                var imponibile = value['importo'] - aliquota;
+                const div = document.createElement('div');
+                div.classList.add('d-flex');
+                div.classList.add('justify-content-between');
+                div.innerHTML = '<h6>'+value['descrizione']+'</h6><h6>'+parseFloat(imponibile).toFixed(2)+'</h6><h6>'+value['aliquota']+'</h6><h6>'+parseFloat(aliquota).toFixed(2)+'</h6>';
+                corposcontrino.append(div);
+            });
+            br = document.createElement('br');            
+            corposcontrino.append(br);
+            h6 = document.createElement('h6');
+            h6.innerHTML = resp['testata']['cassa']+' - Cassiere: '+resp['testata']['operatore']
+            corposcontrino.append(h6);
+        });
 }
 
 

@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Clienti;
+use App\Models\FidelityCard;
+use App\Models\TestataScontrino;
+use PhpParser\Node\Stmt\Case_;
 
 class ClientiController extends Controller
 {
@@ -50,9 +53,25 @@ class ClientiController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $id,string $page)
     {
-        //
+        $cliente['anagrafica'] = Clienti::GetCliente($id);
+        switch ($page) {
+            case '1':                
+                $cliente['totpunti'] = FidelityCard::TotalePunti($id);
+                $cliente['totprepagata'] = FidelityCard::TotalePrepagata($id);
+                break;
+            case '2':
+                $cliente['transazioni'] = TestataScontrino::ListaTransazioniUtente($id);
+                break;
+            case '3':
+                $cliente['fidelity'] = FidelityCard::GetListClienti($id);
+                break;
+        }        
+        return view('users.anagrafica.schedacliente')->with(['title' => 'Anagrafica Cliente',
+                                                              'page' => $page ,
+                                                              'index' => '2',                                                              
+                                                              'cliente' => $cliente]);
     }
 
     /**
@@ -68,7 +87,12 @@ class ClientiController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $result['title'] = 'Gestione Cliente Fidelity';
+        $tmp = Clienti::ClienteUpdate($request,$id);
+        $result['message'] = $tmp['message'];
+        $result['error'] = $tmp['error'];
+        session()->flash('result',$result);                        
+        return redirect()->back();
     }
 
     /**

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->smallInteger('scontrino_annullato')->default(0);
             $table->timestamp('data_annullo')->nullable();
             $table->bigInteger('operatore_annullo')->unsigned()->nullable()->default(0);
+            $table->bigInteger('id_fidelity')->index()->unsigned()->default(0);
         });
     }
 
