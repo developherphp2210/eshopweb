@@ -15,6 +15,7 @@ use App\Http\Controllers\DepositoController;
 use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\IvaController;
 use App\Http\Controllers\PromoController;
+use App\Http\Controllers\VolantinoPdfController;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Route;
 
@@ -77,6 +78,7 @@ Route::post('/causaleupdate/{id}',[CausaliController::class,'update']);
 Route::get('/causaledelete/{id}',[CausaliController::class,'destroy']);
 
 Route::get('/depositi',[DepositoController::class,'index']);
+Route::post('/depositoupdate/{id}',[DepositoController::class,'update']);
 
 Route::get('/casse',[CasseController::class,'index']);
 Route::post('/cassainsert',[CasseController::class,'store']);
@@ -88,19 +90,22 @@ Route::post('/lineafidinsert',[FidelityController::class,'store']);
 Route::post('/lineafidupdate/{id}',[FidelityController::class,'update']);
 Route::get('/lineafiddelete/{id}',[FidelityController::class,'destroy']);
 Route::post('generazionefidelity/{id}',[FidelityController::class,'generazione']);
+Route::post('/addfidelity',[FidelityController::class,'addFidelity']);
 
 Route::get('/fidelitycard',[FidelityController::class,'index']);
 Route::post('/associafidelity',[FidelityController::class,'CollegaFidelityCliente']);
-
-
 Route::post('/add_fidelity',[FidelityController::class,'store']);
 Route::any('/fidelity/{id}',[FidelityController::class,'changeCard']);
 
-Route::get('receipt_list',[FidelityController::class,'index']);
-Route::get('receipt/{id}',[FidelityController::class,'show']);
+Route::get('/lista_scontrini',[FidelityController::class,'listatransazioni']);
+// Route::get('receipt/{id}',[FidelityController::class,'show']);
 // Route::get('receiptuser/{id}',[CustomerController::class,'receipt']);
 
-Route::get('/promotions',[PromotionController::class,'index']);
+Route::get('/volantinopdf',[VolantinoPdfController::class,'index']);
+Route::post('/volantinopdfinsert',[VolantinoPdfController::class,'store']);
+Route::get('/volantinopdfdelete/{id}',[VolantinoPdfController::class,'destroy']);
+Route::get('/volantinopdfshow/{id}',[VolantinoPdfController::class,'show']);
+
 Route::post('promotion/filepdf',[PromotionController::class,'upload']);
 
 Route::get('/promozioni',[PromoController::class,'index']);
@@ -113,4 +118,6 @@ Route::get('/print',function()
     return Pdf::loadView('pdf.document')->download();
     // return Pdf::loadFile(public_path().'/storage/filepdf.html')->download(); 
 });
+
+Route::get('/listafidelity',[FidelityController::class,'indexLista']);
 

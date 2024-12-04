@@ -16,8 +16,7 @@ class AccessToWeb
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
     public function handle(Request $request, Closure $next): Response
-    {
-        
+    {        
         $valid = $request->validate([
             'user_name' => 'required | string',
             'password' => 'required | string'

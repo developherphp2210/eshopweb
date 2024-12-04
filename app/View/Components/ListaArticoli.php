@@ -23,6 +23,6 @@ class ListaArticoli extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.anagrafica.lista_articoli');
+        return view('components.admin.anagrafica.lista_articoli');
     }
 }

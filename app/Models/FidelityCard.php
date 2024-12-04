@@ -40,6 +40,15 @@ class FidelityCard extends Model
                             ->get();
     }
 
+    static function GetListUtenti($id)
+    {
+        return FidelityCard::where('fidelity_clienti.id_utente',$id)
+                            ->join('fidelity_clienti','fidelity_clienti.id_fidelity','=','fidelity_card.id')
+                            ->leftjoin('puntipromo','puntipromo.id_fidelity','=','fidelity_card.id')
+                            ->selectRaw('fidelity_card.codice,fidelity_card.descrizione,puntipromo.punti,fidelity_card.saldo,fidelity_card.id')
+                            ->get();
+    }
+
     static function GenrazioneFidelity($data,$id)
     {
         $result = [];        
@@ -117,13 +126,13 @@ class FidelityCard extends Model
         if ( $lastupdate <> null )
         {
             return FidelityCard::whereRaw("fidelity_card.updated_at >= '".$lastupdate."' or fidelity_card.updated_at is null")
-                                ->leftjoin('fidelity_clienti','fidelity_clienti.id_fidelity','=','fidelity_card.id')
+                                ->join('fidelity_clienti','fidelity_clienti.id_fidelity','=','fidelity_card.id')
                                 ->selectRaw('fidelity_card.id,fidelity_card.codice,fidelity_card.descrizione,fidelity_card.id_linea,fidelity_card.livello,fidelity_clienti.id_cliente')
                                 ->get();
         } else 
         {
             return FidelityCard::orderBy('codice')
-                                ->leftjoin('fidelity_clienti','fidelity_clienti.id_fidelity','=','fidelity_card.id')
+                                ->join('fidelity_clienti','fidelity_clienti.id_fidelity','=','fidelity_card.id')
                                 ->selectRaw('fidelity_card.id,fidelity_card.codice,fidelity_card.descrizione,fidelity_card.id_linea,fidelity_card.livello,fidelity_clienti.id_cliente')
                                 ->get();
         }        
@@ -166,5 +175,27 @@ class FidelityCard extends Model
         return $result;
     }  
     
-    
+    static function AssociaFidelity($data)
+    {
+        $result = [];
+        try {
+            $fid = FidelityCard::where('codice',$data->codice)->first();
+            $clifid = FidelityClienti::where('id_fidelity',$fid->id)->first();
+            if ($clifid->id_utente != null)
+            {
+                $result['message'] = 'La tessera è collegata ad un altro Utente';    
+                $result['error'] = 'true';
+            } else {                
+                $clifid->id_utente = session('user')->id;
+                $clifid->save();
+                $result['message'] = 'Tessera Associata Correttamente';
+                $result['error'] = 'false'; 
+            }                                   
+        } catch (\Throwable $th) {
+            $result['message'] = $th->getMessage();
+            $result['error'] = 'true';
+            MyLog::WriteLog($th->getMessage(),'0');
+        }
+        return $result;
+    }
 }

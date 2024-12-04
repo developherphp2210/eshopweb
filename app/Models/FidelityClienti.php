@@ -14,7 +14,8 @@ class FidelityClienti extends Model
     protected $fillable=[
         'id',
         'id_cliente',
-        'id_fidelity'
+        'id_fidelity',
+        'id_utente'
     ];
 
     public $timestamps = false;

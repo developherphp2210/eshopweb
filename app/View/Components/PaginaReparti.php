@@ -23,6 +23,6 @@ class PaginaReparti extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.anagrafica.lista_reparti');
+        return view('components.admin.anagrafica.lista_reparti');
     }
 }

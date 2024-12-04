@@ -26,6 +26,6 @@ class ListaFidelityCard extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.fidelity.listafidelitycard');
+        return view('components.admin.fidelity.listafidelitycard');
     }
 }

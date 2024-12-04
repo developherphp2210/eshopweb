@@ -485,7 +485,7 @@ if (savecausale){
 const listadeposito = document.querySelector('#listadeposito');
 
 if (listadeposito){    
-    
+    depositoform = document.querySelector('#depositoform');
     function schedaDep(id)
     {
         fetch('/api/deposito/'+id)
@@ -495,7 +495,13 @@ if (listadeposito){
             document.querySelector('#codice').value = resp['codice'];             
             document.querySelector('#descrizione').value = resp['descrizione'];             
             document.querySelector('#id_listino').value = resp['id_listino'];
-            // causaleform.action = '/causaleupdate/'+id;
+            document.querySelector('#riga1').value = resp['riga1'];
+            document.querySelector('#riga2').value = resp['riga2'];
+            document.querySelector('#riga3').value = resp['riga3'];
+            document.querySelector('#riga4').value = resp['riga4'];
+            document.querySelector('#riga5').value = resp['riga5'];
+            document.querySelector('#riga6').value = resp['riga6'];
+            depositoform.action = '/depositoupdate/'+id;
             // savecausale.innerHTML = 'Salva';
         });
     }

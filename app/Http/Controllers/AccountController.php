@@ -15,22 +15,22 @@ use Illuminate\Http\Request;
 
 class AccountController extends Controller
 {
-    public function show(string $page){  
-        $user = session('user');
-        $notification = '';
-        switch ($user->type) {
+    public function show(string $page){                  
+        switch (session('user')->type) {
             case '0':                
-                return view('users.account.accountpage')->with(['title' => 'Account','user' => $user,'index' => 0 ,'page' => $page,'notification' => $notification]);
+                return view('users.account.accountpage')->with(['title' => 'Account','index' => 0 ,'page' => $page]);
                 break;
             
             case '1':
-                $cards = FidelityCard::GetFidelityList($user->id);                
-                return view('users.account.accountfidelity')->with(['title' => 'Account','user' => $user ,'page' => $page,'cards' => $cards,'notification' => $notification]);
-                break;
-            case '9':
-                return view('users.account.accountadmin')->with(['title' => 'Account','user' => $user ,'page' => $page,'notification' => $notification]);                
-                break;        
+                // $cards = FidelityCard::GetFidelityList($user->id);                
+                return view('fidelity.account.accountfidelity')->with(['title' => 'Account','page' => $page,'index' => 0]);
+                break;            
         }                    
+    }
+
+    static function fidelity()
+    {        
+        return view('fidelity.mainpage')->with(['title' => 'Main Page','index' => '1']);
     }
 
     private function AggiornaData($request)
@@ -43,8 +43,7 @@ class AccountController extends Controller
     }
 
     public function deposito(string $newdata,string $id_deposito)
-    {
-        $user = session('user'); 
+    {        
         $data = new DateTime($newdata);
         
         $total['date'] = $data->format('Y-m-d');
@@ -63,15 +62,13 @@ class AccountController extends Controller
         $total['name'] = Depositi::GetName($id_deposito);
         $total['shopid'] = $id_deposito;
         $total['tillid'] = '';
-        return view('users.mainpage')->with(['title' => 'Main Page','user' => $user,'index' => '1', 'total' => $total]);                
+        return view('users.mainpage')->with(['title' => 'Main Page','index' => '1', 'total' => $total]);                
 
     }
 
     public function cassa(string $newdata,string $id_cassa)
-    {
-        $user = session('user'); 
+    {        
         $data = new DateTime($newdata);
-
         
         $total['date'] = $data->format('Y-m-d');
 
@@ -90,13 +87,12 @@ class AccountController extends Controller
         $total['tillid'] = $id_cassa;
         $total['shopid'] = '';
         
-        // $total['tills'] = TransactionHeader::TotalTills($user->id,new DateTime($newdata));
-        return view('users.mainpage')->with(['title' => 'Main Page','user' => $user,'index' => '1', 'total' => $total]);                
+        return view('users.mainpage')->with(['title' => 'Main Page','index' => '1', 'total' => $total]);                
 
     }
 
     public function dash(Request $request){                   
-        $user = session('user');        
+             
         $data = $this->AggiornaData($request);
         
         $total['date'] = $data->format('Y-m-d');
@@ -116,7 +112,7 @@ class AccountController extends Controller
         $total['name'] = '';
         $total['tillid'] = '';
         $total['shopid'] = '';      
-        return view('users.mainpage')->with(['title' => 'Main Page','user' => $user, 'index' => '1', 'total' => $total]);                
+        return view('users.mainpage')->with(['title' => 'Main Page','index' => '1', 'total' => $total]);                
     }
 
     public function save(Request $request,$page){                
@@ -133,7 +129,6 @@ class AccountController extends Controller
         }  
         session()->flash('result',$result);        
         return redirect()->back();      
-        // return view('users.account.accountpage')->with(['title' => 'Account','user' => $user,'index' => '0' ,'page' => $page]);        
     }
     
 }

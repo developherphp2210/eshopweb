@@ -23,6 +23,6 @@ class ListaPagamenti extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.anagrafica.lista_pagamenti');
+        return view('components.admin.anagrafica.lista_pagamenti');
     }
 }

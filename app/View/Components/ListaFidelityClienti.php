@@ -22,6 +22,6 @@ class ListaFidelityClienti extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.anagrafica.listafidelityclienti');
+        return view('components.admin.anagrafica.listafidelityclienti');
     }
 }

@@ -19,4 +19,14 @@ class DepositoController extends Controller
     {
         return Depositi::Show($id);
     }
+
+    public function update(Request $request,string $id)
+    {
+        $result['title'] = 'Gestione Causali';
+        $tmp = Depositi::AggiornaDeposito($request,$id);
+        $result['message'] = $tmp['message'];
+        $result['error'] = $tmp['error'];
+        session()->flash('result',$result);        
+        return redirect()->back();
+    }
 }

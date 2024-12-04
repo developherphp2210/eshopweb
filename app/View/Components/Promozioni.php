@@ -27,6 +27,6 @@ class Promozioni extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.fidelity.promozioni');
+        return view('components.admin.fidelity.promozioni');
     }
 }

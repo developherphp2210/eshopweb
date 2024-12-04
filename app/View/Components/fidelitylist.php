@@ -28,6 +28,6 @@ class Fidelitylist extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.account.fidelitylist');
+        return view('components.admin.account.fidelitylist');
     }
 }

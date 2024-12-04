@@ -23,6 +23,6 @@ class ListaProfili extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.anagrafica.lista_profili');
+        return view('components.admin.anagrafica.lista_profili');
     }
 }

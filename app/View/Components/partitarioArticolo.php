@@ -23,6 +23,6 @@ class partitarioArticolo extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.anagrafica.partitario-articolo');
+        return view('components.admin.anagrafica.partitario-articolo');
     }
 }

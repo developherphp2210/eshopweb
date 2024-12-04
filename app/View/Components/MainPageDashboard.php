@@ -10,13 +10,11 @@ class MainPageDashboard extends Component
 {
     /**
      * Create a new component instance.
-     */
-    public $user = '';
+     */    
     public $total = '';
 
-    public function __construct($user,$total)
+    public function __construct($total)
     {
-        $this->user = $user;
         $this->total = $total;
     }
 
@@ -25,6 +23,6 @@ class MainPageDashboard extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.users.main-page-dashboard');
+        return view('components.admin.users.main-page-dashboard');
     }
 }

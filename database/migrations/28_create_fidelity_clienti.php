@@ -16,7 +16,8 @@ return new class extends Migration
             $table->bigInteger('id_cliente')->index()->unsigned();
             $table->foreign('id_cliente')->references('id')->on('clienti')->onUpdate('restrict')->onDelete('restrict');
             $table->bigInteger('id_fidelity')->index()->unsigned();
-            $table->foreign('id_fidelity')->references('id')->on('fidelity_card')->onUpdate('restrict')->onDelete('restrict');        
+            $table->foreign('id_fidelity')->references('id')->on('fidelity_card')->onUpdate('restrict')->onDelete('restrict');  
+            $table->bigInteger('id_utente')->unsigned()->index()->nullable();      
         });
     }
 

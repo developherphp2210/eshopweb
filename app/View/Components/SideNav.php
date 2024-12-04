@@ -26,6 +26,6 @@ class SideNav extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.main.side-nav');
+        return view('components.admin.main.side-nav');
     }
 }

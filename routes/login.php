@@ -4,6 +4,7 @@ use App\Http\Controllers\AccountController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\LoginController;
 use App\Http\Middleware\AccessToWeb;
+use App\Http\Middleware\AccessToWebFid;
 use App\Http\Middleware\Authenticate;
 use Illuminate\Support\Facades\Route;
 
@@ -21,14 +22,18 @@ use Illuminate\Support\Facades\Route;
 Route::any('/dologin',[LoginController::class,'login'])->middleware(AccessToWeb::class);
 Route::post('/doregister_user',[LoginController::class,'insert']);
 Route::post('/dopassword_recovery',[LoginController::class,'recovery']);
-
+Route::any('/dologinfid',[LoginController::class,'login'])->middleware(AccessToWebFid::class);
 
 Route::get('/',function(){
-    return view('login.login')->with(['title' => 'Login Page']);
+    return view('login.login')->with(['title' => 'Accesso Utenti']);
 })->name('login');
 
-Route::get('/register_fidelity',function(){
-    return view('fidelity.register')->with(['title' => 'Pagina di registrazione']);
+Route::get('/fidelity',function(){
+    return view('login.loginFidelity')->with(['title' => 'Accesso Clienti Fidelity']);
+})->name('login');
+
+Route::get('/registrazione',function(){
+    return view('users.fidelity.register')->with(['title' => 'Pagina di registrazione']);
 });
 
 Route::get('/password_recovery',function(){

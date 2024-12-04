@@ -23,6 +23,6 @@ class ListaIva extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.anagrafica.lista_iva');
+        return view('components.admin.anagrafica.lista_iva');
     }
 }

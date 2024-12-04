@@ -23,6 +23,6 @@ class ListaCassieri extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.anagrafica.lista_cassieri');
+        return view('components.admin.anagrafica.lista_cassieri');
     }
 }

@@ -23,6 +23,6 @@ class ListaSconti extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.anagrafica.lista_sconti');
+        return view('components.admin.anagrafica.lista_sconti');
     }
 }

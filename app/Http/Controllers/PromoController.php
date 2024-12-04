@@ -12,7 +12,7 @@ class PromoController extends Controller
      */
     public function index()
     {
-        return view('fidelity.promofidelity')->with(['title' => 'Promozioni','index' => '32']);
+        return view('users.fidelity.promofidelity')->with(['title' => 'Promozioni','index' => '32']);
     }
 
     public function indexCasse(string $idcassa)

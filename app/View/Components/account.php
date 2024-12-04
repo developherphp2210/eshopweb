@@ -13,12 +13,9 @@ class Account extends Component
      * 
      * @var array
      */
-
-     public $user = '';     
-
-     public function __construct($us)
-     {
-         $this->user = $us;         
+    
+     public function __construct()
+     {            
      }
      
     /**
@@ -26,6 +23,6 @@ class Account extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.account');
+        return view('components.admin.account');
     }
 }

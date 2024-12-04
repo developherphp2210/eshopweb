@@ -18,6 +18,7 @@ return new class extends Migration
             $table->bigInteger('id_operatore')->index('oper_id')->unsigned()->nullable()->default(0);
             $table->bigInteger('id_cliente')->index('cli_id')->unsigned()->nullable()->default(0);
             $table->string('user_name',50)->unique();
+            $table->string('email',50)->unique();
             $table->string('password')->nullable();                                                
             $table->char('type',1)->default('0');            
             $table->string('nome',50)->nullable();

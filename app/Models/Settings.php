@@ -2,10 +2,8 @@
 
 namespace App\Models;
 
-use App\Models\Settings as ModelsSettings;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Sabberworm\CSS\Settings as CSSSettings;
 
 class Settings extends Model
 {
@@ -15,7 +13,7 @@ class Settings extends Model
 
     protected $fillable=[
          'id',
-         'user_id',
+         'id_deposito',
          'riga1',
          'riga2',
          'riga3',

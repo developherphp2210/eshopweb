@@ -45,7 +45,7 @@
                                         </form>
                                     </div>
                                     <div class="card-footer text-center">
-                                        <div class="small"><a href="{{url('/register_fidelity')}}">Non hai un Account? Registrati adesso!</a></div>
+                                        <div class="small"><a href="{{url('/registrazione')}}">Non hai un Account? Registrati adesso!</a></div>
                                     </div>
                                 </div>
                             </div>

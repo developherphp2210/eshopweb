@@ -10,14 +10,9 @@ class page2 extends Component
 {
     /**
      * Create a new component instance.
-     */
-    public $user = '';
-    public $notification = '';
-
-    public function __construct($user,$notification)
-    {
-        $this->user = $user;
-        $this->notification = $notification;
+     */   
+    public function __construct()
+    {        
     }
 
     /**
@@ -25,6 +20,6 @@ class page2 extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.page2');
+        return view('components.admin.account.page2');
     }
 }

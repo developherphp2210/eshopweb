@@ -6,11 +6,11 @@
         <div id="layoutSidenav_content"> 
         @switch($page)
             @case(1)
-                <x-account.page1 :user="$user" :notification="$notification"></x-account.page1>
+                <x-page1></x-page1>
                 @break
         
             @case(2)
-                <x-account.page2 :user="$user" :notification="$notification"></x-account.page2>
+                <x-page2></x-page2>
                 @break           
         @endswitch  
         <x-Footermainpage></x-Footermainpage>

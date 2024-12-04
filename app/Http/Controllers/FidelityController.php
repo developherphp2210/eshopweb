@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\FidelityCard;
+use App\Models\FidelityClienti;
 use App\Models\LineaFidelity;
 use App\Models\Puntipromo;
+use App\Models\TestataScontrino;
 use App\MyClass\MyLog;
 use App\MyClass\Utility;
 use Illuminate\Http\Request;
@@ -16,7 +18,13 @@ class FidelityController extends Controller
      */
     public function index()
     {
-        return view('fidelity.fidelitycard')->with(['title' => 'Lista Tessere Fidelity','index' => '31']);
+        return view('users.fidelity.fidelitycard')->with(['title' => 'Lista Tessere Fidelity','index' => '31']);
+    }
+
+    public function indexLista()
+    {
+        $listaFidelity = FidelityCard::GetListUtenti(session('user')->id);
+        return view('fidelity.card.lista_fidelity')->with(['title' => 'Lista Tessere Fidelity','index' => '2','listafidelity' => $listaFidelity]);
     }
 
     public function RichiestaPunti($id)
@@ -66,7 +74,7 @@ class FidelityController extends Controller
 
     public function showlinea()
     {          
-        return view('fidelity.lineafidelity')->with(['title' => 'Linea Fidelity','index' => '30']);
+        return view('users.fidelity.lineafidelity')->with(['title' => 'Linea Fidelity','index' => '30']);
     }
 
     /**
@@ -151,6 +159,23 @@ class FidelityController extends Controller
         $result['error'] = $tmp['error'];
         session()->flash('result',$result);        
         return redirect()->back();
+    }
+
+    public function addFidelity(Request $request)
+    {
+        $result['title'] = 'Gestione Fidelity';
+        $tmp = FidelityCard::AssociaFidelity($request);
+        $result['message'] = $tmp['message'];
+        $result['error'] = $tmp['error'];
+        session()->flash('result',$result);        
+        return redirect()->back();
+    }
+
+    public function listatransazioni()
+    {
+        $cliente = FidelityClienti::where('id_utente',session('user')->id)->first();
+        $lista = TestataScontrino::ListaTransazioniUtente($cliente->id_cliente);
+        return view('fidelity.lista_transazioni')->with(['title' => 'Lista Transazioni','index' => '3','lista' => $lista]);
     }
 
 

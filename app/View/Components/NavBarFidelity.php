@@ -11,16 +11,10 @@ class NavBarFidelity extends Component
     /**
      * Create a new component instance.
      * @var array
-     */
-
-     public $user = '';
-     public $cards = '';
-
-     public function __construct($user,$cards)
-     {
-        $this->user = $user;
-        $this->cards = $cards;
-
+     */    
+    
+     public function __construct()
+     {        
      }
 
     /**
@@ -28,6 +22,6 @@ class NavBarFidelity extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.fidelity.nav-bar-fidelity');
+        return view('components.fidelity.main.nav-bar');
     }
 }

@@ -23,6 +23,6 @@ class ListaDepositi extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.barriera.lista_depositi');
+        return view('components.admin.barriera.lista_depositi');
     }
 }

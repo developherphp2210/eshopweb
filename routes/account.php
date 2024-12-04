@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/dashboard',[AccountController::class,'dash'])->name('dashboard');
 Route::get('/dashboarddeposito/{data}/{id_deposito}',[AccountController::class,'deposito'])->name('dashboardshop');
 Route::get('/dashboardcassa/{data}/{id_cassa}',[AccountController::class,'cassa'])->name('dashboardtill');
-Route::get('/dashboard/fidelity',[FidelityController::class,'dash'])->name('dashboardfidelity');
+Route::get('/dashboard/fidelity',[AccountController::class,'fidelity']);
 // Route::get('/dashboard_admin',[AdminController::class,'main']);
 
 

@@ -23,6 +23,6 @@ class schedaArticolo extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.anagrafica.scheda-articolo');
+        return view('components.admin.anagrafica.scheda-articolo');
     }
 }

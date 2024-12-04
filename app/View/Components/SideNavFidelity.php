@@ -12,14 +12,13 @@ class SideNavFidelity extends Component
      * Create a new component instance.
     * @var array
      */
-
-    public $user = '';
+    
+    public $index = '';
     public $cards = '';
-
-    public function __construct($user,$cards)
-    {
-        $this->user = $user;
-        $this->cards = $cards;
+    public function __construct($index)
+    {        
+        $this->index = $index;
+        $this->cards = [];
     }
 
     /**
@@ -27,6 +26,6 @@ class SideNavFidelity extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.fidelity.side-nav-fidelity');
+        return view('components.fidelity.main.side-nav');
     }
 }

@@ -22,6 +22,6 @@ class PartitarioCliente extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.anagrafica.partitariocliente');
+        return view('components.admin.anagrafica.partitariocliente');
     }
 }

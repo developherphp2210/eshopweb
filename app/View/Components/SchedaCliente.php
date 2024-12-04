@@ -24,6 +24,6 @@ class SchedaCliente extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.anagrafica.scheda-cliente');
+        return view('components.admin.anagrafica.scheda-cliente');
     }
 }

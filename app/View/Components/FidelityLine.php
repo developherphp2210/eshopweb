@@ -26,6 +26,6 @@ class FidelityLine extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.fidelity.lineafidelity');
+        return view('components.admin.fidelity.lineafidelity');
     }
 }

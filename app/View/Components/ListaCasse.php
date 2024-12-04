@@ -22,6 +22,6 @@ class ListaCasse extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.barriera.lista_casse');
+        return view('components.admin.barriera.lista_casse');
     }
 }

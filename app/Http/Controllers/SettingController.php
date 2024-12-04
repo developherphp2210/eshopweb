@@ -11,11 +11,9 @@ class SettingController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
-        $user = session('user');
-        $notification = '';
-        $setting = Settings::GetMySetting($user->id);
-        return view('users.settings')->with(['title' => 'Main Page','user' => $user,'setting' => $setting,'notification' => $notification]);
+    {        
+        $setting = Settings::GetMySetting(session('user')->id);
+        return view('users.settings')->with(['title' => 'Gestione Volantino','setting' => $setting]);
     }
 
     /**

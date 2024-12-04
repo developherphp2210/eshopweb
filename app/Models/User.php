@@ -29,6 +29,7 @@ class User extends Authenticatable
     protected $fillable=[
         'user_name',
         'password',
+        'email',
         'id_operatore',
         'id_cliente',
         'piva',        
@@ -55,14 +56,21 @@ class User extends Authenticatable
 
     static function AccessUser($data)
     {
-        $user = User::where('user_name',$data->user_name)->first();
+        if (isset($data->email)){
+            $user = User::where('email',$data->email)->first();
+        } else {
+            $user = User::where('user_name',$data->user_name)->first();
+        }
         if ($user->type == '0')
         {
             return User::where('users.id',$user->id)
                 ->join('operatori','operatori.id','=','users.id_operatore')
                 ->join('profili','profili.id','=','operatori.id_profilo')
                 ->first();
+        } else {
+            return $user;
         }
+
     }
 
     static function RecoveryPassword($mail){
@@ -77,7 +85,7 @@ class User extends Authenticatable
         } else {
             $notification['message'] = 'Il tuo indirizzo Email non risulta nel nostro elenco!!';
             $notification['status'] = 'true';
-            MyLog::WriteLog($th->getMessage(),0);
+            MyLog::WriteLog('INDIRIZZO EMAIL NON TROVATO',0);
         }
         return $notification;
     }
@@ -128,7 +136,7 @@ class User extends Authenticatable
         } else {
             $notification['message'] = 'Password Corrente Errata!!';
             $notification['status'] = 'true'; 
-            MyLog::WriteLog($th->getMessage(),0);           
+            MyLog::WriteLog('PASSWORD CORRENTE ERRATA',0);           
         }
         return $notification;
     }
