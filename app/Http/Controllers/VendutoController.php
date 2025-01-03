@@ -10,6 +10,7 @@ use App\Models\Depositi;
 use App\Models\FidelityScontrino;
 use App\Models\Iva;
 use App\Models\MovimentiVerpre;
+use App\Models\OfferteScontrino;
 use App\Models\PagamentiScontrino;
 use App\Models\Puntipromo;
 use App\Models\ScontiScontrino;
@@ -59,11 +60,17 @@ class VendutoController extends Controller
                         }
                         break;
                     case 'C':
-                        if ($data[1] == 'S') {
-                            ScontiScontrino::MemorizzoSconti($id,$idcorpo,$data);
-                        } else {
+                        switch ($data[1]) {
+                            case 'S':
+                                ScontiScontrino::MemorizzoSconti($id,$idcorpo,$data);
+                                break;
+                            case 'O':
+                                OfferteScontrino::MemorizzoOfferte($id,$idcorpo,$data);
+                                break;
+                            default:
                             $idcorpo = CorpoScontrino::MemorizzoCorpo($id,$data);
-                        }
+                                break;
+                        }                        
                         break;
                     case 'P':
                         PagamentiScontrino::MemorizzoPagamenti($id,$data);
@@ -103,6 +110,7 @@ class VendutoController extends Controller
             $result['fidelity'] = FidelityScontrino::ListaTransazioni($idcassa,$iddeposito,$data);
             $result['corpo'] = CorpoScontrino::ListaTransazioni($idcassa,$iddeposito,$data);
             $result['sconti'] = ScontiScontrino::ListaTransazioni($idcassa,$iddeposito,$data);
+            $result['offerte'] = OfferteScontrino::ListaTransazioni($idcassa,$iddeposito,$data);
             $result['pagamenti'] = PagamentiScontrino::ListaTransazioni($idcassa,$iddeposito,$data);
         } catch (\Throwable $th) {        
             $result['status'] = '400';

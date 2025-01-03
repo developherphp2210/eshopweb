@@ -21,6 +21,7 @@ return new class extends Migration
             $table->bigInteger('id_codean')->index('codean')->unsigned();
             $table->decimal('prezzo')->default(0);
             $table->smallInteger('presenza_sconto')->default(0);
+            $table->smallInteger('presenza_offerta')->default(0);
             $table->decimal('quantita')->default(1);        
             $table->string('causale',1);
             $table->decimal('sconto_art',8,3)->default(0);

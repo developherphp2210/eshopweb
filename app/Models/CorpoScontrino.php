@@ -22,6 +22,7 @@ class CorpoScontrino extends Model
         'id_codean',
         'prezzo_lordo',
         'presenza_sconto',
+        'presenza_offerta',
         'quantita',
         'causale',
         'sconto_art',
@@ -41,7 +42,8 @@ class CorpoScontrino extends Model
             'id_iva' => $data[8],
             'sconto_art' => str_replace(',','.',$data[5]),
             'sconto_tra' => str_replace(',','.',$data[9]),
-            'presenza_sconto' => $data[10]
+            'presenza_sconto' => $data[10],
+            'presenza_offerta' => $data[11]
         ]);
         return $corpo['id'];
     }
@@ -110,7 +112,7 @@ class CorpoScontrino extends Model
                                 ->where('testata_scontrino.id_cassa',$idcassa)
                                 ->whereRaw(" DATE(testata_scontrino.data) = '".$data."'")
                                 ->join('testata_scontrino','testata_scontrino.id','=','corpo_scontrino.id_testata')
-                                ->selectRaw('corpo_scontrino.id,corpo_scontrino.id_testata,corpo_scontrino.id_articolo,corpo_scontrino.id_reparto,corpo_scontrino.id_iva,corpo_scontrino.id_codean,corpo_scontrino.prezzo_lordo,corpo_scontrino.presenza_sconto,corpo_scontrino.quantita,corpo_scontrino.causale,(corpo_scontrino.sconto_art + corpo_scontrino.sconto_tra) as totsconti  ')
+                                ->selectRaw('corpo_scontrino.id,corpo_scontrino.id_testata,corpo_scontrino.id_articolo,corpo_scontrino.id_reparto,corpo_scontrino.id_iva,corpo_scontrino.id_codean,corpo_scontrino.prezzo_lordo,corpo_scontrino.presenza_sconto,corpo_scontrino.presenza_offerta,corpo_scontrino.quantita,corpo_scontrino.causale,(corpo_scontrino.sconto_art + corpo_scontrino.sconto_tra) as totsconti  ')
                                 ->get();
     }
 

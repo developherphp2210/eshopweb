@@ -16,6 +16,7 @@ use App\Http\Controllers\ScontiController;
 use App\Http\Controllers\PagamentiController;
 use App\Http\Controllers\PromoController;
 use App\Http\Controllers\VendutoController;
+use App\Http\Controllers\VolantinoController;
 use App\Http\Middleware\AccessToApi;
 use App\Models\Codean;
 use App\Models\EListino;
@@ -114,7 +115,8 @@ Route::get('clienti/{idcassa}',[ClientiController::class,'indexCasse']);
 Route::get('fidelity/{idcassa}',[FidelityController::class,'indexCasse']);
 Route::get('linea_fidelity/{idcassa}',[FidelityController::class,'indexLineaCasse']);
 Route::get('tipioff/{idcassa}',[OfferteController::class,'tipiOfferte']);
-Route::get('promozioni/{idcassa}',[PromoController::class,'IndexCasse']);
+Route::get('promozioni/{idcassa}',[PromoController::class,'indexCasse']);
+Route::get('volantini/{idcassa}',[VolantinoController::class,'indexCasse']);
 Route::get('closecheck/{idcassa}',[CasseController::class,'closeRequest']);
 
 Route::post('venduto',[VendutoController::class,'store']);

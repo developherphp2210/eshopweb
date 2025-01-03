@@ -30,10 +30,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
 Route::get('/clienti',[ClientiController::class,'index']);
 Route::get('/cliente/{id}/{page}',[ClientiController::class,'show']);
 Route::post('/clientiupdate/{id}',[ClientiController::class,'update']);
@@ -98,8 +94,6 @@ Route::post('/add_fidelity',[FidelityController::class,'store']);
 Route::any('/fidelity/{id}',[FidelityController::class,'changeCard']);
 
 Route::get('/lista_scontrini',[FidelityController::class,'listatransazioni']);
-// Route::get('receipt/{id}',[FidelityController::class,'show']);
-// Route::get('receiptuser/{id}',[CustomerController::class,'receipt']);
 
 Route::get('/volantinopdf',[VolantinoPdfController::class,'index']);
 Route::post('/volantinopdfinsert',[VolantinoPdfController::class,'store']);

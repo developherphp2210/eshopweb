@@ -62,7 +62,11 @@
         container: true,
         pdf: "{{asset('storage/'.$pdf->path)}}",
         pdfFind: false,
-        toolbar: "back, zoomin,zoomout, right"
+        slideShow: true,
+        slideShowDelay: 5000,
+        slideShowLoop: true,
+        startSlideShow: true,
+        toolbar: "back, zoomin,zoomout, right,slideshow,fullscreen"
       });
     </script>     
     @endforeach
