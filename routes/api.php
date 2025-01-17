@@ -128,3 +128,4 @@ Route::get('/listatransazione/{cassa}/{deposito}/{data}',[VendutoController::cla
 Route::get('/puntiFidelity/{id}',[FidelityController::class,'RichiestaPunti']);
 Route::get('/singolatransazione/{id}',[VendutoController::class,'showsingle']);
 Route::get('/singolafattura/{id}',[VendutoController::class,'showsingleFat']);
+Route::get('/listacasse/{iddeposito}',[CasseController::class,'ListaCasse']);

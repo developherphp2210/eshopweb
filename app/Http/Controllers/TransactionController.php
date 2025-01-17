@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Casse;
 use App\Models\CorpoScontrino;
+use App\Models\Depositi;
 use App\Models\PagamentiScontrino;
 use App\Models\TestataScontrino;
 use App\Models\TransactionBody;
 use App\Models\TransactionPayment;
 use DateTime;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Date;
 
 class TransactionController extends Controller
 {
@@ -17,7 +20,27 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        //
+        $data = new DateTime('now');
+        $transazioni['lista'] = TestataScontrino::ListaTransazioni('0','0',$data->format('Y-m-d'));
+        $transazioni['data'] = $data->format('Y-m-d');
+        $transazioni['depositi'] = Depositi::GetList();
+        $transazioni['default_dep'] = '0';
+        return view('users.lista_transazioni')->with(['title' => 'Lista Transazioni','index' => '101','transazioni' => $transazioni]);
+    }
+
+    public function filtri(Request $request)
+    {
+        $data = new DateTime($request->data);        
+        $transazioni['lista'] = TestataScontrino::ListaTransazioni($request->casse,$request->depositi,$data->format('Y-m-d'));
+        $transazioni['data'] = $data->format('Y-m-d');
+        $transazioni['depositi'] = Depositi::GetList();
+        $transazioni['default_dep'] = $request->depositi;
+        if ($request->depositi != '0'){
+            $transazioni['casse'] = Casse::CasseDeposito($request->depositi);
+            $transazioni['default_casse'] = $request->casse;            
+        }
+       
+        return view('users.lista_transazioni')->with(['title' => 'Lista Transazioni','index' => '101','transazioni' => $transazioni]);
     }
 
     /**

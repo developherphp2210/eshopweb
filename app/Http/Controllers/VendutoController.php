@@ -106,7 +106,7 @@ class VendutoController extends Controller
             $idcassa = Casse::GetId($cassa,$iddeposito)['id']; 
             $result['status'] = '200';
             $result['result'] = 'true';      
-            $result['testata'] = TestataScontrino::ListaTransazioni($idcassa,$iddeposito,$data);
+            $result['testata'] = TestataScontrino::ListaTransazioniCasse($idcassa,$iddeposito,$data);
             $result['fidelity'] = FidelityScontrino::ListaTransazioni($idcassa,$iddeposito,$data);
             $result['corpo'] = CorpoScontrino::ListaTransazioni($idcassa,$iddeposito,$data);
             $result['sconti'] = ScontiScontrino::ListaTransazioni($idcassa,$iddeposito,$data);

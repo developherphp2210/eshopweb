@@ -226,10 +226,58 @@ class TestataScontrino extends Model
 
     static function ListaTransazioni($idcassa,$iddeposito,$data)
     {
+        if ($iddeposito == '0'){
+            $result =  TestataScontrino::whereRaw(" DATE(testata_scontrino.data) = '".$data."'")
+                                ->join('casse','casse.id','=','testata_scontrino.id_cassa')                                
+                                ->join('deposito','deposito.id','=','testata_scontrino.id_deposito')
+                                ->join('operatori','operatori.id','=','testata_scontrino.id_operatore')
+                                ->leftjoin('clienti','clienti.id','=','testata_scontrino.id_cliente')
+                                ->leftjoin('sconti_scontrino','sconti_scontrino.id_testata','=','testata_scontrino.id')
+                                ->leftjoin('fidelity_card','fidelity_card.id','=','testata_scontrino.id_fidelity')
+                                ->leftjoin('offerte_scontrino','offerte_scontrino.id_testata','=','testata_scontrino.id')
+                                ->selectRaw('testata_scontrino.id,casse.descrizione as cassa,deposito.descrizione as deposito,operatori.descrizione as operatore,testata_scontrino.importo,testata_scontrino.data,testata_scontrino.numero_scontrino,sum(sconti_scontrino.importo) as sconti,sum(offerte_scontrino.importo) as offerte,testata_scontrino.causale_documento,testata_scontrino.numero_fattura,testata_scontrino.registro_fattura,fidelity_card.codice as tessera,clienti.ragsoc as cliente')
+                                ->groupByRaw('testata_scontrino.id,casse.descrizione,deposito.descrizione,operatori.descrizione,testata_scontrino.importo,testata_scontrino.`data`,testata_scontrino.numero_scontrino,testata_scontrino.causale_documento,testata_scontrino.numero_fattura,testata_scontrino.registro_fattura,fidelity_card.codice,clienti.ragsoc')
+                                ->orderBy('testata_scontrino.data')
+                                ->get();            
+        } elseif ($idcassa == '0') {
+            $result = TestataScontrino::where('testata_scontrino.id_deposito',$iddeposito)                                
+                                ->whereRaw(" DATE(testata_scontrino.data) = '".$data."'")
+                                ->join('casse','casse.id','=','testata_scontrino.id_cassa')                                
+                                ->join('deposito','deposito.id','=','testata_scontrino.id_deposito')
+                                ->join('operatori','operatori.id','=','testata_scontrino.id_operatore')
+                                ->leftjoin('clienti','clienti.id','=','testata_scontrino.id_cliente')
+                                ->leftjoin('sconti_scontrino','sconti_scontrino.id_testata','=','testata_scontrino.id')
+                                ->leftjoin('fidelity_card','fidelity_card.id','=','testata_scontrino.id_fidelity')
+                                ->leftjoin('offerte_scontrino','offerte_scontrino.id_testata','=','testata_scontrino.id')
+                                ->selectRaw('testata_scontrino.id,casse.descrizione as cassa,deposito.descrizione as deposito,operatori.descrizione as operatore,testata_scontrino.importo,testata_scontrino.data,testata_scontrino.numero_scontrino,sum(sconti_scontrino.importo) as sconti,sum(offerte_scontrino.importo) as offerte,testata_scontrino.causale_documento,testata_scontrino.numero_fattura,testata_scontrino.registro_fattura,fidelity_card.codice as tessera,clienti.ragsoc as cliente')
+                                ->groupByRaw('testata_scontrino.id,casse.descrizione,deposito.descrizione,operatori.descrizione,testata_scontrino.importo,testata_scontrino.`data`,testata_scontrino.numero_scontrino,testata_scontrino.causale_documento,testata_scontrino.numero_fattura,testata_scontrino.registro_fattura,fidelity_card.codice,clienti.ragsoc')
+                                ->orderBy('testata_scontrino.data')
+                                ->get();                        
+        } else{
+            $result = TestataScontrino::where('testata_scontrino.id_deposito',$iddeposito)                                
+                                ->where('testata_scontrino.id_cassa',$idcassa)
+                                ->whereRaw(" DATE(testata_scontrino.data) = '".$data."'")
+                                ->join('casse','casse.id','=','testata_scontrino.id_cassa')                                
+                                ->join('deposito','deposito.id','=','testata_scontrino.id_deposito')
+                                ->join('operatori','operatori.id','=','testata_scontrino.id_operatore')
+                                ->leftjoin('clienti','clienti.id','=','testata_scontrino.id_cliente')
+                                ->leftjoin('sconti_scontrino','sconti_scontrino.id_testata','=','testata_scontrino.id')
+                                ->leftjoin('fidelity_card','fidelity_card.id','=','testata_scontrino.id_fidelity')
+                                ->leftjoin('offerte_scontrino','offerte_scontrino.id_testata','=','testata_scontrino.id')
+                                ->selectRaw('testata_scontrino.id,casse.descrizione as cassa,deposito.descrizione as deposito,operatori.descrizione as operatore,testata_scontrino.importo,testata_scontrino.data,testata_scontrino.numero_scontrino,sum(sconti_scontrino.importo) as sconti,sum(offerte_scontrino.importo) as offerte,testata_scontrino.causale_documento,testata_scontrino.numero_fattura,testata_scontrino.registro_fattura,fidelity_card.codice as tessera,clienti.ragsoc as cliente')
+                                ->groupByRaw('testata_scontrino.id,casse.descrizione,deposito.descrizione,operatori.descrizione,testata_scontrino.importo,testata_scontrino.`data`,testata_scontrino.numero_scontrino,testata_scontrino.causale_documento,testata_scontrino.numero_fattura,testata_scontrino.registro_fattura,fidelity_card.codice,clienti.ragsoc')
+                                ->orderBy('testata_scontrino.data')
+                                ->get();                                    
+        }
+        return $result;
+    }
+
+    static function ListaTransazioniCasse($idcassa,$iddeposito,$data)
+    {
         return TestataScontrino::where('id_deposito',$iddeposito)
                                 ->where('id_cassa',$idcassa)
                                 ->whereRaw(" DATE(data) = '".$data."'")
-                                ->get();
+                                ->get();        
     }
 
     static function SingolaTransazione($id)
@@ -259,7 +307,8 @@ class TestataScontrino extends Model
                                 ->join('deposito','deposito.id','=','testata_scontrino.id_deposito')
                                 ->join('operatori','operatori.id','=','testata_scontrino.id_operatore')
                                 ->leftjoin('sconti_scontrino','sconti_scontrino.id_testata','=','testata_scontrino.id')
-                                ->selectRaw('testata_scontrino.id,casse.descrizione as cassa,deposito.descrizione as deposito,operatori.descrizione as operatore,testata_scontrino.importo,testata_scontrino.data,testata_scontrino.numero_scontrino,sum(sconti_scontrino.importo) as sconti,testata_scontrino.causale_documento,testata_scontrino.numero_fattura,testata_scontrino.registro_fattura')
+                                ->leftjoin('offerte_scontrino','offerte_scontrino.id_testata','=','testata_scontrino.id')
+                                ->selectRaw('testata_scontrino.id,casse.descrizione as cassa,deposito.descrizione as deposito,operatori.descrizione as operatore,testata_scontrino.importo,testata_scontrino.data,testata_scontrino.numero_scontrino,sum(sconti_scontrino.importo) as sconti,sum(offerte_scontrino.importo) as offerte,testata_scontrino.causale_documento,testata_scontrino.numero_fattura,testata_scontrino.registro_fattura')
                                 ->groupByRaw('testata_scontrino.id,casse.descrizione,deposito.descrizione,operatori.descrizione,testata_scontrino.importo,testata_scontrino.`data`,testata_scontrino.numero_scontrino,testata_scontrino.causale_documento,testata_scontrino.numero_fattura,testata_scontrino.registro_fattura')
                                 ->orderBy('testata_scontrino.data')
                                 ->get();

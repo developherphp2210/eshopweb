@@ -8,7 +8,11 @@
                 <a class="nav-link {{($index == '1') ? 'active' : ''}}" href="{{url('/dashboard')}}">
                     <div class="nav-link-icon"><i data-feather="activity"></i></div>
                     Dashboards                    
-                </a> 
+                </a>
+                <a class="nav-link {{($index == '101') ? 'active' : ''}}" href="{{url('/listatransazioni')}}">
+                    <div class="nav-link-icon"><i data-feather="list"></i></div>
+                    Lista Transazioni                    
+                </a>  
                 <!-- Sidenav Heading (App Views)-->
                 <div class="sidenav-menu-heading">Gestionale</div>
                 <!-- Sidenav Accordion (Pages)-->

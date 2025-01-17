@@ -3,11 +3,16 @@
         <div class="container-xl px-4">
             <div class="page-header-content">
                 <div class="row align-items-center justify-content-between pt-3">
-                    <div class="col-auto mb-3">
+                    <div class="col-auto mb-3">                        
                         <h1 class="page-header-title">
-                            <div class="page-header-icon"><i data-feather="user"></i></div>
-                            Anagrafica Cliente - {{$cliente['anagrafica']->ragsoc}}
-                        </h1>
+                            <div class="page-header-icon"><i data-feather="list"></i></div>
+                            Lista Transazioni
+                        </h1>                        
+                    </div>
+                    <div class="col-auto mb-3">                        
+                        <h1 class="page-header-title">
+                            <button class="btn btn-sm" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"><i data-feather="filter"></i></button>
+                            Filtri
                         </h1>
                     </div>
                 </div>
@@ -16,13 +21,7 @@
     </header>
     <!-- Main page content-->
     <div class="container-xl px-4 mt-4">
-        <!-- Account page navigation-->
-        <nav class="nav nav-borders">
-            <a class="nav-link  ms-0" href="{{url('/cliente/'.$cliente['anagrafica']->id.'/1')}}">Anagrafica Cliente</a>
-            <a class="nav-link active" href="{{url('/cliente/'.$cliente['anagrafica']->id.'/2')}}">Partitario</a>
-            <a class="nav-link" href="{{url('/cliente/'.$cliente['anagrafica']->id.'/3')}}">Tessere Fidelity</a>
-        </nav>
-        <hr class="mt-0 mb-4" />
+    <hr class="mt-0 mb-4" />
         <div class="card mb-4">
             <div class="card-body">
                 <div class="table-responsive">
@@ -31,8 +30,10 @@
                             <tr>
                                 <th class="text-center">Cassa</th>
                                 <th class="text-center">Deposito</th>
-                                <th class="text-center">Doc. Comm.</th>
+                                <th class="text-center">Doc.</th>
                                 <th class="text-center">Cassiere</th>
+                                <th class="text-center">Cliente</th>
+                                <th class="text-center">Tessera</th>                                    
                                 <th class="text-center">Prezzo</th>
                                 <th class="text-center">Sconto</th>
                                 <th class="text-center">Data</th>
@@ -41,7 +42,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($cliente['transazioni'] as $lista)
+                            @foreach ($transazioni['lista'] as  $lista)
                             <tr>
                                 <td>{{$lista->cassa}}</td>
                                 <td>{{$lista->deposito}}</td>
@@ -57,6 +58,8 @@
                                             @break                            
                                 @endswitch                                
                                 <td>{{$lista->operatore}}</td>
+                                <td>{{$lista->cliente}}</td>
+                                <td>{{$lista->tessera}}</td>
                                 <td class="text-end">{{number_format($lista->importo, 2, ",", ".")}}</td>
                                 <td class="text-end">{{number_format(($lista->sconti + $lista->offerte), 2, ",", ".")}}</td>                                 
                                 <td class="text-center" data-search="{{$lista->data}}" data-order="{{date_timestamp_get(date_create($lista->data)) * 1000}}">{{date_format(date_create($lista->data),'d/m/Y H:i')}}</td>
@@ -93,11 +96,53 @@
         </div>
     </div>
 </main>
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasRightLabel">Filtri Ricerca</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <form action="/filtrilista" method="get" id="form_lista">    
+    {{csrf_field()}}
+    <div class="offcanvas-body">
+        <div class="row">
+            <div class="col-12">
+                <input class="form-control" type="date" name="data" value="{{$transazioni['data']}}">
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-12">
+                <select class="form-select" name="depositi" id="lista_depositi">                    
+                    @foreach ($transazioni['depositi'] as $deposito)
+                        <option {{($transazioni['default_dep'] == $deposito->id) ? 'selected' : ''}} value="{{$deposito->id}}">{{$deposito->codice.' - '.$deposito->descrizione}}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>    
+        <div id="divcasse" class="row mt-3 {{($transazioni['default_dep'] == '0') ? 'd-none' : ''}}">
+            <div class="col-12">
+                <select class="form-select" name="casse" id="lista_casse">
+                    @if($transazioni['default_dep'] != '0')
+                        <option value="0">Tutte le Casse</option>
+                        @foreach ($transazioni['casse'] as $cassa)
+                            <option {{($transazioni['default_casse'] == $cassa->id) ? 'selected' : ''}} value="{{$cassa->id}}">{{$cassa->codice.' - '.$cassa->descrizione}}</option>
+                        @endforeach    
+                    @endif
+                </select>
+            </div>
+        </div>    
+    </div>
+    <div class="offcanvas-footer">
+        <div class="d-grid p-2">        
+            <button class="btn btn-primary" type="submit">Applica Filtri</button>       
+        </div>
+    </div>
+  </form>
+</div>
 <script>
     $(document).ready(function() {
         $('#lista').DataTable({
             "lengthMenu": [25, 50, 75, 100],
-            "order": [[6, 'desc']],
+            "order": [[8, 'desc']],
             "language": {
                 "search": "Ricerca:",
                 "lengthMenu": "_MENU_",

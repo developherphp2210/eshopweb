@@ -33,6 +33,11 @@ class Casse extends Model
                     ->get();
     }
 
+    static function CasseDeposito($id_deposito)    
+    {
+        return Casse::where('id_deposito',$id_deposito)->orderBy('codice')->get();
+    }
+
     static function GetName($id_cassa){
         return Casse::where('id',$id_cassa)
                     ->select('descrizione')

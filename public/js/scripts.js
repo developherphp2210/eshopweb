@@ -652,6 +652,40 @@ if (savepromo){
     })
 }
 
+/* LISTA TRANSAZIONI */
+
+const form_lista = document.querySelector('#form_lista');
+
+if (form_lista){
+    const lista_depositi = document.querySelector('#lista_depositi');
+    const divcasse = document.querySelector('#divcasse');
+    lista_depositi.addEventListener('change',(event) => {
+
+        if (event.target.value == '0'){
+            divcasse.classList.add('d-none');
+        } else {
+            divcasse.classList.remove('d-none');
+            fetch('/api/listacasse/'+event.target.value)
+            .then((response) => {
+                return response.json();
+            }).then((resp) => {
+                const lista_casse = document.querySelector('#lista_casse');
+                lista_casse.innerHTML = '';
+                const opt = document.createElement('option');
+                opt.value = '0';
+                opt.text = 'Tutte le Casse';
+                lista_casse.appendChild(opt);
+                resp.forEach( value => {
+                    const opt1 = document.createElement('option');
+                    opt1.value = value['id'];
+                    opt1.text = value['codice']+' - '+value['descrizione'];
+                    lista_casse.append(opt1);
+                });
+            });
+        }
+    });
+}
+
 function openfidelitymodal(id){
     const fidelityID = document.querySelector('#fidelityID');
     fidelityID.value = id;

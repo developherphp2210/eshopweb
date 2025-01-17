@@ -15,6 +15,7 @@ use App\Http\Controllers\DepositoController;
 use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\IvaController;
 use App\Http\Controllers\PromoController;
+use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\VolantinoPdfController;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Route;
@@ -114,4 +115,7 @@ Route::get('/print',function()
 });
 
 Route::get('/listafidelity',[FidelityController::class,'indexLista']);
+
+Route::get('/listatransazioni',[TransactionController::class,'index']);
+Route::get('/filtrilista',[TransactionController::class,'filtri']);
 

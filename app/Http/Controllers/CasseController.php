@@ -33,6 +33,11 @@ class CasseController extends Controller
         return $result;
     }
 
+    public function ListaCasse($id_deposito)
+    {
+        return Casse::CasseDeposito($id_deposito);
+    }
+
     public function check(string $codcassa,string $codep)
     {
         try{
