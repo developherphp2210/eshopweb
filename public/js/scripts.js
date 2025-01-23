@@ -764,6 +764,24 @@ function visualizzaSco(id){
                         div2.append(h5s2);
                         corposcontrino.append(div2);
                     });                    
+                }
+                if (value['presenza_offerta'] = 1){
+                    sconto = resp['offerte'].filter(({id_corpo})  => 
+                        id_corpo === value['id']
+                    );
+                    sconto.forEach( element => {
+                        div2 = document.createElement('div');                    
+                        div2.classList.add('d-flex');
+                        div2.classList.add('justify-content-between');                
+                        h5s1 = document.createElement('h5');
+                        h5s1.innerHTML = element['descrizione'];
+                        h5s2 = document.createElement('h5');
+                        h5s2.innerHTML = '- '+parseFloat(element['importo']).toFixed(2).replace('.',',');
+                        totale = totale - element['importo'];
+                        div2.append(h5s1);
+                        div2.append(h5s2);
+                        corposcontrino.append(div2);
+                    });                    
                 }                                                    
             });
             br = document.createElement('br');            
@@ -901,6 +919,24 @@ function visualizzaFat(id){
                 corposcontrino.append(div);
                 if (value['presenza_sconto'] = 1){
                     sconto = resp['sconti'].filter(({id_corpo})  => 
+                        id_corpo === value['id']
+                    );
+                    sconto.forEach( element => {
+                        div2 = document.createElement('div');                    
+                        div2.classList.add('d-flex');
+                        div2.classList.add('justify-content-between');                
+                        h5s1 = document.createElement('h5');
+                        h5s1.innerHTML = element['descrizione'];
+                        h5s2 = document.createElement('h5');
+                        h5s2.innerHTML = '- '+parseFloat(element['importo']).toFixed(2).replace('.',',');
+                        totale = totale - element['importo'];
+                        div2.append(h5s1);
+                        div2.append(h5s2);
+                        corposcontrino.append(div2);
+                    });                    
+                }
+                if (value['presenza_offerta'] = 1){
+                    sconto = resp['offerte'].filter(({id_corpo})  => 
                         id_corpo === value['id']
                     );
                     sconto.forEach( element => {

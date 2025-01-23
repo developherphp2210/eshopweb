@@ -121,7 +121,7 @@ class CorpoScontrino extends Model
         return CorpoScontrino::where('corpo_scontrino.id_testata',$id)
                                 ->join('articoli','articoli.id','=','corpo_scontrino.id_articolo')
                                 ->join('iva','iva.id','=','corpo_scontrino.id_iva')
-                                ->selectRaw('articoli.descrizione,corpo_scontrino.prezzo_lordo,corpo_scontrino.presenza_sconto,corpo_scontrino.quantita,corpo_scontrino.causale,corpo_scontrino.id')
+                                ->selectRaw('articoli.descrizione,corpo_scontrino.prezzo_lordo,corpo_scontrino.presenza_sconto,corpo_scontrino.quantita,corpo_scontrino.causale,corpo_scontrino.id,corpo_scontrino.presenza_offerta')
                                 ->get();
     }
 

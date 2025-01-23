@@ -124,10 +124,11 @@ class VendutoController extends Controller
 
     public function showsingle(string $id)
     {
-        $result['testata'] = TestataScontrino::SingolaTransazione($id);
+        $result['testata'] = TestataScontrino::SingolaTransazione($id);        
         $result['fidelity'] = FidelityScontrino::Singolatransazione($id);
         $result['corpo'] = CorpoScontrino::SingolaTransazione($id);
         $result['sconti'] = ScontiScontrino::SingolaTransazione($id);
+        $result['offerte'] = OfferteScontrino::SingolaTransazione($id);
         $result['pagamenti'] = PagamentiScontrino::SingolaTransazione($id);
         return $result;
     }
@@ -138,6 +139,7 @@ class VendutoController extends Controller
         $result['cliente'] = Clienti::GetCliente($result['testata']['id_cliente']);
         $result['corpo'] = CorpoScontrino::SingolaTransazione($id);
         $result['sconti'] = ScontiScontrino::SingolaTransazione($id);
+        $result['offerte'] = OfferteScontrino::SingolaTransazione($id);
         $result['pagamenti'] = PagamentiScontrino::SingolaTransazione($id);
         $result['iva'] = CorpoScontrino::DettaglioIva($id);
         return $result;
