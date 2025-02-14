@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Causali;
+use App\Models\Tickets;
 use Illuminate\Http\Request;
+use PHPUnit\Framework\Attributes\Ticket;
 
-class CausaliController extends Controller
+class TicketController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
-    {        
-        $listacausali = Causali::GetList();
-        return view('users.anagrafica.lista_causali')->with(['title' => 'Lista Causali','index' => '11', 'listacausali' => $listacausali]);
+    { 
+        session()->put('lastid',1);       
+        return view('users.anagrafica.lista_ticket')->with(['title' => 'Lista Ticket / BuoniPasto','index' => '10']);
     }
 
     public function indexCasse(string $idcassa)
@@ -22,7 +23,7 @@ class CausaliController extends Controller
         try {
             $result['status'] = '200';
             $result['result'] = 'true';
-            $result['items'] = Causali::GetListCasse($idcassa);;    
+            $result['items'] = Tickets::GetListCasse($idcassa); 
         } catch (\Throwable $th) {
             $result['status'] = '400';
             $result['result'] = 'false';
@@ -36,20 +37,21 @@ class CausaliController extends Controller
      */
     public function create()
     {
-        
+        //
     }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {        
-        $result['title'] = 'Gestione Causali';
-        $tmp = Causali::InserimentoCausali($request);
+    {
+        $result['title'] = 'Gestione Tickets / Buoni Pasto';
+        $tmp = Tickets::InserisciTicket($request);        
         $result['message'] = $tmp['message'];
-        $result['error'] = $tmp['error'];
+        $result['error'] = $tmp['error'];                        
         session()->flash('result',$result);        
-        return redirect()->back();
+        session()->put('lastid',$tmp['dati']->id);
+        return view('users.anagrafica.lista_ticket')->with(['title' => 'Lista Ticket / BuoniPasto','index' => '10']);
     }
 
     /**
@@ -57,7 +59,7 @@ class CausaliController extends Controller
      */
     public function show(string $id)
     {
-        return Causali::Show($id);
+        return Tickets::show($id); 
     }
 
     /**
@@ -73,12 +75,13 @@ class CausaliController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $result['title'] = 'Gestione Causali';
-        $tmp = Causali::AggiornaCausali($request,$id);
+        $result['title'] = 'Gestione Tickets / Buoni Pasto';
+        $tmp = Tickets::ModificaTicket($request,$id);        
         $result['message'] = $tmp['message'];
         $result['error'] = $tmp['error'];
-        session()->flash('result',$result);        
-        return redirect()->back();
+        session()->flash('result',$result); 
+        session()->put('lastid',$id);                       
+        return view('users.anagrafica.lista_ticket')->with(['title' => 'Lista Ticket / BuoniPasto','index' => '10']);
     }
 
     /**
@@ -86,8 +89,8 @@ class CausaliController extends Controller
      */
     public function destroy(string $id)
     {
-        $result['title'] = 'Gestione Causali';
-        $tmp = Causali::CancellaCausali($id);
+        $result['title'] = 'Gestione Tickets / Buoni Pasto';
+        $tmp = Tickets::CancellaTicket($id);
         $result['message'] = $tmp['message'];
         $result['error'] = $tmp['error'];
         session()->flash('result',$result);        

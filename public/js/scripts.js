@@ -446,6 +446,40 @@ if (savepagamento){
     }
 }
 
+/**  GESTIONE TICKETS  */
+
+const saveticket = document.querySelector('#saveticket');
+
+if (saveticket){    
+    const addticket = document.querySelector('#addticket');    
+    const ticketform = document.querySelector('#ticketform');
+
+    addticket.addEventListener('click',( ) => {
+        document.querySelector('#id').value = '';
+        document.querySelector('#descrizione').value = '';        
+        document.querySelector('#attivo').checked = true;
+        document.querySelector('#valore').value = '0,00';
+        ticketform.action = '/ticketinsert';
+        saveticket.innerHTML = 'Inserisci';
+        document.querySelector('#descrizione').focus();  
+    });
+
+    function schedaTic(id)
+    {
+        fetch('/api/ticket/'+id)
+        .then((response) => {
+            return response.json();
+        }).then((resp) => {                                    
+            document.querySelector('#id').value = resp['id'];             
+            document.querySelector('#descrizione').value = resp['descrizione'];             
+            (resp['attivo'] == '1') ? document.getElementById('attivo').checked = true :     document.getElementById('attivo').checked =  false ;            
+            document.querySelector('#valore').value = resp['valore'];
+            ticketform.action = '/ticketupdate/'+id;
+            saveticket.innerHTML = 'Salva';
+        });
+    }
+}
+
 /**  GESTIONE CAUSALI  */
 
 const savecausale = document.querySelector('#savecausale');

@@ -15,6 +15,7 @@ use App\Http\Controllers\DepositoController;
 use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\IvaController;
 use App\Http\Controllers\PromoController;
+use App\Http\Controllers\TicketController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\VolantinoPdfController;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -68,6 +69,11 @@ Route::get('/pagamenti',[PagamentiController::class,'index']);
 Route::post('/pagamentoinsert',[PagamentiController::class,'store']);
 Route::post('/pagamentoupdate/{id}',[PagamentiController::class,'update']);
 Route::get('/pagamentodelete/{id}',[PagamentiController::class,'destroy']);
+
+Route::get('/buonipasto',[TicketController::class,'index']);
+Route::post('/ticketinsert',[TicketController::class,'store']);
+Route::post('/ticketupdate/{id}',[TicketController::class,'update']);
+Route::get('/ticketdelete/{id}',[TicketController::class,'destroy']);
 
 Route::get('/causali',[CausaliController::class,'index']);
 Route::post('/causaleinsert',[CausaliController::class,'store']);

@@ -39,8 +39,19 @@
                             </nav>
                         </div>
                         <a class="nav-link {{($index == '8') ? 'active' : ''}}" href="{{url('/sconti')}}">Sconti</a>
-                        <a class="nav-link {{($index == '9') ? 'active' : ''}}" href="{{url('/pagamenti')}}">Forme di Pagamento</a>
-                        <a class="nav-link {{($index == '10') ? 'active' : ''}}" href="{{url('/causali')}}">Versamenti / Prelievi</a>
+                        <a class="nav-link {{( ($index > '8') && ($index < '12') ) ? 'active' : 'collapsed'}}" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#PagamentiPages" aria-expanded="false" aria-controls="PagamentiPages">
+                            <div id="accordionSidenav3"></div>
+                            Gestione Pagamenti
+                            <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse {{( ($index > '8') && ($index < '12') ) ? 'show' : ''}}" id="PagamentiPages" data-bs-parent="#accordionSidenav3">
+                            <nav class="sidenav-menu-nested nav accordion" id="accordionSidenavPagesMenu">                        
+                                <a class="nav-link {{($index == '9') ? 'active' : ''}}" href="{{url('/pagamenti')}}">Forme di Pagamento</a>
+                                <a class="nav-link {{($index == '10') ? 'active' : ''}}" href="{{url('/buonipasto')}}">Ticket / Buoni Pasto</a>
+                            </nav>
+                        </div>
+                        
+                        <a class="nav-link {{($index == '11') ? 'active' : ''}}" href="{{url('/causali')}}">Versamenti / Prelievi</a>
                     </nav>
                 </div>
 
