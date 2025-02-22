@@ -17,24 +17,31 @@ class CVolantino extends Model
         'id_articolo',
         'id_offerta',
         'prezzo_iniziale',
-        'prezzo_offerta'
+        'prezzo_offerta',
+        'valore_sconto'
     ]; 
 
     static function GetListCasse($idcassa)
     {
-        $lastupdate = Casse::LastUpdate($idcassa);        
-        if ( $lastupdate <> null )
-        {
-            return CVolantino::whereRaw("testata_volantino.updated_at >= '".$lastupdate."' or testata_volantino.updated_at is null")
+        // $lastupdate = Casse::LastUpdate($idcassa);        
+        // if ( $lastupdate <> null )
+        // {
+        //     return CVolantino::whereRaw("testata_volantino.updated_at >= '".$lastupdate."' or testata_volantino.updated_at is null")
+        //                     ->where('casse.id',$idcassa)
+        //                     ->join('testata_volantino','testata_volantino.id','=','corpo_volantino.id_testata')
+        //                     ->join('depositi_volantino','depositi_volantino.id_testata','=','testata_volantino.id')
+        //                     ->join('casse','casse.id_deposito','=','depositi_volantino.id_deposito')
+        //                     ->selectRaw('testata_volantino.data_inizio,testata_volantino.data_fine,corpo_volantino.id_testata,corpo_volantino.id_articolo,corpo_volantino.id_offerta,corpo_volantino.prezzo_iniziale,corpo_volantino.prezzo_offerta,corpo_volantino.valore_sconto')
+        //                     ->get();
+        // } else 
+        // {
+            return CVolantino::whereRaw("testata_volantino.data_fine >= '".now()."'")
+                            ->where('casse.id',$idcassa)
                             ->join('testata_volantino','testata_volantino.id','=','corpo_volantino.id_testata')
-                            ->selectRaw('testata_volantino.data_inizio,testata_volantino.data_fine,corpo_volantino.id_testata,corpo_volantino.id_articolo,corpo_volantino.id_offerta,corpo_volantino.prezzo_iniziale,corpo_volantino.prezzo_offerta')
+                            ->join('depositi_volantino','depositi_volantino.id_testata','=','testata_volantino.id')
+                            ->join('casse','casse.id_deposito','=','depositi_volantino.id_deposito')
+                            ->selectRaw('testata_volantino.data_inizio,testata_volantino.data_fine,corpo_volantino.id_testata,corpo_volantino.id_articolo,corpo_volantino.id_offerta,corpo_volantino.prezzo_iniziale,corpo_volantino.prezzo_offerta,corpo_volantino.valore_sconto')
                             ->get();
-        } else 
-        {
-            return CVolantino::whereRaw("testata_volantino.data_inizio <= '".now()."' and testata_volantino.data_fine >= '".now()."'")
-                            ->join('testata_volantino','testata_volantino.id','=','corpo_volantino.id_testata')
-                            ->selectRaw('testata_volantino.data_inizio,testata_volantino.data_fine,corpo_volantino.id_testata,corpo_volantino.id_articolo,corpo_volantino.id_offerta,corpo_volantino.prezzo_iniziale,corpo_volantino.prezzo_offerta')
-                            ->get();
-        }
+        // }
     }
 }

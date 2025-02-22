@@ -46,45 +46,52 @@
             </div>
         <div class="col-xl-7 col-xxl-7 p-4">
             <div class="sticky-leads-sidebar">
-                <div class="card mb-4">        
-                    
+                <div class="card mb-4">                            
                         @if($listacassieri['cassieri']->count() > 0)
-                            <form action="{{@url('/cassiereupdate/'.$listacassieri['cassieri'][0]->id)}}" enctype="multipart/form-data" id="cassiereform" method="post">
+                            @php                            
+                               $lastid = session('lastid');                                                         
+                               $cassieri = $listacassieri['cassieri']->filter( function( $value,int $key) use($lastid) {
+                                    if ($value->id == $lastid){
+                                        return $value;
+                                    }
+                                })->first();                                                                                                                                                                                                                                                     
+                            @endphp
+                            <form action="{{@url('/cassiereupdate/'.$cassieri->id)}}" enctype="multipart/form-data" id="cassiereform" method="post">
                                 <div class="card-body">                                
                                     {{csrf_field()}}                                    
                                     <div class="row mt-4">
                                         <div class="col-8">
                                             <h5 class="mb-1">Descrizione</h5>
-                                            <input class="form-control" type="text" maxlength="25" required name="descrizione" id="descrizione" value="{{$listacassieri['cassieri'][0]->descrizione}}">
+                                            <input class="form-control" type="text" maxlength="25" required name="descrizione" id="descrizione" value="{{$cassieri->descrizione}}">
                                         </div>
                                         <div class="col-4 d-flex justify-content-end">
                                             <h5 class="mb-1">Attivo</h5>
                                             <div class="form-check form-switch mb-0">
-                                                <input class="form-check-input ms-auto" type="checkbox" name="attivo" role="switch" {{($listacassieri['cassieri'][0]->attivo == '1') ? 'checked' : ''}}  id="attivo">
+                                                <input class="form-check-input ms-auto" type="checkbox" name="attivo" role="switch" {{($cassieri->attivo == '1') ? 'checked' : ''}}  id="attivo">
                                             </div>   
                                         </div>
                                     </div>
                                     <div class="row mt-4">
                                         <div class="col-6">
                                             <h5 class="mb-1">Password</h5>
-                                            <input class="form-control" type="password" {{($listacassieri['cassieri'][0]->visibile_frontend == '1') ? 'readonly' : ''}} maxlength="255" required name="password" id="password" value="{{$listacassieri['cassieri'][0]->password}}">
+                                            <input class="form-control" type="password" {{($cassieri->visibile_frontend == '1') ? 'readonly' : ''}} maxlength="255" required name="password" id="password" value="{{$cassieri->password}}">
                                         </div>
                                         <div class="col-6">
                                             <h5 class="mb-1">Barcode</h5>
-                                            <input class="form-control" type="text" maxlength="13"  name="barcode" id="barcode" value="{{$listacassieri['cassieri'][0]->barcode}}">
+                                            <input class="form-control" type="text" maxlength="13"  name="barcode" id="barcode" value="{{$cassieri->barcode}}">
                                         </div>
                                     </div>
                                     <div class="row mt-4">
                                         <div class="col-6 d-flex ">
                                             <h5 class="mb-1">Visibile in Cassa</h5>
                                             <div class="form-check form-switch mb-0">
-                                                <input class="form-check-input ms-auto" type="checkbox" name="visibile_cassa" role="switch" {{($listacassieri['cassieri'][0]->visibile_cassa == '1') ? 'checked' : ''}}  id="visibile_cassa">
+                                                <input class="form-check-input ms-auto" type="checkbox" name="visibile_cassa" role="switch" {{($cassieri->visibile_cassa == '1') ? 'checked' : ''}}  id="visibile_cassa">
                                             </div>   
                                         </div>
                                         <div class="col-6 d-flex ">
                                             <h5 class="mb-1">Visibile su FrontEnd</h5>
                                             <div class="form-check form-switch mb-0">
-                                                <input class="form-check-input ms-auto" type="checkbox" name="visibile_frontend" {{($listacassieri['cassieri'][0]->visibile_frontend == '1') ? 'disabled' : ''}} role="switch" {{($listacassieri['cassieri'][0]->visibile_frontend == '1') ? 'checked' : ''}}  id="visibile_frontend">
+                                                <input class="form-check-input ms-auto" type="checkbox" name="visibile_frontend" {{($cassieri->visibile_frontend == '1') ? 'disabled' : ''}} role="switch" {{($cassieri->visibile_frontend == '1') ? 'checked' : ''}}  id="visibile_frontend">
                                             </div>   
                                         </div>
                                     </div>
@@ -94,7 +101,7 @@
                                             <select class="form-select mb-3" required name="id_profilo" id="id_profilo">
                                             <option value="">Seleziona un Profilo</option>
                                                 @foreach ($listacassieri['profili'] as $profilo)
-                                                <option {{( $listacassieri['cassieri'][0]->id_profilo == $profilo->id) ? 'selected' : ''}} value="{{$profilo->id}}">{{$profilo->descrizione}}</option>
+                                                <option {{( $cassieri->id_profilo == $profilo->id) ? 'selected' : ''}} value="{{$profilo->id}}">{{$profilo->descrizione}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -115,6 +122,9 @@
                                     </div>
                                 </div>
                             </form>
+                            @php
+                                session()->forget('lastid');
+                            @endphp
                         @else
                             <form action="{{@url('/cassiereinsert')}}" enctype="multipart/form-data" id="cassiereform" method="post">                            
                                 <div class="card-body">

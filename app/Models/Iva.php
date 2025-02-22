@@ -56,7 +56,7 @@ class Iva extends Model
     {
         $result = [];
         try {            
-            Iva::create([                    
+            $result['dati'] = Iva::create([                    
                 'codice' => $data->codice,
                 'descrizione' => $data->descrizione,
                 'aliquota' => $data->aliquota,

@@ -39,25 +39,33 @@
             <div class="sticky-leads-sidebar">
                 <div class="card mb-4">                            
                         @if($reparti->count() > 0)
-                            <form action="{{@url('/repartoupdate/'.$reparti[0]->id)}}" enctype="multipart/form-data" id="repartoform" method="post">
+                            @php                            
+                               $lastid = session('lastid');                                                         
+                               $rep = $reparti->filter( function( $value,int $key) use($lastid) {
+                                    if ($value->id == $lastid){
+                                        return $value;
+                                    }
+                                })->first();                                                                                                                                                                                                                                                                                
+                            @endphp                        
+                            <form action="{{@url('/repartoupdate/'.$rep->id)}}" enctype="multipart/form-data" id="repartoform" method="post">
                                 <div class="card-body">                                
                                     {{csrf_field()}}
                                     <div class="row">                                    
                                         <div class="col-4">
                                             <h5 class="mb-1">Codice</h5>
-                                            <input class="form-control" type="text" maxlength="6" id="codice" name="codice" value="{{$reparti[0]->codice}}">
+                                            <input class="form-control" type="text" maxlength="6" id="codice" name="codice" value="{{$rep->codice}}">
                                         </div>
                                         <div class="col-8 d-flex justify-content-end">
                                             <h5 class="mb-1">Attivo</h5>
                                             <div class="form-check form-switch mb-0">
-                                                <input class="form-check-input ms-auto" type="checkbox" name="attivo" role="switch" {{($reparti[0]->attivo == '1') ? 'checked' : ''}}  id="attivo">
+                                                <input class="form-check-input ms-auto" type="checkbox" name="attivo" role="switch" {{($rep->attivo == '1') ? 'checked' : ''}}  id="attivo">
                                             </div>   
                                         </div>
                                     </div>
                                     <div class="row mt-4">
                                         <div class="col-8">
                                             <h5 class="mb-1">Descrizione</h5>
-                                            <input class="form-control" type="text" maxlength="25" required name="descrizione" id="descrizione" value="{{$reparti[0]->descrizione}}">
+                                            <input class="form-control" type="text" maxlength="25" required name="descrizione" id="descrizione" value="{{$rep->descrizione}}">
                                         </div>
                                     </div>                                                                         
                                 </div>    
@@ -67,6 +75,9 @@
                                     </div>
                                 </div>
                             </form>
+                            @php
+                                session()->forget('lastid');
+                            @endphp
                         @else
                             <form action="{{@url('/repartoinsert')}}" enctype="multipart/form-data" id="repartoform" method="post">                            
                                 <div class="card-body">

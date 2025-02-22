@@ -19,6 +19,7 @@ return new class extends Migration
             $table->bigInteger('id_offerta')->index()->unsigned();
             $table->decimal('prezzo_iniziale');
             $table->decimal('prezzo_offerta');
+            $table->decimal('valore_sconto');
         });
     }
 

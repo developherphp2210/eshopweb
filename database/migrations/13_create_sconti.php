@@ -22,15 +22,13 @@ return new class extends Migration
         });
 
         DB::table('sconti')->insert([
-            [                
-                'codice' => '1',
+            [                                
                 'descrizione' => 'SCONTO AMMONTARE',                
                 'tipo' => '2',
                 'valore' => '0',
                 'attivo' => '1'
             ],
-            [
-                'codice' => '2',
+            [                
                 'descrizione' => 'SCONTO %',                
                 'tipo' => '1',
                 'valore' => '0',

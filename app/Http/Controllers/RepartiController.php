@@ -13,6 +13,9 @@ class RepartiController extends Controller
     public function index()
     {        
         $reparti = Reparti::GetList();
+        if (! session()->has('lastid') ){
+            session()->put('lastid',$reparti[0]->id);
+        } 
         return view('users.anagrafica.lista_reparti')->with(['title' => 'Lista Reparti','index' => '4', 'reparti' => $reparti]);
 
     }
@@ -49,7 +52,8 @@ class RepartiController extends Controller
         $tmp = Reparti::InserimentoReparto($request);
         $result['message'] = $tmp['message'];
         $result['error'] = $tmp['error'];
-        session()->flash('result',$result);        
+        session()->flash('result',$result); 
+        session()->put('lastid',$tmp['dati']->id);       
         return redirect()->back();
     }
 
@@ -78,7 +82,8 @@ class RepartiController extends Controller
         $tmp = Reparti::RepartoUpdate($request,$id);
         $result['message'] = $tmp['message'];
         $result['error'] = $tmp['error'];
-        session()->flash('result',$result);                        
+        session()->flash('result',$result); 
+        session()->put('lastid',$id);                              
         return redirect()->back();
     }
 

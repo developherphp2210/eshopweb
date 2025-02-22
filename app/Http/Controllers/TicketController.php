@@ -13,7 +13,9 @@ class TicketController extends Controller
      */
     public function index()
     { 
-        session()->put('lastid',1);       
+        if (! session()->has('lastid') ){
+            session()->put('lastid',1);
+        }        
         return view('users.anagrafica.lista_ticket')->with(['title' => 'Lista Ticket / BuoniPasto','index' => '10']);
     }
 
@@ -51,7 +53,7 @@ class TicketController extends Controller
         $result['error'] = $tmp['error'];                        
         session()->flash('result',$result);        
         session()->put('lastid',$tmp['dati']->id);
-        return view('users.anagrafica.lista_ticket')->with(['title' => 'Lista Ticket / BuoniPasto','index' => '10']);
+        return redirect()->back();
     }
 
     /**
@@ -81,7 +83,7 @@ class TicketController extends Controller
         $result['error'] = $tmp['error'];
         session()->flash('result',$result); 
         session()->put('lastid',$id);                       
-        return view('users.anagrafica.lista_ticket')->with(['title' => 'Lista Ticket / BuoniPasto','index' => '10']);
+        return redirect()->back();
     }
 
     /**

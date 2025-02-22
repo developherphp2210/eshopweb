@@ -12,8 +12,10 @@ class ScontiController extends Controller
      */
     public function index()
     {        
-
         $sconti = Sconti::GetList();
+        if (! session()->has('lastid') ){
+            session()->put('lastid',$sconti[0]->id);
+        }
         return view('users.anagrafica.lista_sconti')->with(['title' => 'Lista Sconti','index' => '8', 'listasconti' => $sconti]);
     }
 
@@ -48,8 +50,9 @@ class ScontiController extends Controller
         $result['title'] = 'Gestione Sconti';
         $tmp = Sconti::InserisciSconto($request);        
         $result['message'] = $tmp['message'];
-        $result['error'] = $tmp['error'];
-        session()->flash('result',$result);        
+        $result['error'] = $tmp['error'];        
+        session()->flash('result',$result);   
+        session()->put('lastid',$tmp['dati']->id);     
         return redirect()->back();
     }
 
@@ -78,7 +81,8 @@ class ScontiController extends Controller
         $tmp = Sconti::ModificaSconto($request,$id);        
         $result['message'] = $tmp['message'];
         $result['error'] = $tmp['error'];
-        session()->flash('result',$result);                        
+        session()->flash('result',$result);   
+        session()->put('lastid',$id);                     
         return redirect()->back();
     }
 

@@ -41,35 +41,43 @@
                 <div class="sticky-leads-sidebar">
                     <div class="card mb-4">
                         @if($aliquote->count() > 0)
+                            @php                            
+                               $lastid = session('lastid');                                                         
+                               $aliquota = $aliquote->filter( function( $value,int $key) use($lastid) {
+                                    if ($value->id == $lastid){
+                                        return $value;
+                                    }
+                                })->first();                                                                                                                                                                                                                                                                                
+                            @endphp                      
                             <form action="{{@url('/ivaupdate/'.$aliquote[0]->id)}}" enctype="multipart/form-data" id="ivaform" method="post">
                                 <div class="card-body">                                
                                     {{csrf_field()}}
                                     <div class="row">                                    
                                         <div class="col-4">
                                             <h5 class="mb-1">Codice</h5>
-                                            <input class="form-control" readonly type="text" maxlength="6" id="codice" name="codice" value="{{$aliquote[0]->codice}}">
+                                            <input class="form-control" readonly type="text" maxlength="6" id="codice" name="codice" value="{{$aliquota->codice}}">
                                         </div>
                                         <div class="col-8 d-flex justify-content-end">
                                             <h5 class="mb-1">Attivo</h5>
                                             <div class="form-check form-switch mb-0">
-                                                <input class="form-check-input ms-auto" type="checkbox" name="attivo" role="switch" {{($aliquote[0]->attivo == '1') ? 'checked' : ''}}  id="attivo">
+                                                <input class="form-check-input ms-auto" type="checkbox" name="attivo" role="switch" {{($aliquota->attivo == '1') ? 'checked' : ''}}  id="attivo">
                                             </div>   
                                         </div>
                                     </div>
                                     <div class="row mt-4">
                                         <div class="col-8">
                                             <h5 class="mb-1">Descrizione</h5>
-                                            <input class="form-control" type="text" maxlength="25" required name="descrizione" id="descrizione" value="{{$aliquote[0]->descrizione}}">
+                                            <input class="form-control" type="text" maxlength="25" required name="descrizione" id="descrizione" value="{{$aliquota->descrizione}}">
                                         </div>
                                     </div>                                     
                                     <div class="row mt-4">
                                         <div class="col-4">
                                             <h5 class="mb-1">Aliquota in %</h5>
-                                            <input class="form-control" type="number" min=0  required name="aliquota" id="aliquota" value="{{$aliquote[0]->aliquota}}">
+                                            <input class="form-control" type="number" min=0  required name="aliquota" id="aliquota" value="{{$aliquota->aliquota}}">
                                         </div>
                                         <div class="col-4">
                                             <h5 class="mb-1">Reparto Fiscale</h5>
-                                            <input class="form-control" type="number" min="1" required name="reparto_fiscale" id="reparto_fiscale" value="{{$aliquote[0]->reparto_fiscale}}">
+                                            <input class="form-control" type="number" min="1" required name="reparto_fiscale" id="reparto_fiscale" value="{{$aliquota->reparto_fiscale}}">
                                         </div>
                                     </div>
                                 </div>    
@@ -79,6 +87,9 @@
                                     </div>
                                 </div>
                             </form>
+                            @php
+                                session()->forget('lastid');
+                            @endphp
                         @else
                             <form action="{{@url('/ivainsert')}}" enctype="multipart/form-data" id="ivaform" method="post">                            
                                 <div class="card-body">

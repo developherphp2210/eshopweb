@@ -34,7 +34,7 @@ class Sconti extends Model
     {
         $result = [];
         try {            
-            Sconti::create([                                 
+            $result['dati'] = Sconti::create([                                 
                 'descrizione' => $data->descrizione,                               
                 'attivo' => ($data->attivo == 'on') ? '1' : '0',
                 'valore' => $data->valore,

@@ -14,6 +14,9 @@ class IvaController extends Controller
     {        
 
         $iva = Iva::GetList();
+        if (! session()->has('lastid') ){
+            session()->put('lastid',$iva[0]->id);
+        } 
         return view('users.anagrafica.lista_iva')->with(['title' => 'Lista Aliquote Iva','index' => '5', 'aliquote' => $iva]);
     }
 
@@ -49,7 +52,8 @@ class IvaController extends Controller
         $tmp = Iva::InserimentoIva($request);
         $result['message'] = $tmp['message'];
         $result['error'] = $tmp['error'];
-        session()->flash('result',$result);        
+        session()->flash('result',$result); 
+        session()->put('lastid',$tmp['dati']->id);       
         return redirect()->back();
     }
 
@@ -78,7 +82,8 @@ class IvaController extends Controller
         $tmp = Iva::IvaUpdate($request,$id);
         $result['message'] = $tmp['message'];
         $result['error'] = $tmp['error'];
-        session()->flash('result',$result);                        
+        session()->flash('result',$result); 
+        session()->put('lastid',$id);                       
         return redirect()->back();
     }
 

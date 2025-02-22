@@ -33,7 +33,7 @@ class Reparti extends Model
     {
         $result = [];
         try {            
-            Reparti::create([                    
+            $result['dati'] = Reparti::create([                    
                 'codice' => $data->codice,
                 'descrizione' => $data->descrizione,
                 'posizione' => ($data->visibile == 'on') ? '1' : '0',                

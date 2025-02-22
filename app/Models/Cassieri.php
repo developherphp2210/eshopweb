@@ -61,6 +61,7 @@ class Cassieri extends Model
                 ]);
             }
             Casse::UpdateCasse();
+            $result['dati'] = $cassiere;
             $result['message'] = 'Cassiere Creato Correttamente';
             $result['error'] = 'false';             
         } catch (\Throwable $th) {

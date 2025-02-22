@@ -58,32 +58,31 @@
                                     if ($value->id == $lastid){
                                         return $value;
                                     }
-                                })->all();                                                                                                                                                                                                                                                      
-                            @endphp
-                            @foreach( $tickets as $ticket)
-                            <form action="{{@url('/ticketupdate/'.$ticket->id)}}" enctype="multipart/form-data" id="ticketform" method="post">
+                                })->first();                                                                                                                                                                                                                                                     
+                            @endphp                            
+                            <form action="{{@url('/ticketupdate/'.$tickets->id)}}" enctype="multipart/form-data" id="ticketform" method="post">
                                 <div class="card-body">                                
                                     {{csrf_field()}}
                                     <div class="row">                                    
                                         <div class="col-4" id="codice_id">
                                             <h5 class="mb-1">Codice</h5>
-                                            <input class="form-control" type="text" readonly maxlength="6" id="id" name="id" value="{{$ticket->id}}">
+                                            <input class="form-control" type="text" readonly maxlength="6" id="id" name="id" value="{{$tickets->id}}">
                                         </div>
                                         <div class="col-8 d-flex justify-content-end">
                                             <h5 class="mb-1">Attivo</h5>
                                             <div class="form-check form-switch mb-0">
-                                                <input class="form-check-input ms-auto" type="checkbox" name="attivo" role="switch" {{($ticket->attivo == '1') ? 'checked' : ''}}  id="attivo">
+                                                <input class="form-check-input ms-auto" type="checkbox" name="attivo" role="switch" {{($tickets->attivo == '1') ? 'checked' : ''}}  id="attivo">
                                             </div>   
                                         </div>
                                     </div>
                                     <div class="row mt-4">
                                         <div class="col-8">
                                             <h5 class="mb-1">Descrizione</h5>
-                                            <input class="form-control" type="text" maxlength="25" required name="descrizione" id="descrizione" value="{{$ticket->descrizione}}">
+                                            <input class="form-control" type="text" maxlength="25" required name="descrizione" id="descrizione" value="{{$tickets->descrizione}}">
                                         </div>
                                         <div class="col-4">
                                             <h5 class="mb-1">Valore</h5>
-                                            <input class="form-control" type="text"  name="valore" id="valore" value="{{number_format($ticket->valore, 2, ",", ".")}}">
+                                            <input class="form-control" type="text"  name="valore" id="valore" value="{{number_format($tickets->valore, 2, ",", ".")}}">
                                         </div>                                        
                                     </div>                                                                                                             
                                 </div>                                
@@ -92,8 +91,10 @@
                                         <button class="btn btn-outline-primary" id="saveticket">Salva</button>
                                     </div>
                                 </div>
-                            </form>
-                            @endforeach
+                            </form> 
+                            @php
+                                session()->forget('lastid');
+                            @endphp
                         @else
                             <form action="{{@url('/ticketinsert')}}" enctype="multipart/form-data" id="ticketform" method="post">                            
                                 <div class="card-body">

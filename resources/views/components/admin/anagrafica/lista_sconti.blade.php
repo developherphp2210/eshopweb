@@ -48,25 +48,33 @@
             <div class="sticky-leads-sidebar">
                 <div class="card mb-4">                            
                         @if($listasconti->count() > 0)
-                            <form action="{{@url('/scontoupdate/'.$listasconti[0]->id)}}" enctype="multipart/form-data" id="scontoform" method="post">
+                            @php                            
+                               $lastid = session('lastid');                          
+                               $sco = $listasconti->filter( function( $value,int $key) use($lastid) {
+                                    if ($value->id == $lastid){
+                                        return $value;
+                                    }
+                                })->first();                                                                                                                                                                                                                                                     
+                            @endphp 
+                            <form action="{{@url('/scontoupdate/'.$sco->id)}}" enctype="multipart/form-data" id="scontoform" method="post">
                                 <div class="card-body">                                
                                     {{csrf_field()}}
                                     <div class="row mt-4">
                                         <div class="col-4">
                                             <h5 class="mb-1">Codice</h5>
-                                            <input class="form-control" type="text" readonly id="id" name="id" value="{{$listasconti[0]->id}}">
+                                            <input class="form-control" type="text" readonly id="id" name="id" value="{{$sco->id}}">
                                         </div>
                                         <div class="col-8 d-flex justify-content-end">
                                             <h5 class="mb-1">Attivo</h5>
                                             <div class="form-check form-switch mb-0">
-                                                <input class="form-check-input ms-auto" type="checkbox" name="attivo" role="switch" {{($listasconti[0]->attivo == '1') ? 'checked' : ''}}  id="attivo">
+                                                <input class="form-check-input ms-auto" type="checkbox" name="attivo" role="switch" {{($sco->attivo == '1') ? 'checked' : ''}}  id="attivo">
                                             </div>   
                                         </div>
                                     </div>                                    
                                     <div class="row mt-4">
                                         <div class="col-8">
                                             <h5 class="mb-1">Descrizione</h5>
-                                            <input class="form-control" type="text" maxlength="25" required name="descrizione" id="descrizione" value="{{$listasconti[0]->descrizione}}">
+                                            <input class="form-control" type="text" maxlength="25" required name="descrizione" id="descrizione" value="{{$sco->descrizione}}">
                                         </div>                                        
                                     </div>
                                     <div class="row mt-4">
@@ -74,13 +82,13 @@
                                             <h5 class="mb-1">Tipologia di Sconto</h5>
                                             <select class="form-select mb-3" required name="tipo" id="tipo"> 
                                                 <option >Seleziona una tipologia di Sconto</option>                                            
-                                                <option {{( $listasconti[0]->tipo == 1) ? 'selected' : ''}} value="1">Sconto in %</option>
-                                                <option {{( $listasconti[0]->tipo == 2) ? 'selected' : ''}} value="2">Sconto in Ammontare</option>                                            
+                                                <option {{( $sco->tipo == 1) ? 'selected' : ''}} value="1">Sconto in %</option>
+                                                <option {{( $sco->tipo == 2) ? 'selected' : ''}} value="2">Sconto in Ammontare</option>                                            
                                             </select>
                                         </div>    
                                         <div class="col-6">
                                             <h5 class="mb-1">Valore Sconto</h5>
-                                            <input class="form-control" type="number" required name="valore" id="valore" value="{{$listasconti[0]->valore}}">
+                                            <input class="form-control" type="number" required name="valore" id="valore" value="{{$sco->valore}}">
                                         </div>
                                     </div>                                                                         
                                 </div>    
@@ -90,6 +98,9 @@
                                     </div>
                                 </div>
                             </form>
+                            @php
+                                session()->forget('lastid');
+                            @endphp
                         @else
                             <form action="{{@url('/scontoinsert')}}" enctype="multipart/form-data" id="scontoform" method="post">                            
                                 <div class="card-body">
